@@ -119,7 +119,7 @@
     </h1>
     <p class="mt-2 text-xs sm:text-sm font-medium text-indigo-200/80 flex items-center gap-2">
       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-      <span>Syncing real-time seats...</span>
+      <span id="splashSubtitleText">Syncing real-time seats...</span>
     </p>
 
     <!-- Animated Road Track & Progress Bar -->
@@ -162,9 +162,9 @@
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
         
         <!-- Row 1: Brand Identity + Primary Action Button on Mobile -->
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+        <div class="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
+          <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+            <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
               <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
                 <circle cx="7" cy="17" r="2"/>
@@ -172,11 +172,11 @@
                 <circle cx="17" cy="17" r="2"/>
               </svg>
             </div>
-            <div class="min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2.5">
-              <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight truncate">
+            <div class="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
+              <h1 class="text-sm sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight truncate">
                 Electrizen Carpool
               </h1>
-              <span id="weeklyCycleText" class="inline-flex items-center self-start sm:self-auto gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/80 whitespace-nowrap">
+              <span id="weeklyCycleText" class="inline-flex items-center self-start sm:self-auto gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/80 truncate max-w-full">
                 Resets Mon
               </span>
             </div>
@@ -186,26 +186,24 @@
           <button
             type="button"
             onclick="window.appActions.openAddCarModal()"
-            class="lg:hidden inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-sm shadow-indigo-500/20 shrink-0 transition-all"
+            class="lg:hidden inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-sm shadow-indigo-500/20 shrink-0 whitespace-nowrap transition-all"
           >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            <span>Add Car</span>
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            <span id="mobileAddCarBtnLabel">+ Mobil</span>
           </button>
         </div>
 
-        <!-- Row 2 on Mobile / Right Bar on Desktop: Quick Name Input + Unified Audio/Theme Dock -->
-        <div class="flex items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
+        <!-- Row 2 on Mobile / Right Bar on Desktop: Quick Name Input + Unified Audio/Theme/Lang Dock -->
+        <div class="flex items-center gap-1.5 sm:gap-2.5 w-full lg:w-auto min-w-0">
           <!-- Quick Name Input -->
-          <div class="flex items-center bg-slate-100/90 dark:bg-slate-800/90 rounded-xl px-3 py-2 sm:py-1.5 border border-slate-200/80 dark:border-slate-700/80 flex-1 lg:flex-initial min-w-0 focus-within:ring-2 focus-within:ring-indigo-500/40 focus-within:bg-white dark:focus-within:bg-slate-800 transition-all">
-            <svg class="w-4 h-4 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
+          <div class="flex items-center bg-slate-100/90 dark:bg-slate-800/90 rounded-xl px-2.5 sm:px-3 py-2 sm:py-1.5 border border-slate-200/80 dark:border-slate-700/80 flex-1 lg:flex-initial min-w-0 focus-within:ring-2 focus-within:ring-indigo-500/40 focus-within:bg-white dark:focus-within:bg-slate-800 transition-all">
+            <span id="quickNamePrefixLabel" class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mr-1.5 shrink-0 whitespace-nowrap">Name:</span>
             <input
               id="quickNameInput"
               type="text"
               placeholder="Your name for quick claim..."
               oninput="window.appActions.setQuickName(this.value)"
-              class="bg-transparent text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none w-full lg:w-48 truncate"
+              class="bg-transparent text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none w-full lg:w-44 min-w-0 truncate"
             />
             <button
               id="clearQuickNameBtn"
@@ -218,40 +216,58 @@
             </button>
           </div>
 
-          <!-- Unified Pill Dock for Music, SFX & Dark Mode (Works cleanly on Mobile & Desktop) -->
+          <!-- Unified Pill Dock for Lang, Music, SFX & Dark Mode (Works cleanly on Mobile & Desktop) -->
           <div class="inline-flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shrink-0 gap-0.5">
             <button
+              id="langToggleBtn"
+              type="button"
+              onclick="window.appActions.toggleLang()"
+              class="inline-flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-extrabold whitespace-nowrap transition-all"
+              title="Switch Language (English / Bahasa Indonesia)"
+            >
+              <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+              </svg>
+              <span class="lang-label">EN</span>
+            </button>
+
+            <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
+
+            <button
+              id="bgmToggleBtn"
               type="button"
               onclick="window.appActions.toggleBgm()"
-              class="bgm-toggle-btn inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              class="bgm-toggle-btn inline-flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold whitespace-nowrap transition-all"
               title="Play / Pause Chill Roadtrip Background Music"
             >
-              <span class="bgm-icon flex items-center justify-center w-4 h-4"></span>
-              <span class="bgm-label hidden sm:inline">Music Off</span>
+              <span class="bgm-icon flex items-center justify-center w-4 h-4 shrink-0"></span>
+              <span class="bgm-label hidden xl:inline">Music Off</span>
             </button>
 
             <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
 
             <button
+              id="sfxToggleBtn"
               type="button"
               onclick="window.appActions.toggleSfx()"
-              class="sfx-toggle-btn inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              class="sfx-toggle-btn inline-flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold whitespace-nowrap transition-all"
               title="Toggle Interactive Button Click Sounds"
             >
-              <span class="sfx-icon flex items-center justify-center w-4 h-4"></span>
-              <span class="sfx-label hidden sm:inline">SFX On</span>
+              <span class="sfx-icon flex items-center justify-center w-4 h-4 shrink-0"></span>
+              <span class="sfx-label hidden xl:inline">SFX On</span>
             </button>
 
             <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
 
             <button
+              id="darkModeToggleBtn"
               type="button"
               onclick="window.appActions.toggleDarkMode()"
-              class="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              class="inline-flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold whitespace-nowrap transition-all"
               title="Switch between Light and Dark theme"
             >
-              <span class="dark-mode-icon flex items-center justify-center w-4 h-4"></span>
-              <span class="dark-mode-label hidden sm:inline">Light</span>
+              <span class="dark-mode-icon flex items-center justify-center w-4 h-4 shrink-0"></span>
+              <span class="dark-mode-label hidden xl:inline">Light</span>
             </button>
           </div>
 
@@ -259,10 +275,10 @@
           <button
             type="button"
             onclick="window.appActions.openAddCarModal()"
-            class="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-semibold shadow-sm transition-all shrink-0"
+            class="hidden lg:inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs xl:text-sm font-bold shadow-sm transition-all shrink-0 whitespace-nowrap"
           >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            <span>Add Vehicle</span>
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            <span id="desktopAddCarBtnLabel">+ Add Vehicle</span>
           </button>
         </div>
 
@@ -292,12 +308,12 @@
       <!-- Top Row on Mobile: Tabs + Search -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 lg:contents">
         <!-- Tabs -->
-        <div class="grid grid-cols-2 sm:flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full lg:w-auto">
+        <div class="grid grid-cols-2 sm:flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full sm:w-auto shrink-0">
           <button
             id="tabCarsBtn"
             type="button"
             onclick="window.appActions.setTab('cars')"
-            class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate"
+            class="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs whitespace-nowrap truncate"
           >
             <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
@@ -308,7 +324,7 @@
             id="tabManifestBtn"
             type="button"
             onclick="window.appActions.setTab('manifest')"
-            class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate"
+            class="inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white whitespace-nowrap truncate"
           >
             <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
@@ -344,19 +360,19 @@
       <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/80 px-1 lg:order-2">
         <div class="flex items-center gap-1.5">
           <span class="w-3 h-3 rounded bg-slate-900 dark:bg-slate-700 inline-block border border-slate-800 dark:border-slate-600 shrink-0"></span>
-          <span>Driver</span>
+          <span id="legendDriverLabel">Driver</span>
         </div>
         <div class="flex items-center gap-1.5">
           <span class="w-3 h-3 rounded bg-emerald-100 dark:bg-emerald-950 border border-dashed border-emerald-500 inline-block shrink-0"></span>
-          <span>Open Seat</span>
+          <span id="legendOpenLabel">Open Seat</span>
         </div>
         <div class="flex items-center gap-1.5">
           <span class="w-3 h-3 rounded bg-white dark:bg-slate-800 border-2 border-indigo-500 inline-block shrink-0"></span>
-          <span>Confirmed Rider</span>
+          <span id="legendConfirmedLabel">Confirmed Rider</span>
         </div>
         <div class="flex items-center gap-1.5">
           <span class="w-3 h-3 rounded bg-amber-100 dark:bg-amber-950 border-2 border-amber-400 inline-block shrink-0"></span>
-          <span>Interested / Maybe</span>
+          <span id="legendMaybeLabel">Interested / Maybe</span>
         </div>
       </div>
     </section>
@@ -422,6 +438,400 @@
     // ==========================================
     const OWNER_VERIFICATION_CODE = 'ELZ-7492';
 
+    // ==========================================
+    // BILINGUAL TRANSLATION DICTIONARY (EN / ID)
+    // ==========================================
+    const I18N = {
+      en: {
+        splashSubtitle: 'Syncing real-time seats...',
+        weekBadge: (range) => `Week: ${range} (Resets Mon)`,
+        addCarMobile: '+ Car',
+        addVehicleDesktop: '+ Add Vehicle',
+        quickNamePrefix: 'Name:',
+        quickNamePlaceholder: 'Type name for quick claim...',
+        clearNameTitle: 'Clear name',
+        langSwitchTitle: 'Switch Language (English / Bahasa Indonesia)',
+        bgmTitle: 'Play / Pause Chill Roadtrip Background Music',
+        sfxTitle: 'Toggle Interactive Button Click Sounds',
+        themeTitle: 'Switch between Light and Dark theme',
+        musicOn: 'Music On',
+        musicOff: 'Music Off',
+        sfxOn: 'SFX On',
+        sfxMuted: 'SFX Muted',
+        light: 'Light',
+        dark: 'Dark',
+        statVehicles: 'Vehicles',
+        statActiveCarpools: 'Active carpools',
+        statOpenSeats: 'Open Seats',
+        statOfTotalSeats: (cap) => `of ${cap} total seats`,
+        statAssigned: 'Assigned',
+        statDriversRiders: 'Drivers & riders',
+        statInterested: 'Interested / Maybe',
+        statNotSure: 'Not 100% sure yet',
+        tabVehicles: (n) => `Car Layout (${n})`,
+        tabVehiclesMobile: (n) => `Cars (${n})`,
+        tabPassengers: (n) => `Passenger List (${n})`,
+        tabPassengersMobile: (n) => `Riders (${n})`,
+        searchPlaceholder: 'Search car, layout, person...',
+        legendDriver: 'Driver',
+        legendOpen: 'Open Seat',
+        legendConfirmed: 'Confirmed Rider',
+        legendMaybe: 'Interested / Maybe',
+        loadingTitle: 'Syncing live carpool lineup...',
+        loadingSubtitle: 'Connecting to real-time seat assignment board',
+        emptyTitle: 'No Carpool Vehicles Added Yet',
+        emptyAddBtn: '+ Add First Vehicle',
+        viewCarPhoto: 'Car Photo',
+        payViewQr: 'Pay / QR',
+        payViewQrCode: 'Pay / QR',
+        payViewQrTitle: 'View Payment QR Code',
+        fullBadge: (cap) => `FULL (${cap}/${cap})`,
+        openBadge: (avail, cap) => `${avail}/${cap} Open`,
+        seatsBadge: (cap, pat) => `${cap} Seats (${pat})`,
+        clickToExpandTitle: (expanded) =>
+          expanded ? 'Click to hide seat layout' : 'Click to expand seat layout',
+        editCarTitle: 'Edit car details & layout',
+        resetSeatsTitle: 'Reset passenger seats',
+        deleteCarTitle: 'Delete vehicle',
+        hideSeatLayout: (avail, cap) => `Hide Seats (${avail}/${cap} Open)`,
+        showSeatLayout: (avail, cap) => `View Seats (${avail}/${cap} Open)`,
+        collapse: 'Close',
+        expand: 'Open',
+        frontHeader: (pat) => `Front • ${pat}`,
+        windshield: 'WINDSHIELD',
+        driverSide: 'Driver Side',
+        passengerSide: 'Passenger',
+        rhdLabel: 'Right-Hand Drive',
+        lhdLabel: 'Left-Hand Drive',
+        rowFrontTitle: (n) => `Row 1 • Front (${n})`,
+        rowCaptainTitle: 'Row 2 • Captain (2 + Aisle)',
+        rowRearTitle: (r, n) => `Row ${r} • Rear (${n})`,
+        rowMiddleTitle: (r, n) => `Row ${r} • Middle (${n})`,
+        aisle: 'AISLE',
+        rearCargo: 'Rear Trunk / Cargo',
+        seatedCount: (occ, cap, pat) => `${occ}/${cap} Seated (${pat})`,
+        overflowRiders: (n) => `Overflow Riders (${n})`,
+        savedFromPrev: 'Saved from previous layout',
+        moveToOpenSeat: 'Move to Seat',
+        editBtn: 'Edit',
+        noSeatsExpanded: 'No seats assigned yet — tap a seat above to join!',
+        noSeatsCollapsed: 'No seats assigned yet — tap "View Seats" above to claim a seat!',
+        seatMaybeBadge: 'Maybe',
+        seatConfirmedTitle: 'Confirmed Seat',
+        seatOpenBadge: 'Open',
+        seatDriverBtn: 'Driver',
+        seatClaimBtn: 'Claim',
+        youBadge: 'YOU',
+        manifestTitle: 'Complete Carpool Passenger Manifest',
+        manifestSubtitle: "Click any row to edit that passenger's seat or note",
+        manifestCount: (pCount, cCount) =>
+          `Showing ${pCount} assigned seats across ${cCount} cars`,
+        manifestEmpty: 'No matching passengers found.',
+        thPassenger: 'Passenger / Driver',
+        thVehicle: 'Vehicle & Layout',
+        thSeatPos: 'Seat Position',
+        thStatus: 'Status',
+        thNote: 'Passenger Note',
+        thAction: 'Action',
+        layoutPrefix: 'Layout:',
+        statusDriver: 'Driver',
+        statusInterested: 'Interested / Maybe',
+        statusConfirmed: 'Confirmed',
+        editSeatAction: 'Edit',
+        seatModalDriverName: "Driver's Name",
+        seatModalPassengerName: 'Passenger Name',
+        seatModalDriverPlaceholder: 'Enter driver name...',
+        seatModalPassengerPlaceholder: 'Enter your name to claim this seat...',
+        carpoolStatusLabel: 'Carpool Status',
+        confirmedGoingBtn: 'Confirmed Going',
+        interestedMaybeBtn: 'Interested / Maybe',
+        briefNoteLabel: 'Brief Note (Optional)',
+        briefNotePlaceholder: 'e.g., Pickup at North Ave, bringing 1 backpack...',
+        qrAvailableTitle: 'Payment QR Available',
+        qrAvailableSub: "Scan driver's QR code to split gas/toll",
+        clearLeaveSeatBtn: 'Leave Seat',
+        cancelBtn: 'Cancel',
+        saveSeatBtn: 'Save Seat',
+        addVehicleModalTitle: 'Add Carpool Vehicle',
+        editVehicleModalTitle: 'Edit Vehicle & Layout',
+        currentLayoutLabel: (title) => `Layout: ${title}`,
+        ownerCodeLabel: 'Car Owner Verification Code *',
+        ownerCodePlaceholder: 'Enter owner verification code...',
+        ownerCodeHelp:
+          'Only verified car owners with the secret code can register or modify vehicles.',
+        carNameLabel: 'Car Name / Title *',
+        carNamePlaceholder: "e.g., John's SUV, Morning Carpool #1...",
+        seatingConfigLabel: 'Seating Layout',
+        usePopularPresets: 'Popular Presets',
+        customRowBuilder: 'Custom Rows ⚙️',
+        customizeRowsLabel: 'Custom Rows (1–4 rows)',
+        removeRowBtn: '- Row',
+        addRowBtn: '+ Row',
+        rowLabel: (r, isFront) => `Row ${r} ${isFront ? '(Front)' : ''}`,
+        driverNameOptLabel: 'Driver Name (Optional)',
+        driverNameOptPlaceholder: 'e.g., John Doe',
+        driverSeatSideLabel: 'Driver Seat Side',
+        leftLhd: 'Left (LHD)',
+        rightRhd: 'Right (RHD)',
+        departureTimeLabel: 'Departure Time',
+        departureTimePlaceholder: 'e.g., 8:00 AM sharp',
+        pickupSpotLabel: 'Meeting / Pickup Spot',
+        pickupSpotPlaceholder: 'e.g., Central Station',
+        carNoteLabel: 'Car Note & Carpool Info',
+        carNotePlaceholder: 'Add notes about luggage space, gas split, or pickup stops...',
+        photo1Label: '1. Car Photo (Optional)',
+        removePhotoBtn: 'Remove',
+        uploadCarPhotoBtn: 'Upload Car Photo',
+        pasteCarUrlPlaceholder: 'Or paste car image URL...',
+        photo1Help: 'Helps riders recognize your vehicle or license plate at pickup.',
+        photo2Label: '2. Payment QR (Optional)',
+        uploadQrBtn: 'Upload Payment QR',
+        pasteQrUrlPlaceholder: 'Or paste QR image URL...',
+        photo2Help: 'Attach your QRIS / bank / e-wallet QR so passengers can easily pay you.',
+        accentColorLabel: 'Vehicle Accent Color',
+        createCarBtn: (n) => `Create ${n}-Seat Car`,
+        saveChangesBtn: 'Save Changes',
+        paymentQrBadge: 'Payment QR',
+        vehiclePhotoDefault: 'Vehicle Photo',
+        qrScanInstruction:
+          'Scan this QR code directly from your banking or e-wallet app to pay the driver.',
+        toastAudioLoading: 'Audio library still loading, please try again.',
+        toastInvalidImage: 'Please select a valid image file.',
+        toastQrAttached: 'Payment QR code attached!',
+        toastCarPhotoAttached: 'Car photo attached!',
+        toastImageProcessErr: 'Could not process that image file.',
+        toastConnectFirebase: 'Please connect Firebase first to save cars.',
+        toastInvalidOwnerCode:
+          'Invalid Car Owner Verification Code! Only verified owners can add/edit cars.',
+        toastEnterCarName: 'Please enter a car name.',
+        toastAddedCar: (name, pat) => `Added "${name}" (${pat} layout)!`,
+        toastUpdatedCar: (name, pat) => `Updated "${name}" (${pat})!`,
+        toastSaveCarFailed: 'Failed to save vehicle.',
+        toastSwitchedLayout: (name, badge, moved) =>
+          `Switched "${name}" to ${badge}${moved > 0 ? ` (${moved} moved to open seat)` : ''}!`,
+        toastSwitchLayoutFailed: 'Failed to switch layout.',
+        toastAssignedSeat: (name, label) => `Assigned ${name} to ${label}!`,
+        toastClearedSeat: (label) => `Cleared ${label}.`,
+        toastUpdateSeatFailed: 'Failed to update seat.',
+        toastVacatedSeat: (label) => `Vacated ${label}.`,
+        toastVacateSeatFailed: 'Failed to vacate seat.',
+        toastNoOpenSeats: 'No open seats available in this car!',
+        toastMovedOverflow: (name, label) => `Moved ${name} into ${label}!`,
+        toastMoveOverflowFailed: 'Failed to move passenger.',
+        confirmResetTitle: (name) => `Reset passenger seats in "${name}"?`,
+        confirmResetMsg:
+          'This will clear all passenger seats in this car while keeping the car details, layout, and driver intact.',
+        confirmResetBtn: 'Reset Seats',
+        toastClearedAllSeats: (name) => `Cleared passenger seats in "${name}".`,
+        confirmDeleteTitle: (name) => `Delete "${name}"?`,
+        confirmDeleteMsg:
+          'This will permanently remove this vehicle and all passenger seat assignments inside it for everyone.',
+        confirmDeleteBtn: 'Delete Car',
+        toastDeletedCar: (name) => `Deleted "${name}".`,
+        overflowRiderLabel: 'Overflow Rider',
+        overflowSeatPos: 'Overflow Seat',
+        overflowSeatDesc: 'Passenger from previous layout',
+        overflowNeedsSeat: 'Overflow (Needs Seat)'
+      },
+      id: {
+        splashSubtitle: 'Menyinkronkan kursi secara real-time...',
+        weekBadge: (range) => `${range} (Reset Sen)`,
+        addCarMobile: '+ Mobil',
+        addVehicleDesktop: '+ Tambah Mobil',
+        quickNamePrefix: 'Nama:',
+        quickNamePlaceholder: 'Ketik nama untuk klaim cepat...',
+        clearNameTitle: 'Hapus nama',
+        langSwitchTitle: 'Ganti Bahasa (Inggris / Bahasa Indonesia)',
+        bgmTitle: 'Putar / Jeda Musik Latar Perjalanan',
+        sfxTitle: 'Aktifkan / Bisukan Suara Klik Tombol',
+        themeTitle: 'Ganti antara tema Terang dan Gelap',
+        musicOn: 'Musik On',
+        musicOff: 'Musik Off',
+        sfxOn: 'SFX On',
+        sfxMuted: 'SFX Off',
+        light: 'Terang',
+        dark: 'Gelap',
+        statVehicles: 'Mobil',
+        statActiveCarpools: 'Carpool aktif',
+        statOpenSeats: 'Kursi Kosong',
+        statOfTotalSeats: (cap) => `dari ${cap} kursi`,
+        statAssigned: 'Terisi',
+        statDriversRiders: 'Sopir & penumpang',
+        statInterested: 'Minat / Mungkin',
+        statNotSure: 'Belum 100% pasti',
+        tabVehicles: (n) => `Layout Mobil (${n})`,
+        tabVehiclesMobile: (n) => `Mobil (${n})`,
+        tabPassengers: (n) => `Daftar Penumpang (${n})`,
+        tabPassengersMobile: (n) => `Penumpang (${n})`,
+        searchPlaceholder: 'Cari mobil, denah, nama...',
+        legendDriver: 'Sopir',
+        legendOpen: 'Kosong',
+        legendConfirmed: 'Pasti Ikut',
+        legendMaybe: 'Minat / Mungkin',
+        loadingTitle: 'Menyinkronkan daftar carpool...',
+        loadingSubtitle: 'Menghubungkan ke papan kursi real-time',
+        emptyTitle: 'Belum Ada Mobil Carpool',
+        emptyAddBtn: '+ Tambah Mobil Pertama',
+        viewCarPhoto: 'Foto Mobil',
+        payViewQr: 'Bayar / QR',
+        payViewQrCode: 'Bayar / QR',
+        payViewQrTitle: 'Lihat Kode QR Pembayaran',
+        fullBadge: (cap) => `PENUH (${cap}/${cap})`,
+        openBadge: (avail, cap) => `Sisa ${avail}/${cap}`,
+        seatsBadge: (cap, pat) => `${cap} Kursi (${pat})`,
+        clickToExpandTitle: (expanded) =>
+          expanded ? 'Klik untuk tutup denah kursi' : 'Klik untuk lihat denah kursi',
+        editCarTitle: 'Ubah detail & denah mobil',
+        resetSeatsTitle: 'Reset kursi penumpang',
+        deleteCarTitle: 'Hapus mobil',
+        hideSeatLayout: (avail, cap) => `Tutup Kursi (Sisa ${avail}/${cap})`,
+        showSeatLayout: (avail, cap) => `Lihat Kursi (Sisa ${avail}/${cap})`,
+        collapse: 'Tutup',
+        expand: 'Buka',
+        frontHeader: (pat) => `Depan • ${pat}`,
+        windshield: 'KACA DEPAN',
+        driverSide: 'Sisi Sopir',
+        passengerSide: 'Penumpang',
+        rhdLabel: 'Setir Kanan',
+        lhdLabel: 'Setir Kiri',
+        rowFrontTitle: (n) => `Baris 1 • Depan (${n})`,
+        rowCaptainTitle: 'Baris 2 • Captain (2 + Lorong)',
+        rowRearTitle: (r, n) => `Baris ${r} • Belakang (${n})`,
+        rowMiddleTitle: (r, n) => `Baris ${r} • Tengah (${n})`,
+        aisle: 'LORONG',
+        rearCargo: 'Bagasi Belakang',
+        seatedCount: (occ, cap, pat) => `${occ}/${cap} Terisi (${pat})`,
+        overflowRiders: (n) => `Cadangan (${n})`,
+        savedFromPrev: 'Dari denah lama',
+        moveToOpenSeat: 'Pindah Kursi',
+        editBtn: 'Ubah',
+        noSeatsExpanded: 'Belum ada yang klaim — ketuk kursi di atas untuk ikut!',
+        noSeatsCollapsed: 'Belum ada yang klaim — ketuk "Lihat Kursi" di atas untuk pilih kursi!',
+        seatMaybeBadge: 'Mungkin',
+        seatConfirmedTitle: 'Pasti Ikut',
+        seatOpenBadge: 'Kosong',
+        seatDriverBtn: 'Sopir',
+        seatClaimBtn: 'Klaim',
+        youBadge: 'ANDA',
+        manifestTitle: 'Daftar Penumpang Carpool',
+        manifestSubtitle: 'Ketuk baris mana saja untuk mengubah kursi atau catatan penumpang',
+        manifestCount: (pCount, cCount) =>
+          `${pCount} kursi terisi di ${cCount} mobil`,
+        manifestEmpty: 'Tidak ada penumpang yang cocok.',
+        thPassenger: 'Nama',
+        thVehicle: 'Mobil & Denah',
+        thSeatPos: 'Kursi',
+        thStatus: 'Status',
+        thNote: 'Catatan',
+        thAction: 'Aksi',
+        layoutPrefix: 'Denah:',
+        statusDriver: 'Sopir',
+        statusInterested: 'Mungkin',
+        statusConfirmed: 'Ikut',
+        editSeatAction: 'Ubah',
+        seatModalDriverName: 'Nama Sopir',
+        seatModalPassengerName: 'Nama Penumpang',
+        seatModalDriverPlaceholder: 'Ketik nama sopir...',
+        seatModalPassengerPlaceholder: 'Ketik nama Anda untuk klaim kursi...',
+        carpoolStatusLabel: 'Status Ikut',
+        confirmedGoingBtn: 'Pasti Ikut',
+        interestedMaybeBtn: 'Minat / Mungkin',
+        briefNoteLabel: 'Catatan Singkat (Opsional)',
+        briefNotePlaceholder: 'mis. Jemput di Gerbang Utara, bawa 1 tas...',
+        qrAvailableTitle: 'QR Pembayaran Tersedia',
+        qrAvailableSub: 'Scan QR sopir untuk patungan bensin/tol',
+        clearLeaveSeatBtn: 'Kosongkan',
+        cancelBtn: 'Batal',
+        saveSeatBtn: 'Simpan',
+        addVehicleModalTitle: 'Tambah Mobil Carpool',
+        editVehicleModalTitle: 'Ubah Mobil & Denah',
+        currentLayoutLabel: (title) => `Denah: ${title}`,
+        ownerCodeLabel: 'Kode Verifikasi Pemilik Mobil *',
+        ownerCodePlaceholder: 'Masukkan kode pemilik mobil...',
+        ownerCodeHelp:
+          'Hanya pemilik mobil dengan kode rahasia yang bisa menambah atau mengubah mobil.',
+        carNameLabel: 'Nama / Judul Mobil *',
+        carNamePlaceholder: 'mis. Avanza Budi, Carpool Pagi #1...',
+        seatingConfigLabel: 'Denah Kursi',
+        usePopularPresets: 'Preset Populer',
+        customRowBuilder: 'Kustom Baris ⚙️',
+        customizeRowsLabel: 'Atur Baris (1–4 baris)',
+        removeRowBtn: '- Baris',
+        addRowBtn: '+ Baris',
+        rowLabel: (r, isFront) => `Baris ${r} ${isFront ? '(Depan)' : ''}`,
+        driverNameOptLabel: 'Nama Sopir (Opsional)',
+        driverNameOptPlaceholder: 'mis. Budi Santoso',
+        driverSeatSideLabel: 'Posisi Setir',
+        leftLhd: 'Kiri (LHD)',
+        rightRhd: 'Kanan (RHD)',
+        departureTimeLabel: 'Jam Berangkat',
+        departureTimePlaceholder: 'mis. 08:00 WIB tepat',
+        pickupSpotLabel: 'Titik Kumpul / Jemput',
+        pickupSpotPlaceholder: 'mis. Stasiun Pusat / Gerbang Utama',
+        carNoteLabel: 'Catatan Mobil & Info Carpool',
+        carNotePlaceholder: 'Info bagasi, patungan bensin, atau titik jemput...',
+        photo1Label: '1. Foto Mobil (Opsional)',
+        removePhotoBtn: 'Hapus',
+        uploadCarPhotoBtn: 'Unggah Foto Mobil',
+        pasteCarUrlPlaceholder: 'Atau tempel link foto mobil...',
+        photo1Help: 'Bantu penumpang mengenali mobil atau plat nomor saat jemput.',
+        photo2Label: '2. QR Pembayaran (Opsional)',
+        uploadQrBtn: 'Unggah QR Bayar',
+        pasteQrUrlPlaceholder: 'Atau tempel link gambar QR...',
+        photo2Help: 'Lampirkan QRIS / QR bank / e-wallet untuk patungan.',
+        accentColorLabel: 'Warna Aksen Mobil',
+        createCarBtn: (n) => `Buat Mobil (${n} Kursi)`,
+        saveChangesBtn: 'Simpan',
+        paymentQrBadge: 'QR Bayar',
+        vehiclePhotoDefault: 'Foto Mobil',
+        qrScanInstruction:
+          'Scan kode QR ini dari aplikasi m-banking atau e-wallet Anda untuk membayar sopir.',
+        toastAudioLoading: 'Audio masih dimuat, coba lagi.',
+        toastInvalidImage: 'Pilih file gambar yang valid.',
+        toastQrAttached: 'Kode QR pembayaran terlampir!',
+        toastCarPhotoAttached: 'Foto mobil terlampir!',
+        toastImageProcessErr: 'Gagal memproses gambar.',
+        toastConnectFirebase: 'Hubungkan Firebase terlebih dahulu.',
+        toastInvalidOwnerCode:
+          'Kode Verifikasi salah! Hanya pemilik mobil terverifikasi yang bisa menambah/mengubah mobil.',
+        toastEnterCarName: 'Masukkan nama mobil.',
+        toastAddedCar: (name, pat) => `"${name}" (${pat}) ditambahkan!`,
+        toastUpdatedCar: (name, pat) => `"${name}" (${pat}) diperbarui!`,
+        toastSaveCarFailed: 'Gagal menyimpan mobil.',
+        toastSwitchedLayout: (name, badge, moved) =>
+          `Denah "${name}" diubah ke ${badge}${moved > 0 ? ` (${moved} dipindah)` : ''}!`,
+        toastSwitchLayoutFailed: 'Gagal mengubah denah.',
+        toastAssignedSeat: (name, label) => `${name} mengisi kursi ${label}!`,
+        toastClearedSeat: (label) => `Kursi ${label} dikosongkan.`,
+        toastUpdateSeatFailed: 'Gagal memperbarui kursi.',
+        toastVacatedSeat: (label) => `Kursi ${label} dikosongkan.`,
+        toastVacateSeatFailed: 'Gagal mengosongkan kursi.',
+        toastNoOpenSeats: 'Tidak ada kursi kosong di mobil ini!',
+        toastMovedOverflow: (name, label) => `${name} pindah ke ${label}!`,
+        toastMoveOverflowFailed: 'Gagal memindahkan penumpang.',
+        confirmResetTitle: (name) => `Reset kursi penumpang di "${name}"?`,
+        confirmResetMsg:
+          'Semua kursi penumpang akan dikosongkan, namun data mobil, denah, dan sopir tetap tersimpan.',
+        confirmResetBtn: 'Reset Kursi',
+        toastClearedAllSeats: (name) => `Kursi penumpang "${name}" direset.`,
+        confirmDeleteTitle: (name) => `Hapus "${name}"?`,
+        confirmDeleteMsg:
+          'Kendaraan ini beserta seluruh data kursinya akan dihapus permanen.',
+        confirmDeleteBtn: 'Hapus Mobil',
+        toastDeletedCar: (name) => `"${name}" dihapus.`,
+        overflowRiderLabel: 'Cadangan',
+        overflowSeatPos: 'Kursi Cadangan',
+        overflowSeatDesc: 'Penumpang dari denah sebelumnya',
+        overflowNeedsSeat: 'Cadangan (Perlu Kursi)'
+      }
+    };
+
+    const t = (key, ...args) => {
+      const lang = state?.lang === 'id' ? 'id' : 'en';
+      const val = I18N[lang]?.[key] ?? I18N.en[key];
+      return typeof val === 'function' ? val(...args) : val;
+    };
+
     // Compute current Monday-based week identifier & date range for automatic weekly seat resets
     const getCurrentWeekInfo = () => {
       const now = new Date();
@@ -435,7 +845,8 @@
       const date = String(monday.getDate()).padStart(2, '0');
       const weekKey = `${year}-M${month}-D${date}`;
 
-      const fmt = (d) => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      const locale = typeof state !== 'undefined' && state.lang === 'id' ? 'id-ID' : 'en-US';
+      const fmt = (d) => d.toLocaleDateString(locale, { month: 'short', day: 'numeric' });
       return {
         weekKey,
         weekStartMs: monday.getTime(),
@@ -447,42 +858,54 @@
       {
         id: '2-3',
         name: '5-Seat Sedan / SUV',
+        name_id: 'Sedan / SUV 5-Kursi',
         badge: '5 Seats (2-3)',
+        badge_id: '5 Kursi (2-3)',
         rows: [2, 3],
         description: 'Standard 2-row 5-seater (Driver + 1 front, 3 rear bench)'
       },
       {
         id: '2-3-2',
         name: '7-Seat Standard MPV / SUV',
+        name_id: 'MPV / SUV Standar 7-Kursi',
         badge: '7 Seats (2-3-2)',
+        badge_id: '7 Kursi (2-3-2)',
         rows: [2, 3, 2],
         description: '3-row 7-seater with 3-seat middle bench & 2-seat third row'
       },
       {
         id: '2-2-3',
         name: '7-Seat Captain Chairs',
+        name_id: 'Captain Seat 7-Kursi',
         badge: '7 Seats (2-2-3)',
+        badge_id: '7 Kursi (2-2-3)',
         rows: [2, 2, 3],
         description: '2nd-row Captain Chairs with center walkthrough aisle & 3-seat back row'
       },
       {
         id: '2-2-2',
         name: '6-Seat Captain Chairs',
+        name_id: 'Captain Seat 6-Kursi',
         badge: '6 Seats (2-2-2)',
+        badge_id: '6 Kursi (2-2-2)',
         rows: [2, 2, 2],
         description: 'Spacious 3-row 6-seater with dual Captain Chairs in middle & rear'
       },
       {
         id: '2-3-3',
         name: '8-Seat Minivan / SUV',
+        name_id: 'Minivan / SUV 8-Kursi',
         badge: '8 Seats (2-3-3)',
+        badge_id: '8 Kursi (2-3-3)',
         rows: [2, 3, 3],
         description: 'Full-size 8-passenger van with 3-seat benches in rows 2 & 3'
       },
       {
         id: '2-2',
         name: '4-Seat Compact / Coupe',
+        name_id: 'Compact / Coupe 4-Kursi',
         badge: '4 Seats (2-2)',
+        badge_id: '4 Kursi (2-2)',
         rows: [2, 2],
         description: 'Compact 2-row 4-seater with 2 front and 2 rear bucket seats'
       }
@@ -589,14 +1012,16 @@
       const pattern = formatLayoutPattern(rows);
       const preset = LAYOUT_PRESETS.find((p) => p.id === pattern);
       const totalSeats = rows.reduce((sum, count) => sum + count, 0);
-      if (preset) return `${preset.name} (${pattern})`;
-      return `${totalSeats}-Seat Custom (${pattern})`;
+      const isId = typeof state !== 'undefined' && state.lang === 'id';
+      if (preset) return `${isId ? preset.name_id : preset.name} (${pattern})`;
+      return isId ? `Kustom ${totalSeats}-Kursi (${pattern})` : `${totalSeats}-Seat Custom (${pattern})`;
     };
 
     const getSeatsForLayout = (rowsInput = [2, 3, 2]) => {
       const rows = Array.isArray(rowsInput) && rowsInput.length > 0 ? rowsInput : [2, 3, 2];
       const letters = ['A', 'B', 'C', 'D'];
       const seats = [];
+      const isId = typeof state !== 'undefined' && state.lang === 'id';
 
       rows.forEach((seatCountInRow, rowIndex) => {
         const rowNum = rowIndex + 1;
@@ -604,112 +1029,138 @@
 
         for (let sIdx = 0; sIdx < count; sIdx++) {
           let id = `r${rowNum}_s${sIdx + 1}`;
-          let label = `Row ${rowNum} Seat ${letters[sIdx]}`;
+          let label = isId ? `Baris ${rowNum} Kursi ${letters[sIdx]}` : `Row ${rowNum} Seat ${letters[sIdx]}`;
           let shortLabel = `${rowNum}${letters[sIdx]}`;
-          let position = `Row ${rowNum} • Seat ${letters[sIdx]}`;
-          let description = `Row ${rowNum} passenger seat`;
+          let position = isId ? `Baris ${rowNum} • Kursi ${letters[sIdx]}` : `Row ${rowNum} • Seat ${letters[sIdx]}`;
+          let description = isId ? `Kursi penumpang baris ${rowNum}` : `Row ${rowNum} passenger seat`;
           let isDriver = false;
           let isCaptain = false;
 
           if (rowNum === 1) {
             if (sIdx === 0) {
               id = 'driver';
-              label = 'Driver';
+              label = isId ? 'Sopir' : 'Driver';
               shortLabel = 'DRV';
-              position = 'Row 1 • Driver';
-              description = 'Primary vehicle operator';
+              position = isId ? 'Baris 1 • Sopir' : 'Row 1 • Driver';
+              description = isId ? 'Pengemudi utama kendaraan' : 'Primary vehicle operator';
               isDriver = true;
             } else if (sIdx === 1) {
               id = 'front_pax';
-              label = 'Front Passenger';
+              label = isId ? 'Depan Kiri' : 'Front Passenger';
               shortLabel = '1B';
-              position = 'Row 1 • Front Shotgun';
-              description = 'Co-pilot / front passenger seat';
+              position = isId ? 'Baris 1 • Depan' : 'Row 1 • Front Shotgun';
+              description = isId ? 'Kursi penumpang depan (co-pilot)' : 'Co-pilot / front passenger seat';
             } else {
               id = `front_extra_${sIdx}`;
-              label = sIdx === 2 ? 'Front Center / Aux' : `Front Seat 1${letters[sIdx]}`;
+              label = sIdx === 2
+                ? (isId ? 'Depan Tengah' : 'Front Center / Aux')
+                : (isId ? `Depan 1${letters[sIdx]}` : `Front Seat 1${letters[sIdx]}`);
               shortLabel = `1${letters[sIdx]}`;
-              position = `Row 1 • Front ${letters[sIdx]}`;
-              description = 'Front bench passenger seat';
+              position = isId ? `Baris 1 • Depan ${letters[sIdx]}` : `Row 1 • Front ${letters[sIdx]}`;
+              description = isId ? 'Kursi penumpang baris depan' : 'Front bench passenger seat';
             }
           } else if (rowNum === 2) {
             const hasThirdRow = rows.length >= 3;
             if (count === 1) {
               id = 'mid_left';
-              label = 'Middle Solo Seat';
+              label = isId ? 'Tengah' : 'Middle Solo Seat';
               shortLabel = '2A';
-              position = 'Row 2 • Solo';
+              position = isId ? 'Baris 2 • Tunggal' : 'Row 2 • Solo';
             } else if (count === 2) {
               id = sIdx === 0 ? 'mid_left' : 'mid_right';
               isCaptain = hasThirdRow;
               label =
                 sIdx === 0
                   ? hasThirdRow
-                    ? 'Left Captain Chair'
-                    : 'Rear Left'
+                    ? (isId ? 'Captain Kiri' : 'Left Captain Chair')
+                    : (isId ? 'Belakang Kiri' : 'Rear Left')
                   : hasThirdRow
-                  ? 'Right Captain Chair'
-                  : 'Rear Right';
+                  ? (isId ? 'Captain Kanan' : 'Right Captain Chair')
+                  : (isId ? 'Belakang Kanan' : 'Rear Right');
               shortLabel = `2${letters[sIdx]}`;
-              position = `Row 2 • ${sIdx === 0 ? 'Left' : 'Right'} ${
-                hasThirdRow ? 'Captain Chair' : 'Seat'
-              }`;
+              position = isId
+                ? `Baris 2 • ${hasThirdRow ? 'Captain' : 'Kursi'} ${sIdx === 0 ? 'Kiri' : 'Kanan'}`
+                : `Row 2 • ${sIdx === 0 ? 'Left' : 'Right'} ${
+                    hasThirdRow ? 'Captain Chair' : 'Seat'
+                  }`;
               description = hasThirdRow
-                ? '2nd row captain chair with center aisle access'
-                : 'Second row passenger seat';
+                ? (isId ? 'Captain seat baris ke-2 dengan lorong tengah' : '2nd row captain chair with center aisle access')
+                : (isId ? 'Kursi penumpang baris kedua' : 'Second row passenger seat');
             } else if (count === 3) {
               const ids3 = ['mid_left', 'mid_center', 'mid_right'];
-              const pos3 = ['Left Window', 'Center Bench', 'Right Window'];
+              const pos3 = isId
+                ? ['Kiri', 'Tengah', 'Kanan']
+                : ['Left Window', 'Center Bench', 'Right Window'];
               id = ids3[sIdx];
               label =
                 rows.length === 2
-                  ? `Rear ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`
-                  : `Middle ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`;
+                  ? (isId
+                      ? `Belakang ${sIdx === 0 ? 'Kiri' : sIdx === 1 ? 'Tengah' : 'Kanan'}`
+                      : `Rear ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`)
+                  : (isId
+                      ? `Tengah ${sIdx === 0 ? 'Kiri' : sIdx === 1 ? 'Tengah' : 'Kanan'}`
+                      : `Middle ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`);
               shortLabel = `2${letters[sIdx]}`;
-              position = `Row 2 • ${pos3[sIdx]}`;
-              description = `Second row ${pos3[sIdx].toLowerCase()} seat`;
+              position = isId ? `Baris 2 • ${pos3[sIdx]}` : `Row 2 • ${pos3[sIdx]}`;
+              description = isId
+                ? `Kursi baris kedua (${pos3[sIdx].toLowerCase()})`
+                : `Second row ${pos3[sIdx].toLowerCase()} seat`;
             } else {
               const ids4 = ['mid_left', 'mid_center', 'mid_right', 'mid_extra_4'];
               id = ids4[sIdx];
-              label = `Row 2 Seat 2${letters[sIdx]}`;
+              label = isId ? `Kursi 2${letters[sIdx]}` : `Row 2 Seat 2${letters[sIdx]}`;
               shortLabel = `2${letters[sIdx]}`;
-              position = `Row 2 • Seat 2${letters[sIdx]}`;
+              position = isId ? `Baris 2 • Kursi 2${letters[sIdx]}` : `Row 2 • Seat 2${letters[sIdx]}`;
             }
           } else if (rowNum === 3) {
             if (count === 1) {
               id = 'back_left';
-              label = 'Back Solo Seat';
+              label = isId ? 'Belakang' : 'Back Solo Seat';
               shortLabel = '3A';
-              position = 'Row 3 • Solo';
+              position = isId ? 'Baris 3 • Tunggal' : 'Row 3 • Solo';
             } else if (count === 2) {
               id = sIdx === 0 ? 'back_left' : 'back_right';
-              label = sIdx === 0 ? 'Back Left' : 'Back Right';
+              label = sIdx === 0
+                ? (isId ? 'Belakang Kiri' : 'Back Left')
+                : (isId ? 'Belakang Kanan' : 'Back Right');
               shortLabel = `3${letters[sIdx]}`;
-              position = `Row 3 • ${sIdx === 0 ? 'Left' : 'Right'}`;
-              description = `Third row ${sIdx === 0 ? 'left' : 'right'} seat`;
+              position = isId
+                ? `Baris 3 • ${sIdx === 0 ? 'Kiri' : 'Kanan'}`
+                : `Row 3 • ${sIdx === 0 ? 'Left' : 'Right'}`;
+              description = isId
+                ? `Kursi baris ketiga (${sIdx === 0 ? 'kiri' : 'kanan'})`
+                : `Third row ${sIdx === 0 ? 'left' : 'right'} seat`;
             } else if (count === 3) {
               const ids3 = ['back_left', 'back_center', 'back_right'];
-              const pos3 = ['Left Window', 'Center Bench', 'Right Window'];
+              const pos3 = isId
+                ? ['Kiri', 'Tengah', 'Kanan']
+                : ['Left Window', 'Center Bench', 'Right Window'];
               id = ids3[sIdx];
-              label = `Back ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`;
+              label = isId
+                ? `Belakang ${sIdx === 0 ? 'Kiri' : sIdx === 1 ? 'Tengah' : 'Kanan'}`
+                : `Back ${sIdx === 0 ? 'Left' : sIdx === 1 ? 'Center' : 'Right'}`;
               shortLabel = `3${letters[sIdx]}`;
-              position = `Row 3 • ${pos3[sIdx]}`;
-              description = `Third row ${pos3[sIdx].toLowerCase()} seat`;
+              position = isId ? `Baris 3 • ${pos3[sIdx]}` : `Row 3 • ${pos3[sIdx]}`;
+              description = isId
+                ? `Kursi baris ketiga (${pos3[sIdx].toLowerCase()})`
+                : `Third row ${pos3[sIdx].toLowerCase()} seat`;
             } else {
               const ids4 = ['back_left', 'back_center', 'back_right', 'back_extra_4'];
               id = ids4[sIdx];
-              label = `Row 3 Seat 3${letters[sIdx]}`;
+              label = isId ? `Kursi 3${letters[sIdx]}` : `Row 3 Seat 3${letters[sIdx]}`;
               shortLabel = `3${letters[sIdx]}`;
-              position = `Row 3 • Seat 3${letters[sIdx]}`;
+              position = isId ? `Baris 3 • Kursi 3${letters[sIdx]}` : `Row 3 • Seat 3${letters[sIdx]}`;
             }
           } else {
             id = `row${rowNum}_seat${sIdx + 1}`;
-            label = `Row ${rowNum} ${
-              sIdx === 0 ? 'Left' : sIdx === count - 1 ? 'Right' : `Seat ${letters[sIdx]}`
-            }`;
+            label = isId
+              ? `Baris ${rowNum} ${sIdx === 0 ? 'Kiri' : sIdx === count - 1 ? 'Kanan' : `Kursi ${letters[sIdx]}`}`
+              : `Row ${rowNum} ${
+                  sIdx === 0 ? 'Left' : sIdx === count - 1 ? 'Right' : `Seat ${letters[sIdx]}`
+                }`;
             shortLabel = `${rowNum}${letters[sIdx]}`;
-            position = `Row ${rowNum} • Seat ${rowNum}${letters[sIdx]}`;
-            description = `Fourth row passenger seat`;
+            position = isId ? `Baris ${rowNum} • Kursi ${rowNum}${letters[sIdx]}` : `Row ${rowNum} • Seat ${rowNum}${letters[sIdx]}`;
+            description = isId ? 'Kursi penumpang baris keempat' : `Fourth row passenger seat`;
           }
 
           seats.push({
@@ -811,6 +1262,7 @@
       db: null,
       isCloudConnected: false,
       loading: true,
+      lang: localStorage.getItem('electrizen_lang') === 'id' ? 'id' : 'en',
       darkMode: localStorage.getItem('electrizen_theme') !== 'light',
       bgmPlaying: false,
       sfxEnabled: localStorage.getItem('electrizen_sfx_enabled') !== 'false',
@@ -982,7 +1434,7 @@
       // Chill Lo-Fi Roadtrip Background Music using Tone.js
       async toggleBgm() {
         if (typeof Tone === 'undefined') {
-          showToast('Audio library still loading, please try again.', 'error');
+          showToast(t('toastAudioLoading'), 'error');
           return;
         }
 
@@ -1076,7 +1528,7 @@
         el.innerHTML = state.bgmPlaying ? musicPlayingIcon : musicOffIcon;
       });
       document.querySelectorAll('.bgm-label').forEach((el) => {
-        el.textContent = state.bgmPlaying ? 'Music On' : 'Music Off';
+        el.textContent = state.bgmPlaying ? t('musicOn') : t('musicOff');
       });
       document.querySelectorAll('.bgm-toggle-btn').forEach((btn) => {
         if (state.bgmPlaying) {
@@ -1093,8 +1545,60 @@
         el.innerHTML = state.sfxEnabled ? sfxOnIcon : sfxOffIcon;
       });
       document.querySelectorAll('.sfx-label').forEach((el) => {
-        el.textContent = state.sfxEnabled ? 'SFX On' : 'SFX Muted';
+        el.textContent = state.sfxEnabled ? t('sfxOn') : t('sfxMuted');
       });
+    };
+
+    const applyStaticTranslations = () => {
+      document.documentElement.lang = state.lang;
+
+      const splashSub = document.getElementById('splashSubtitleText');
+      if (splashSub) splashSub.textContent = t('splashSubtitle');
+
+      const mobAdd = document.getElementById('mobileAddCarBtnLabel');
+      if (mobAdd) mobAdd.textContent = t('addCarMobile');
+
+      const deskAdd = document.getElementById('desktopAddCarBtnLabel');
+      if (deskAdd) deskAdd.textContent = t('addVehicleDesktop');
+
+      const quickPrefix = document.getElementById('quickNamePrefixLabel');
+      if (quickPrefix) quickPrefix.textContent = t('quickNamePrefix');
+
+      const quickInput = document.getElementById('quickNameInput');
+      if (quickInput) quickInput.placeholder = t('quickNamePlaceholder');
+
+      const clearQuickBtn = document.getElementById('clearQuickNameBtn');
+      if (clearQuickBtn) clearQuickBtn.title = t('clearNameTitle');
+
+      const searchInp = document.getElementById('searchInput');
+      if (searchInp) searchInp.placeholder = t('searchPlaceholder');
+
+      const legDriver = document.getElementById('legendDriverLabel');
+      if (legDriver) legDriver.textContent = t('legendDriver');
+
+      const legOpen = document.getElementById('legendOpenLabel');
+      if (legOpen) legOpen.textContent = t('legendOpen');
+
+      const legConf = document.getElementById('legendConfirmedLabel');
+      if (legConf) legConf.textContent = t('legendConfirmed');
+
+      const legMaybe = document.getElementById('legendMaybeLabel');
+      if (legMaybe) legMaybe.textContent = t('legendMaybe');
+
+      const langBtn = document.getElementById('langToggleBtn');
+      if (langBtn) langBtn.title = t('langSwitchTitle');
+      document.querySelectorAll('.lang-label').forEach((el) => {
+        el.textContent = state.lang.toUpperCase();
+      });
+
+      const bgmBtn = document.getElementById('bgmToggleBtn');
+      if (bgmBtn) bgmBtn.title = t('bgmTitle');
+
+      const sfxBtn = document.getElementById('sfxToggleBtn');
+      if (sfxBtn) sfxBtn.title = t('sfxTitle');
+
+      const darkBtn = document.getElementById('darkModeToggleBtn');
+      if (darkBtn) darkBtn.title = t('themeTitle');
     };
 
     const applyDarkModeUI = () => {
@@ -1112,14 +1616,15 @@
         el.innerHTML = state.darkMode ? sunSvg : moonSvg;
       });
       document.querySelectorAll('.dark-mode-label').forEach((el) => {
-        el.textContent = state.darkMode ? 'Light' : 'Dark';
+        el.textContent = state.darkMode ? t('light') : t('dark');
       });
 
       const weekInfo = getCurrentWeekInfo();
       const weekEl = document.getElementById('weeklyCycleText');
       if (weekEl) {
-        weekEl.textContent = `Week: ${weekInfo.rangeLabel} (Resets Mon)`;
+        weekEl.textContent = t('weekBadge', weekInfo.rangeLabel);
       }
+      applyStaticTranslations();
       updateAudioUI();
     };
 
@@ -1200,7 +1705,7 @@
               carLayout: formatLayoutPattern(layoutRows),
               carTheme: car.colorTheme || 'indigo',
               seatId: seatKey,
-              seatLabel: 'Overflow (Needs Seat)',
+              seatLabel: t('overflowNeedsSeat'),
               seatShort: 'OVF',
               isDriver: false,
               passengerName: seatData.name.trim(),
@@ -1260,15 +1765,15 @@
         <button
           type="button"
           onclick="window.appActions.openSeatModal('${escapeHtml(car.id)}', '${escapeHtml(seatDef.id)}')"
-          class="group relative flex flex-col items-center justify-between p-2 sm:p-3 rounded-2xl border-2 transition-all duration-200 text-left w-full min-h-[88px] sm:min-h-[104px] shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 ${btnClasses}"
+          class="group relative flex flex-col items-center justify-between p-1.5 sm:p-2.5 rounded-2xl border-2 transition-all duration-200 text-left w-full min-w-0 min-h-[86px] sm:min-h-[102px] overflow-hidden shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 ${btnClasses}"
         >
-          <div class="w-8 sm:w-12 h-1.5 sm:h-2 rounded-full mb-1 transition-colors ${headrestClass}"></div>
+          <div class="w-7 sm:w-11 h-1.5 rounded-full mb-1 shrink-0 transition-colors ${headrestClass}"></div>
 
-          <div class="w-full flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider">
-            <span class="px-1.5 py-0.5 rounded-md ${badgeClass}">${escapeHtml(seatDef.shortLabel)}</span>
+          <div class="w-full flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-tight min-w-0">
+            <span class="px-1.5 py-0.5 rounded-md shrink-0 ${badgeClass}">${escapeHtml(seatDef.shortLabel)}</span>
             ${
               isDriver
-                ? `<span class="flex items-center gap-0.5 text-amber-400 font-bold">
+                ? `<span class="flex items-center gap-0.5 text-amber-400 font-bold shrink-0">
                     <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <circle cx="12" cy="12" r="9" />
                       <circle cx="12" cy="12" r="2.5" />
@@ -1277,18 +1782,18 @@
                    </span>`
                 : isOccupied
                 ? isInterested
-                  ? `<span class="text-[8px] sm:text-[9px] px-1 py-0.5 rounded bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 font-bold">Maybe</span>`
-                  : `<span class="w-2 h-2 rounded-full bg-indigo-500" title="Confirmed Seat"></span>`
-                : `<span class="text-[9px] sm:text-[10px] text-emerald-700 dark:text-emerald-300 font-bold">Open</span>`
+                  ? `<span class="text-[8px] sm:text-[9px] px-1 py-0.5 rounded bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 font-bold truncate max-w-[54px]">${escapeHtml(t('seatMaybeBadge'))}</span>`
+                  : `<span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0" title="${escapeHtml(t('seatConfirmedTitle'))}"></span>`
+                : `<span class="text-[8px] sm:text-[10px] text-emerald-700 dark:text-emerald-300 font-bold truncate">${escapeHtml(t('seatOpenBadge'))}</span>`
             }
           </div>
 
-          <div class="my-1 w-full flex flex-col items-center justify-center text-center">
+          <div class="my-1 w-full min-w-0 flex flex-col items-center justify-center text-center px-0.5">
             ${
               isOccupied
                 ? `
-                  <div class="flex items-center justify-center gap-1 max-w-full">
-                    <span class="text-[11px] sm:text-sm font-bold leading-tight line-clamp-1 break-all ${
+                  <div class="w-full min-w-0">
+                    <span class="block text-[11px] sm:text-xs font-bold leading-tight truncate w-full ${
                       isDriver ? 'text-white' : 'text-slate-900 dark:text-white'
                     }" title="${escapeHtml(seatData.name)}">
                       ${escapeHtml(seatData.name)}
@@ -1296,23 +1801,23 @@
                   </div>
                   ${
                     seatData.note
-                      ? `<span class="mt-0.5 text-[9px] sm:text-[10px] leading-tight line-clamp-1 max-w-full px-1 rounded ${
+                      ? `<span class="mt-0.5 block text-[9px] sm:text-[10px] leading-tight truncate w-full px-0.5 rounded ${
                           isDriver
                             ? 'text-slate-300'
                             : isInterested
                             ? 'text-amber-800 dark:text-amber-300'
                             : 'text-slate-500 dark:text-slate-400'
                         }" title="${escapeHtml(seatData.note)}">"${escapeHtml(seatData.note)}"</span>`
-                      : `<span class="mt-0.5 text-[9px] sm:text-[10px] text-slate-400 line-clamp-1">${escapeHtml(seatDef.label)}</span>`
+                      : `<span class="mt-0.5 block text-[9px] sm:text-[10px] text-slate-400 truncate w-full">${escapeHtml(seatDef.label)}</span>`
                   }
                 `
                 : `
-                  <div class="flex flex-col items-center py-0.5">
-                    <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/70 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-800 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mb-0.5 transition-colors">
+                  <div class="flex flex-col items-center py-0.5 w-full min-w-0">
+                    <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/70 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-800 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mb-0.5 shrink-0 transition-colors">
                       <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                     </div>
-                    <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-800 dark:text-emerald-300">${
-                      isDriver ? 'Driver' : 'Claim'
+                    <span class="block text-[10px] sm:text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 truncate w-full">${
+                      isDriver ? escapeHtml(t('seatDriverBtn')) : escapeHtml(t('seatClaimBtn'))
                     }</span>
                   </div>
                 `
@@ -1321,7 +1826,7 @@
 
           ${
             isMe
-              ? `<span class="absolute -top-2 -right-1.5 bg-indigo-600 text-white text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">YOU</span>`
+              ? `<span class="absolute top-1 right-1 bg-indigo-600 text-white text-[8px] font-bold px-1 py-0.2 rounded shadow">${escapeHtml(t('youBadge'))}</span>`
               : ''
           }
         </button>
@@ -1337,9 +1842,9 @@
         statsEl.innerHTML = `
           <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
             <div class="min-w-0">
-              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Vehicles</p>
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">${escapeHtml(t('statVehicles'))}</p>
               <p class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 leading-none">${summary.totalCars}</p>
-              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Active carpools</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">${escapeHtml(t('statActiveCarpools'))}</p>
             </div>
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
@@ -1348,9 +1853,9 @@
 
           <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
             <div class="min-w-0">
-              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Open Seats</p>
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">${escapeHtml(t('statOpenSeats'))}</p>
               <p class="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5 leading-none">${summary.totalAvailable}</p>
-              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">of ${summary.totalCapacity} total seats</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">${escapeHtml(t('statOfTotalSeats', summary.totalCapacity))}</p>
             </div>
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
@@ -1359,9 +1864,9 @@
 
           <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
             <div class="min-w-0">
-              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Assigned</p>
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">${escapeHtml(t('statAssigned'))}</p>
               <p class="text-xl sm:text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-0.5 leading-none">${summary.totalOccupied}</p>
-              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Drivers &amp; riders</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">${escapeHtml(t('statDriversRiders'))}</p>
             </div>
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -1370,9 +1875,9 @@
 
           <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
             <div class="min-w-0">
-              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Interested / Maybe</p>
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">${escapeHtml(t('statInterested'))}</p>
               <p class="text-xl sm:text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-0.5 leading-none">${summary.totalInterested}</p>
-              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Not 100% sure yet</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">${escapeHtml(t('statNotSure'))}</p>
             </div>
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
@@ -1387,21 +1892,29 @@
       const tabCarsLabel = document.getElementById('tabCarsLabel');
       const tabManifestLabel = document.getElementById('tabManifestLabel');
 
-      if (tabCarsLabel) tabCarsLabel.textContent = `Vehicles (${state.cars.length})`;
-      if (tabManifestLabel)
-        tabManifestLabel.textContent = `Passengers (${summary.allPassengers.length})`;
+      const isMobileScreen = window.innerWidth < 640;
+      if (tabCarsLabel) {
+        tabCarsLabel.textContent = isMobileScreen
+          ? t('tabVehiclesMobile', state.cars.length)
+          : t('tabVehicles', state.cars.length);
+      }
+      if (tabManifestLabel) {
+        tabManifestLabel.textContent = isMobileScreen
+          ? t('tabPassengersMobile', summary.allPassengers.length)
+          : t('tabPassengers', summary.allPassengers.length);
+      }
 
       if (tabCarsBtn && tabManifestBtn) {
         if (state.activeTab === 'cars') {
           tabCarsBtn.className =
-            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate';
+            'inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs whitespace-nowrap truncate';
           tabManifestBtn.className =
-            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate';
+            'inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white whitespace-nowrap truncate';
         } else {
           tabManifestBtn.className =
-            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate';
+            'inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs whitespace-nowrap truncate';
           tabCarsBtn.className =
-            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate';
+            'inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white whitespace-nowrap truncate';
         }
       }
 
@@ -1415,8 +1928,8 @@
             <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto animate-pulse">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
             </div>
-            <p class="text-base font-bold text-slate-800 dark:text-slate-100">Syncing live carpool lineup...</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Connecting to real-time seat assignment board</p>
+            <p class="text-base font-bold text-slate-800 dark:text-slate-100">${escapeHtml(t('loadingTitle'))}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">${escapeHtml(t('loadingSubtitle'))}</p>
           </div>
         `;
         return;
@@ -1429,7 +1942,7 @@
               <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">No Carpool Vehicles Added Yet</h2>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">${escapeHtml(t('emptyTitle'))}</h2>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
               <button
@@ -1438,7 +1951,7 @@
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 dark:shadow-none transition-all"
               >
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                <span>Add First Vehicle</span>
+                <span>${escapeHtml(t('emptyAddBtn'))}</span>
               </button>
             </div>
           </div>
@@ -1501,16 +2014,12 @@
 
                 const rowTitle =
                   rowNum === 1
-                    ? `Row 1 • Front (${seatsInRow} ${seatsInRow === 1 ? 'Seat' : 'Seats'})`
+                    ? t('rowFrontTitle', seatsInRow)
                     : isCaptainRowWithAisle
-                    ? 'Row 2 • Captain Chairs (2 Seats + Aisle)'
+                    ? t('rowCaptainTitle')
                     : rowNum === totalRows
-                    ? `Row ${rowNum} • Rear Row (${seatsInRow} ${
-                        seatsInRow === 1 ? 'Seat' : 'Seats'
-                      })`
-                    : `Row ${rowNum} • Middle Row (${seatsInRow} ${
-                        seatsInRow === 1 ? 'Seat' : 'Seats'
-                      })`;
+                    ? t('rowRearTitle', rowNum, seatsInRow)
+                    : t('rowMiddleTitle', rowNum, seatsInRow);
 
                 let rowGridHtml = '';
                 if (isCaptainRowWithAisle) {
@@ -1518,7 +2027,7 @@
                     <div class="grid grid-cols-7 gap-2 items-stretch">
                       <div class="col-span-3">${renderSeatButtonHtml(car, rowSeats[0], theme)}</div>
                       <div class="col-span-1 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 dark:border-slate-700 bg-slate-100/60 dark:bg-slate-800/50 py-2 px-0.5 text-center">
-                        <span class="text-[8px] font-extrabold uppercase tracking-tighter text-slate-400 vertical-aisle-text">AISLE</span>
+                        <span class="text-[8px] font-extrabold uppercase tracking-tighter text-slate-400 vertical-aisle-text">${escapeHtml(t('aisle'))}</span>
                       </div>
                       <div class="col-span-3">${renderSeatButtonHtml(car, rowSeats[1], theme)}</div>
                     </div>
@@ -1552,8 +2061,8 @@
                       <span class="text-[10px] text-slate-400">${
                         rowNum === 1
                           ? isRHD
-                            ? 'Right-Hand Drive'
-                            : 'Left-Hand Drive'
+                            ? escapeHtml(t('rhdLabel'))
+                            : escapeHtml(t('lhdLabel'))
                           : rowSeats.map((s) => s.shortLabel).join(' • ')
                       }</span>
                     </div>
@@ -1605,7 +2114,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20"></div>
                         <span class="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-black/60 backdrop-blur-xs text-white text-[11px] font-semibold">
                           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
-                          View Car Photo
+                          ${escapeHtml(t('viewCarPhoto'))}
                         </span>
                         ${
                           car.qrCodeUrl
@@ -1616,7 +2125,7 @@
                                 class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold shadow-lg transition-all"
                               >
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
-                                Pay / View QR
+                                ${escapeHtml(t('payViewQr'))}
                               </button>
                             `
                             : ''
@@ -1631,7 +2140,7 @@
                     <div
                       onclick="window.appActions.toggleCarExpand('${escapeHtml(car.id)}')"
                       class="flex items-start gap-2.5 sm:gap-3 min-w-0 flex-1 cursor-pointer group/title select-none"
-                      title="Click to ${isExpanded ? 'hide' : 'expand'} seat layout"
+                      title="${escapeHtml(t('clickToExpandTitle', isExpanded))}"
                     >
                       <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl ${
                         theme.bg
@@ -1650,8 +2159,8 @@
                           }">
                             ${
                               availableCount === 0
-                                ? `FULL (${totalCapacity}/${totalCapacity})`
-                                : `${availableCount} of ${totalCapacity} open`
+                                ? escapeHtml(t('fullBadge', totalCapacity))
+                                : escapeHtml(t('openBadge', availableCount, totalCapacity))
                             }
                           </span>
                         </div>
@@ -1660,7 +2169,7 @@
                           <span
                             class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg font-bold text-[10px] sm:text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                           >
-                            <span>${totalCapacity} Seats (${escapeHtml(layoutPattern)})</span>
+                            <span>${escapeHtml(t('seatsBadge', totalCapacity, layoutPattern))}</span>
                           </span>
 
                           ${
@@ -1670,10 +2179,10 @@
                                   type="button"
                                   onclick="event.stopPropagation(); window.appActions.openPhotoModal('${escapeHtml(car.id)}', 'qr')"
                                   class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg font-bold text-[10px] sm:text-[11px] bg-emerald-50 dark:bg-emerald-950/90 hover:bg-emerald-100 dark:hover:bg-emerald-900 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 transition-colors shadow-2xs"
-                                  title="View Payment QR Code"
+                                  title="${escapeHtml(t('payViewQrTitle'))}"
                                 >
                                   <svg class="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/></svg>
-                                  <span>Pay / View QR Code</span>
+                                  <span>${escapeHtml(t('payViewQrCode'))}</span>
                                 </button>
                               `
                               : ''
@@ -1705,7 +2214,7 @@
                         type="button"
                         onclick="window.appActions.openEditCarModal('${escapeHtml(car.id)}', false)"
                         class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition-colors"
-                        title="Edit car details &amp; layout"
+                        title="${escapeHtml(t('editCarTitle'))}"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                       </button>
@@ -1713,7 +2222,7 @@
                         type="button"
                         onclick="window.appActions.clearCarSeats('${escapeHtml(car.id)}')"
                         class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/50 transition-colors"
-                        title="Reset passenger seats"
+                        title="${escapeHtml(t('resetSeatsTitle'))}"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                       </button>
@@ -1721,7 +2230,7 @@
                         type="button"
                         onclick="window.appActions.deleteCar('${escapeHtml(car.id)}')"
                         class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
-                        title="Delete vehicle"
+                        title="${escapeHtml(t('deleteCarTitle'))}"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                       </button>
@@ -1747,25 +2256,25 @@
                   <button
                     type="button"
                     onclick="window.appActions.toggleCarExpand('${escapeHtml(car.id)}')"
-                    class="w-full mt-0.5 py-2.5 px-3.5 rounded-2xl border transition-all flex items-center justify-between gap-2 text-xs font-bold ${
+                    class="w-full mt-0.5 py-2.5 px-3 sm:px-3.5 rounded-2xl border transition-all flex items-center justify-between gap-2 text-xs font-bold min-w-0 ${
                       isExpanded
                         ? 'bg-indigo-50/90 dark:bg-indigo-950/50 border-indigo-200 dark:border-indigo-800/80 text-indigo-700 dark:text-indigo-300'
                         : 'bg-slate-50 dark:bg-slate-800/80 hover:bg-indigo-50/60 dark:hover:bg-slate-800 border-slate-200/90 dark:border-slate-700/80 text-slate-700 dark:text-slate-200'
                     }"
                   >
-                    <span class="inline-flex items-center gap-2">
-                      <svg class="w-4 h-4 ${isExpanded ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <span class="inline-flex items-center gap-2 min-w-0 flex-1">
+                      <svg class="w-4 h-4 shrink-0 ${isExpanded ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
                       </svg>
-                      <span>${
+                      <span class="truncate">${
                         isExpanded
-                          ? `Hide Seat Layout (${availableCount} of ${totalCapacity} Seats Left)`
-                          : `Show Seat Layout (${availableCount} of ${totalCapacity} Seats Left)`
+                          ? escapeHtml(t('hideSeatLayout', availableCount, totalCapacity))
+                          : escapeHtml(t('showSeatLayout', availableCount, totalCapacity))
                       }</span>
                     </span>
-                    <span class="inline-flex items-center gap-1 text-[11px] font-semibold opacity-85">
-                      <span>${isExpanded ? 'Collapse' : 'Expand'}</span>
-                      <svg class="w-4 h-4 transition-transform duration-300 ${
+                    <span class="inline-flex items-center gap-1 text-[11px] font-semibold opacity-85 shrink-0 whitespace-nowrap">
+                      <span>${isExpanded ? escapeHtml(t('collapse')) : escapeHtml(t('expand'))}</span>
+                      <svg class="w-4 h-4 shrink-0 transition-transform duration-300 ${
                         isExpanded ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : ''
                       }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="m6 9 6 6 6-6"/>
@@ -1798,25 +2307,25 @@
                             <div class="flex justify-between px-6 -mt-3 mb-2">
                               <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
                               <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                Front • ${escapeHtml(layoutPattern)}
+                                ${escapeHtml(t('frontHeader', layoutPattern))}
                               </div>
                               <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
                             </div>
 
                             <div class="w-full h-8 rounded-t-[40px] rounded-b-lg bg-slate-800/90 border-b-4 border-slate-700 mb-4 flex items-center justify-between px-5 text-[10px] text-slate-300 font-medium">
-                              <span>${isRHD ? 'Passenger' : 'Driver Side'}</span>
-                              <span class="text-slate-400 font-semibold">WINDSHIELD</span>
-                              <span>${isRHD ? 'Driver Side' : 'Passenger'}</span>
+                              <span>${isRHD ? escapeHtml(t('passengerSide')) : escapeHtml(t('driverSide'))}</span>
+                              <span class="text-slate-400 font-semibold">${escapeHtml(t('windshield'))}</span>
+                              <span>${isRHD ? escapeHtml(t('driverSide')) : escapeHtml(t('passengerSide'))}</span>
                             </div>
 
                             ${rowsHtml}
 
                             <div class="mt-3 pt-2.5 border-t border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-between px-3 text-[11px] text-slate-500 dark:text-slate-400">
                               <span class="inline-flex items-center gap-1 font-medium">
-                                Rear Trunk / Cargo
+                                ${escapeHtml(t('rearCargo'))}
                               </span>
                               <span class="font-semibold text-slate-700 dark:text-slate-300">
-                                ${occupiedCount}/${totalCapacity} Seated (${escapeHtml(layoutPattern)})
+                                ${escapeHtml(t('seatedCount', occupiedCount, totalCapacity, layoutPattern))}
                               </span>
                             </div>
 
@@ -1832,8 +2341,8 @@
                             ? `
                               <div class="mt-4 w-full max-w-[400px] rounded-2xl bg-amber-50 border border-amber-300 p-3 space-y-2">
                                 <div class="flex items-center justify-between text-xs font-bold text-amber-900">
-                                  <span>Overflow Riders (${overflowEntries.length})</span>
-                                  <span class="text-[10px] font-medium text-amber-700">Saved from previous layout</span>
+                                  <span>${escapeHtml(t('overflowRiders', overflowEntries.length))}</span>
+                                  <span class="text-[10px] font-medium text-amber-700">${escapeHtml(t('savedFromPrev'))}</span>
                                 </div>
                                 <div class="space-y-1.5">
                                   ${overflowEntries
@@ -1859,14 +2368,14 @@
                                                   car.id
                                                 )}', '${escapeHtml(
                                                   seatKey
-                                                )}')" class="px-2 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold">Move to Open Seat</button>`
+                                                )}')" class="px-2 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-bold">${escapeHtml(t('moveToOpenSeat'))}</button>`
                                               : ''
                                           }
                                           <button type="button" onclick="window.appActions.openSeatModal('${escapeHtml(
                                             car.id
                                           )}', '${escapeHtml(
                                             seatKey
-                                          )}')" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold">Edit</button>
+                                          )}')" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-bold">${escapeHtml(t('editBtn'))}</button>
                                         </div>
                                       </div>
                                     `
@@ -1890,8 +2399,8 @@
                         ? footerPillsHtml
                         : `<span class="text-slate-400 italic">${
                             isExpanded
-                              ? 'No seats assigned yet — click any seat above to join!'
-                              : 'No seats assigned yet — expand seat layout above to claim a seat!'
+                              ? escapeHtml(t('noSeatsExpanded'))
+                              : escapeHtml(t('noSeatsCollapsed'))
                           }</span>`
                     }
                   </div>
@@ -1920,27 +2429,27 @@
             <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
               <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Complete Carpool Passenger Manifest</h3>
-                  <p class="text-xs text-slate-500 dark:text-slate-400">Click any row to edit that passenger's seat or note</p>
+                  <h3 class="text-base font-extrabold text-slate-900 dark:text-white">${escapeHtml(t('manifestTitle'))}</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">${escapeHtml(t('manifestSubtitle'))}</p>
                 </div>
                 <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                  Showing ${filteredPassengers.length} assigned seats across ${state.cars.length} cars
+                  ${escapeHtml(t('manifestCount', filteredPassengers.length, state.cars.length))}
                 </span>
               </div>
               ${
                 filteredPassengers.length === 0
-                  ? `<div class="p-10 text-center text-slate-500 dark:text-slate-400 text-sm">No matching passengers found.</div>`
+                  ? `<div class="p-10 text-center text-slate-500 dark:text-slate-400 text-sm">${escapeHtml(t('manifestEmpty'))}</div>`
                   : `
                     <div class="overflow-x-auto">
                       <table class="w-full text-left border-collapse">
                         <thead>
                           <tr class="bg-slate-50 dark:bg-slate-800/70 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
-                            <th class="py-3 px-4">Passenger / Driver</th>
-                            <th class="py-3 px-4">Vehicle &amp; Layout</th>
-                            <th class="py-3 px-4">Seat Position</th>
-                            <th class="py-3 px-4">Status</th>
-                            <th class="py-3 px-4">Passenger Note</th>
-                            <th class="py-3 px-4 text-right">Action</th>
+                            <th class="py-3 px-4">${escapeHtml(t('thPassenger'))}</th>
+                            <th class="py-3 px-4">${escapeHtml(t('thVehicle'))}</th>
+                            <th class="py-3 px-4">${escapeHtml(t('thSeatPos'))}</th>
+                            <th class="py-3 px-4">${escapeHtml(t('thStatus'))}</th>
+                            <th class="py-3 px-4">${escapeHtml(t('thNote'))}</th>
+                            <th class="py-3 px-4 text-right">${escapeHtml(t('thAction'))}</th>
                           </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
@@ -1963,7 +2472,7 @@
                                 </td>
                                 <td class="py-3.5 px-4 font-medium text-slate-700 dark:text-slate-200">
                                   <div>${escapeHtml(item.carName)}</div>
-                                  <div class="text-[11px] text-slate-400">Layout: ${escapeHtml(
+                                  <div class="text-[11px] text-slate-400">${escapeHtml(t('layoutPrefix'))} ${escapeHtml(
                                     item.carLayout
                                   )}</div>
                                 </td>
@@ -1975,10 +2484,10 @@
                                 <td class="py-3.5 px-4">
                                   ${
                                     item.isDriver
-                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-amber-300">Driver</span>`
+                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-amber-300">${escapeHtml(t('statusDriver'))}</span>`
                                       : item.status === 'interested'
-                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">Interested / Maybe</span>`
-                                      : `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Confirmed</span>`
+                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">${escapeHtml(t('statusInterested'))}</span>`
+                                      : `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">${escapeHtml(t('statusConfirmed'))}</span>`
                                   }
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
@@ -1989,7 +2498,7 @@
                                   }
                                 </td>
                                 <td class="py-3.5 px-4 text-right">
-                                  <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Edit Seat</span>
+                                  <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">${escapeHtml(t('editSeatAction'))}</span>
                                 </td>
                               </tr>
                             `
@@ -2045,7 +2554,7 @@
               <form onsubmit="window.appActions.saveSeatForm(event)" class="space-y-4 mt-4">
                 <div>
                   <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
-                    ${sm.seatDef.isDriver ? "Driver's Name" : 'Passenger Name'}
+                    ${sm.seatDef.isDriver ? escapeHtml(t('seatModalDriverName')) : escapeHtml(t('seatModalPassengerName'))}
                   </label>
                   <input
                     id="seatNameInput"
@@ -2054,8 +2563,8 @@
                     oninput="window.appActions.updateSeatField('name', this.value)"
                     placeholder="${
                       sm.seatDef.isDriver
-                        ? 'Enter driver name...'
-                        : 'Enter your name to claim this seat...'
+                        ? escapeHtml(t('seatModalDriverPlaceholder'))
+                        : escapeHtml(t('seatModalPassengerPlaceholder'))
                     }"
                     class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
@@ -2065,7 +2574,7 @@
                   !sm.seatDef.isDriver
                     ? `
                       <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Carpool Status</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">${escapeHtml(t('carpoolStatusLabel'))}</label>
                         <div class="grid grid-cols-2 gap-2.5">
                           <button
                             type="button"
@@ -2076,7 +2585,7 @@
                                 : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                             }"
                           >
-                            <span>Confirmed Going</span>
+                            <span>${escapeHtml(t('confirmedGoingBtn'))}</span>
                           </button>
                           <button
                             type="button"
@@ -2087,7 +2596,7 @@
                                 : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                             }"
                           >
-                            <span>Interested / Maybe</span>
+                            <span>${escapeHtml(t('interestedMaybeBtn'))}</span>
                           </button>
                         </div>
                       </div>
@@ -2096,12 +2605,12 @@
                 }
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Brief Note (Optional)</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">${escapeHtml(t('briefNoteLabel'))}</label>
                   <input
                     type="text"
                     value="${escapeHtml(sm.note)}"
                     oninput="window.appActions.updateSeatField('note', this.value)"
-                    placeholder="e.g., Pickup at North Ave, bringing 1 backpack..."
+                    placeholder="${escapeHtml(t('briefNotePlaceholder'))}"
                     class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -2111,8 +2620,8 @@
                     ? `
                       <div class="p-3 rounded-2xl bg-emerald-50/90 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-between gap-3">
                         <div class="min-w-0">
-                          <p class="text-xs font-bold text-emerald-900 dark:text-emerald-200">Carpool Payment QR Available</p>
-                          <p class="text-[11px] text-emerald-700 dark:text-emerald-400 truncate">Scan driver's QR code to split gas/toll</p>
+                          <p class="text-xs font-bold text-emerald-900 dark:text-emerald-200">${escapeHtml(t('qrAvailableTitle'))}</p>
+                          <p class="text-[11px] text-emerald-700 dark:text-emerald-400 truncate">${escapeHtml(t('qrAvailableSub'))}</p>
                         </div>
                         <button
                           type="button"
@@ -2120,34 +2629,34 @@
                           class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shrink-0 shadow-xs transition-all"
                         >
                           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/></svg>
-                          <span>Pay / View QR</span>
+                          <span>${escapeHtml(t('payViewQr'))}</span>
                         </button>
                       </div>
                     `
                     : ''
                 }
 
-                <div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onclick="window.appActions.vacateSeat()"
-                    class="px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/70 text-rose-700 dark:text-rose-300 text-xs font-bold transition-colors"
+                    class="px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/70 text-rose-700 dark:text-rose-300 text-xs font-bold whitespace-nowrap transition-colors"
                   >
-                    Clear / Leave Seat
+                    ${escapeHtml(t('clearLeaveSeatBtn'))}
                   </button>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 ml-auto">
                     <button
                       type="button"
                       onclick="window.appActions.closeModal()"
-                      class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors"
+                      class="px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold whitespace-nowrap transition-colors"
                     >
-                      Cancel
+                      ${escapeHtml(t('cancelBtn'))}
                     </button>
                     <button
                       type="submit"
-                      class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition-colors"
+                      class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm whitespace-nowrap transition-colors"
                     >
-                      Save Seat
+                      ${escapeHtml(t('saveSeatBtn'))}
                     </button>
                   </div>
                 </div>
@@ -2166,10 +2675,10 @@
               <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div>
                   <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">
-                    ${cm.mode === 'add' ? 'Add Carpool Vehicle' : 'Edit Vehicle &amp; Seating Layout'}
+                    ${cm.mode === 'add' ? escapeHtml(t('addVehicleModalTitle')) : escapeHtml(t('editVehicleModalTitle'))}
                   </h3>
                   <p class="text-xs text-slate-500 dark:text-slate-400">
-                    Current Layout: ${escapeHtml(getLayoutTitle(cm.layoutRows))}
+                    ${escapeHtml(t('currentLayoutLabel', getLayoutTitle(cm.layoutRows)))}
                   </p>
                 </div>
                 <button type="button" onclick="window.appActions.closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -2180,29 +2689,29 @@
               <form onsubmit="window.appActions.saveCarForm(event)" class="space-y-4 mt-4">
                 <div class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 space-y-1.5">
                   <label class="block text-xs font-extrabold uppercase tracking-wider text-amber-900 dark:text-amber-300">
-                    Car Owner Verification Code *
+                    ${escapeHtml(t('ownerCodeLabel'))}
                   </label>
                   <input
                     type="password"
                     required
                     value="${escapeHtml(cm.verificationCode || '')}"
                     oninput="window.appActions.updateCarField('verificationCode', this.value)"
-                    placeholder="Enter owner verification code to add/edit vehicle..."
+                    placeholder="${escapeHtml(t('ownerCodePlaceholder'))}"
                     class="w-full px-3.5 py-2 rounded-xl border border-amber-300 dark:border-amber-700 bg-white dark:bg-slate-800 text-sm font-mono tracking-wider text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
                   <p class="text-[11px] text-amber-700 dark:text-amber-400">
-                    Only verified car owners with the secret code can register or modify vehicles.
+                    ${escapeHtml(t('ownerCodeHelp'))}
                   </p>
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Car Name / Title *</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('carNameLabel'))}</label>
                   <input
                     type="text"
                     required
                     value="${escapeHtml(cm.name)}"
                     oninput="window.appActions.updateCarField('name', this.value)"
-                    placeholder="e.g., John's SUV, Morning Carpool #1..."
+                    placeholder="${escapeHtml(t('carNamePlaceholder'))}"
                     class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -2210,19 +2719,21 @@
                 <!-- Layout Presets & Custom Row Builder -->
                 <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3.5 border border-slate-200 dark:border-slate-700 space-y-3">
                   <div class="flex items-center justify-between">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Seating Layout Configuration</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">${escapeHtml(t('seatingConfigLabel'))}</label>
                     <button
                       type="button"
                       onclick="window.appActions.toggleCustomBuilder()"
                       class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800"
                     >
-                      ${cm.isCustomLayout ? 'Use Popular Presets' : 'Custom Row Builder ⚙️'}
+                      ${cm.isCustomLayout ? escapeHtml(t('usePopularPresets')) : escapeHtml(t('customRowBuilder'))}
                     </button>
                   </div>
 
                   <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     ${LAYOUT_PRESETS.map((preset) => {
                       const isSel = !cm.isCustomLayout && currentPattern === preset.id;
+                      const badgeText = state.lang === 'id' ? preset.badge_id : preset.badge;
+                      const nameText = state.lang === 'id' ? preset.name_id : preset.name;
                       return `
                         <button
                           type="button"
@@ -2233,10 +2744,10 @@
                               : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700'
                           }"
                         >
-                          <div class="text-xs font-extrabold">${escapeHtml(preset.badge)}</div>
+                          <div class="text-xs font-extrabold">${escapeHtml(badgeText)}</div>
                           <p class="text-[10px] mt-0.5 line-clamp-1 ${
                             isSel ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
-                          }">${escapeHtml(preset.name)}</p>
+                          }">${escapeHtml(nameText)}</p>
                         </button>
                       `;
                     }).join('')}
@@ -2247,16 +2758,16 @@
                       ? `
                         <div class="pt-2 border-t border-slate-200 dark:border-slate-700 space-y-2.5">
                           <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Customize Rows (1–4 rows)</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">${escapeHtml(t('customizeRowsLabel'))}</span>
                             <div class="flex items-center gap-1.5">
                               ${
                                 cm.layoutRows.length > 1
-                                  ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-[11px] font-bold">- Remove Row</button>`
+                                  ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-[11px] font-bold">${escapeHtml(t('removeRowBtn'))}</button>`
                                   : ''
                               }
                               ${
                                 cm.layoutRows.length < 4
-                                  ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold">+ Add Row</button>`
+                                  ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold">${escapeHtml(t('addRowBtn'))}</button>`
                                   : ''
                               }
                             </div>
@@ -2266,9 +2777,7 @@
                               .map(
                                 (cnt, rIdx) => `
                                 <div class="flex items-center justify-between bg-white dark:bg-slate-800 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
-                                  <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Row ${rIdx + 1} ${
-                                  rIdx === 0 ? '(Front / Driver)' : ''
-                                }</span>
+                                  <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${escapeHtml(t('rowLabel', rIdx + 1, rIdx === 0))}</span>
                                   <div class="flex items-center gap-1">
                                     ${[1, 2, 3, 4]
                                       .map(
@@ -2299,17 +2808,17 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Driver Name (Optional)</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('driverNameOptLabel'))}</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.driverName)}"
                       oninput="window.appActions.updateCarField('driverName', this.value)"
-                      placeholder="e.g., John Doe"
+                      placeholder="${escapeHtml(t('driverNameOptPlaceholder'))}"
                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Driver Seat Side</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('driverSeatSideLabel'))}</label>
                     <div class="grid grid-cols-2 gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
                       <button
                         type="button"
@@ -2319,7 +2828,7 @@
                             ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
                             : 'text-slate-600 dark:text-slate-400'
                         }"
-                      >Left (LHD)</button>
+                      >${escapeHtml(t('leftLhd'))}</button>
                       <button
                         type="button"
                         onclick="window.appActions.updateCarField('driveSide', 'RHD', true)"
@@ -2328,40 +2837,40 @@
                             ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
                             : 'text-slate-600 dark:text-slate-400'
                         }"
-                      >Right (RHD)</button>
+                      >${escapeHtml(t('rightRhd'))}</button>
                     </div>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Departure Time</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('departureTimeLabel'))}</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.departureTime)}"
                       oninput="window.appActions.updateCarField('departureTime', this.value)"
-                      placeholder="e.g., 8:00 AM sharp"
+                      placeholder="${escapeHtml(t('departureTimePlaceholder'))}"
                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Meeting / Pickup Spot</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('pickupSpotLabel'))}</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.pickupLocation)}"
                       oninput="window.appActions.updateCarField('pickupLocation', this.value)"
-                      placeholder="e.g., Central Station"
+                      placeholder="${escapeHtml(t('pickupSpotPlaceholder'))}"
                       class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Car Note &amp; Carpool Info</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('carNoteLabel'))}</label>
                   <textarea
                     rows="2"
                     oninput="window.appActions.updateCarField('note', this.value)"
-                    placeholder="Add notes about luggage space, gas split, or pickup stops..."
+                    placeholder="${escapeHtml(t('carNotePlaceholder'))}"
                     class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >${escapeHtml(cm.note)}</textarea>
                 </div>
@@ -2373,11 +2882,11 @@
                     <div class="space-y-2.5">
                       <div class="flex items-center justify-between gap-1">
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                          1. Car Photo (Optional)
+                          ${escapeHtml(t('photo1Label'))}
                         </label>
                         ${
                           cm.imageUrl
-                            ? `<button type="button" onclick="window.appActions.clearCarPhoto('car')" class="text-[11px] font-bold text-rose-600 hover:text-rose-700">Remove</button>`
+                            ? `<button type="button" onclick="window.appActions.clearCarPhoto('car')" class="text-[11px] font-bold text-rose-600 hover:text-rose-700">${escapeHtml(t('removePhotoBtn'))}</button>`
                             : ''
                         }
                       </div>
@@ -2399,7 +2908,7 @@
 
                       <label class="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-slate-600 text-xs font-bold cursor-pointer transition-colors shadow-2xs">
                         <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                        <span>Upload Car Photo</span>
+                        <span>${escapeHtml(t('uploadCarPhotoBtn'))}</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -2412,12 +2921,12 @@
                         type="url"
                         value="${escapeHtml(cm.imageUrl && !cm.imageUrl.startsWith('data:') ? cm.imageUrl : '')}"
                         oninput="window.appActions.updateCarField('imageUrl', this.value, true)"
-                        placeholder="Or paste car image URL..."
+                        placeholder="${escapeHtml(t('pasteCarUrlPlaceholder'))}"
                         class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       />
                     </div>
                     <p class="text-[10px] text-slate-400 leading-tight">
-                      Helps riders recognize your vehicle or license plate at pickup.
+                      ${escapeHtml(t('photo1Help'))}
                     </p>
                   </div>
 
@@ -2426,11 +2935,11 @@
                     <div class="space-y-2.5">
                       <div class="flex items-center justify-between gap-1">
                         <label class="block text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
-                          2. Payment QR Code (Optional)
+                          ${escapeHtml(t('photo2Label'))}
                         </label>
                         ${
                           cm.qrCodeUrl
-                            ? `<button type="button" onclick="window.appActions.clearCarPhoto('qr')" class="text-[11px] font-bold text-rose-600 hover:text-rose-700">Remove</button>`
+                            ? `<button type="button" onclick="window.appActions.clearCarPhoto('qr')" class="text-[11px] font-bold text-rose-600 hover:text-rose-700">${escapeHtml(t('removePhotoBtn'))}</button>`
                             : ''
                         }
                       </div>
@@ -2452,7 +2961,7 @@
 
                       <label class="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-700 text-xs font-bold cursor-pointer transition-colors shadow-2xs">
                         <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/></svg>
-                        <span>Upload Payment QR</span>
+                        <span>${escapeHtml(t('uploadQrBtn'))}</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -2465,22 +2974,22 @@
                         type="url"
                         value="${escapeHtml(cm.qrCodeUrl && !cm.qrCodeUrl.startsWith('data:') ? cm.qrCodeUrl : '')}"
                         oninput="window.appActions.updateCarField('qrCodeUrl', this.value, true)"
-                        placeholder="Or paste QR image URL..."
+                        placeholder="${escapeHtml(t('pasteQrUrlPlaceholder'))}"
                         class="w-full px-3 py-2 rounded-xl border border-emerald-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       />
                     </div>
                     <p class="text-[10px] text-emerald-700/80 dark:text-emerald-400/80 leading-tight">
-                      Attach your QRIS / bank / e-wallet QR so passengers can easily pay you.
+                      ${escapeHtml(t('photo2Help'))}
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Vehicle Accent Color</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">${escapeHtml(t('accentColorLabel'))}</label>
                   <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
                     ${Object.entries(CAR_THEMES)
                       .map(
-                        ([key, t]) => `
+                        ([key, th]) => `
                         <button
                           type="button"
                           onclick="window.appActions.updateCarField('colorTheme', '${key}', true)"
@@ -2490,7 +2999,7 @@
                               : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                           }"
                         >
-                          <span class="w-3 h-3 rounded-full ${t.dot}"></span>
+                          <span class="w-3 h-3 rounded-full ${th.dot}"></span>
                           <span>${key}</span>
                         </button>
                       `
@@ -2504,12 +3013,12 @@
                     type="button"
                     onclick="window.appActions.closeModal()"
                     class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold"
-                  >Cancel</button>
+                  >${escapeHtml(t('cancelBtn'))}</button>
                   <button
                     type="submit"
                     class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm"
                   >
-                    ${cm.mode === 'add' ? `Create ${seatTotal}-Seat Car` : 'Save Changes'}
+                    ${cm.mode === 'add' ? escapeHtml(t('createCarBtn', seatTotal)) : escapeHtml(t('saveChangesBtn'))}
                   </button>
                 </div>
               </form>
@@ -2530,7 +3039,7 @@
                   type="button"
                   onclick="window.appActions.closeModal()"
                   class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold"
-                >Cancel</button>
+                >${escapeHtml(t('cancelBtn'))}</button>
                 <button
                   type="button"
                   onclick="window.appActions.runConfirm()"
@@ -2559,11 +3068,11 @@
                 <div class="flex items-center gap-2 min-w-0">
                   ${
                     isQr
-                      ? `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold uppercase tracking-wider shrink-0">Payment QR</span>`
+                      ? `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold uppercase tracking-wider shrink-0">${escapeHtml(t('paymentQrBadge'))}</span>`
                       : ''
                   }
                   <h3 class="text-sm sm:text-base font-extrabold truncate">${escapeHtml(
-                    state.photoModalTitle || 'Vehicle Photo'
+                    state.photoModalTitle || t('vehiclePhotoDefault')
                   )}</h3>
                 </div>
                 <button
@@ -2586,7 +3095,7 @@
                         />
                       </div>
                       <p class="text-xs text-slate-300 font-medium">
-                        Scan this QR code directly from your banking or e-wallet app to pay the driver.
+                        ${escapeHtml(t('qrScanInstruction'))}
                       </p>
                     </div>
                   `
@@ -2610,6 +3119,14 @@
     // GLOBAL UI ACTIONS (Attached to window.appActions)
     // ==========================================
     window.appActions = {
+      toggleLang: () => {
+        state.lang = state.lang === 'en' ? 'id' : 'en';
+        localStorage.setItem('electrizen_lang', state.lang);
+        applyDarkModeUI();
+        renderApp();
+        renderModals();
+      },
+
       toggleBgm: () => {
         soundEngine.toggleBgm();
       },
@@ -2730,7 +3247,7 @@
         const file = event.target?.files?.[0];
         if (!file) return;
         if (!file.type.startsWith('image/')) {
-          showToast('Please select a valid image file.', 'error');
+          showToast(t('toastInvalidImage'), 'error');
           return;
         }
 
@@ -2764,15 +3281,15 @@
             const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
             if (isQr) {
               state.carModal.qrCodeUrl = compressedDataUrl;
-              showToast('Payment QR code attached!');
+              showToast(t('toastQrAttached'));
             } else {
               state.carModal.imageUrl = compressedDataUrl;
-              showToast('Car photo attached!');
+              showToast(t('toastCarPhotoAttached'));
             }
             renderModals();
           };
           img.onerror = () => {
-            showToast('Could not process that image file.', 'error');
+            showToast(t('toastImageProcessErr'), 'error');
           };
           img.src = loadEvent.target.result;
         };
@@ -2795,7 +3312,7 @@
         const targetUrl = isQr ? car.qrCodeUrl : car.imageUrl;
         if (!targetUrl) return;
         state.photoModalUrl = targetUrl;
-        state.photoModalTitle = isQr ? `${car.name} — Payment QR` : car.name;
+        state.photoModalTitle = isQr ? `${car.name} — ${t('paymentQrBadge')}` : car.name;
         state.photoModalIsQr = isQr;
         state.activeModal = 'photo';
         renderModals();
@@ -2836,17 +3353,17 @@
       saveCarForm: async (e) => {
         e.preventDefault();
         if (!state.user || !state.db) {
-          showToast('Please connect Firebase first to save cars.', 'error');
+          showToast(t('toastConnectFirebase'), 'error');
           return;
         }
         const cm = state.carModal;
         if ((cm.verificationCode || '').trim().toUpperCase() !== OWNER_VERIFICATION_CODE) {
-          showToast('Invalid Car Owner Verification Code! Only verified owners can add/edit cars.', 'error');
+          showToast(t('toastInvalidOwnerCode'), 'error');
           return;
         }
         const trimmedName = cm.name.trim();
         if (!trimmedName) {
-          showToast('Please enter a car name.', 'error');
+          showToast(t('toastEnterCarName'), 'error');
           return;
         }
 
@@ -2882,7 +3399,7 @@
               createdBy: state.user.uid,
               seats: createEmptySeats(cm.driverName, sanitizedRows)
             });
-            showToast(`Added "${trimmedName}" (${layoutType} layout)!`);
+            showToast(t('toastAddedCar', trimmedName, layoutType));
           } else if (cm.mode === 'edit' && cm.carId) {
             const carRef = doc(
               state.db,
@@ -2912,13 +3429,13 @@
               layoutType,
               seats: updatedSeats
             });
-            showToast(`Updated "${trimmedName}" (${layoutType})!`);
+            showToast(t('toastUpdatedCar', trimmedName, layoutType));
           }
           state.activeModal = null;
           renderModals();
         } catch (err) {
           console.error('Error saving car:', err);
-          showToast('Failed to save vehicle.', 'error');
+          showToast(t('toastSaveCarFailed'), 'error');
         }
       },
 
@@ -2951,13 +3468,11 @@
           state.quickLayoutCarId = null;
           renderApp();
           showToast(
-            `Switched "${car.name}" to ${preset.badge}${
-              relocatedCount > 0 ? ` (${relocatedCount} moved to open seat)` : ''
-            }!`
+            t('toastSwitchedLayout', car.name, state.lang === 'id' ? preset.badge_id : preset.badge, relocatedCount)
           );
         } catch (err) {
           console.error('Error switching layout:', err);
-          showToast('Failed to switch layout.', 'error');
+          showToast(t('toastSwitchLayoutFailed'), 'error');
         }
       },
 
@@ -2968,10 +3483,10 @@
         const seatDefs = getSeatsForLayout(getCarLayoutRows(car));
         const seatDef = seatDefs.find((s) => s.id === seatId) || {
           id: seatId,
-          label: 'Overflow Rider',
+          label: t('overflowRiderLabel'),
           shortLabel: 'OVF',
-          position: 'Overflow Seat',
-          description: 'Passenger from previous layout',
+          position: t('overflowSeatPos'),
+          description: t('overflowSeatDesc'),
           isDriver: false
         };
         const currentSeat = car.seats?.[seatId] || { name: '', note: '', status: 'confirmed' };
@@ -3035,12 +3550,12 @@
           renderModals();
           showToast(
             trimmedName
-              ? `Assigned ${trimmedName} to ${sm.seatDef.label}!`
-              : `Cleared ${sm.seatDef.label}.`
+              ? t('toastAssignedSeat', trimmedName, sm.seatDef.label)
+              : t('toastClearedSeat', sm.seatDef.label)
           );
         } catch (err) {
           console.error('Error saving seat:', err);
-          showToast('Failed to update seat.', 'error');
+          showToast(t('toastUpdateSeatFailed'), 'error');
         }
       },
 
@@ -3069,10 +3584,10 @@
           state.activeModal = null;
           renderModals();
           soundEngine.playSfx('clear');
-          showToast(`Vacated ${sm.seatDef.label}.`);
+          showToast(t('toastVacatedSeat', sm.seatDef.label));
         } catch (err) {
           console.error('Error vacating seat:', err);
-          showToast('Failed to vacate seat.', 'error');
+          showToast(t('toastVacateSeatFailed'), 'error');
         }
       },
 
@@ -3089,7 +3604,7 @@
           (def) => !def.isDriver && (!seats[def.id]?.name || seats[def.id].name.trim() === '')
         );
         if (!firstOpenDef) {
-          showToast('No open seats available in this car!', 'error');
+          showToast(t('toastNoOpenSeats'), 'error');
           return;
         }
 
@@ -3106,10 +3621,10 @@
             car.id
           );
           await updateDoc(carRef, { seats });
-          showToast(`Moved ${passengerData.name} into ${firstOpenDef.label}!`);
+          showToast(t('toastMovedOverflow', passengerData.name, firstOpenDef.label));
         } catch (err) {
           console.error('Error relocating passenger:', err);
-          showToast('Failed to move passenger.', 'error');
+          showToast(t('toastMoveOverflowFailed'), 'error');
         }
       },
 
@@ -3117,10 +3632,9 @@
         const car = state.cars.find((c) => c.id === carId);
         if (!car) return;
         state.confirmModal = {
-          title: `Reset all passenger seats in "${car.name}"?`,
-          message:
-            'This will clear all passenger seats in this car while keeping the car details, layout, and driver intact.',
-          confirmLabel: 'Clear Passenger Seats',
+          title: t('confirmResetTitle', car.name),
+          message: t('confirmResetMsg'),
+          confirmLabel: t('confirmResetBtn'),
           confirmStyle: 'warning',
           onConfirm: async () => {
             if (!state.user || !state.db) return;
@@ -3137,7 +3651,7 @@
             await updateDoc(carRef, {
               seats: createEmptySeats(driverKeep, getCarLayoutRows(car))
             });
-            showToast(`Cleared passenger seats in "${car.name}".`);
+            showToast(t('toastClearedAllSeats', car.name));
           }
         };
         state.activeModal = 'confirm';
@@ -3148,10 +3662,9 @@
         const car = state.cars.find((c) => c.id === carId);
         if (!car) return;
         state.confirmModal = {
-          title: `Delete "${car.name}"?`,
-          message:
-            'This will permanently remove this vehicle and all passenger seat assignments inside it for everyone.',
-          confirmLabel: 'Delete Car',
+          title: t('confirmDeleteTitle', car.name),
+          message: t('confirmDeleteMsg'),
+          confirmLabel: t('confirmDeleteBtn'),
           confirmStyle: 'danger',
           onConfirm: async () => {
             if (!state.user || !state.db) return;
@@ -3165,7 +3678,7 @@
               car.id
             );
             await deleteDoc(carRef);
-            showToast(`Deleted "${car.name}".`);
+            showToast(t('toastDeletedCar', car.name));
           }
         };
         state.activeModal = 'confirm';
