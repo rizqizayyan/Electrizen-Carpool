@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Electrizen Carpool</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <!-- Tone.js for Interactive Sound Effects & Roadtrip Background Music -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,88 +33,225 @@
     ::-webkit-scrollbar-track {
       background: #f1f5f9;
     }
+    .dark ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
     ::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 9999px;
     }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
     ::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
+    @keyframes eqBar1 {
+      0%, 100% { height: 4px; }
+      50% { height: 13px; }
+    }
+    @keyframes eqBar2 {
+      0%, 100% { height: 12px; }
+      50% { height: 4px; }
+    }
+    @keyframes eqBar3 {
+      0%, 100% { height: 6px; }
+      40% { height: 14px; }
+      80% { height: 5px; }
+    }
+    .eq-bar-1 { animation: eqBar1 0.8s ease-in-out infinite; }
+    .eq-bar-2 { animation: eqBar2 0.7s ease-in-out infinite; }
+    .eq-bar-3 { animation: eqBar3 0.9s ease-in-out infinite; }
+
+    /* Splash Screen & Page Entrance Animations */
+    @keyframes splashProgressFill {
+      0% { width: 0%; }
+      45% { width: 62%; }
+      85% { width: 92%; }
+      100% { width: 100%; }
+    }
+    @keyframes splashCarDrive {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-2.5px) rotate(-1deg); }
+    }
+    @keyframes roadDashMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-28px); }
+    }
+    .splash-progress-bar {
+      animation: splashProgressFill 1.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .splash-car-bounce {
+      animation: splashCarDrive 0.65s ease-in-out infinite;
+    }
+    .road-dash-track {
+      animation: roadDashMove 0.45s linear infinite;
+    }
   </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col antialiased selection:bg-indigo-600 selection:text-white transition-colors duration-200">
 
   <!-- ==========================================
-       FLOATING TOAST NOTIFICATION CONTAINER
+       ANIMATED LOADING SPLASH SCREEN (1.5s)
   =========================================== -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 max-w-sm hidden transition-all duration-200"></div>
+  <div id="splashScreen" class="fixed inset-0 z-[100] bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 flex flex-col items-center justify-center px-6 select-none transition-all duration-700 ease-out">
+    <!-- Ambient Decorative Glow -->
+    <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
+    <div class="absolute w-48 h-48 rounded-full bg-emerald-500/10 blur-2xl pointer-events-none translate-x-20 -translate-y-16"></div>
+
+    <!-- Center Emblem with Pulsing Rings -->
+    <div class="relative flex items-center justify-center mb-7">
+      <div class="absolute w-28 h-28 rounded-3xl bg-indigo-500/20 animate-ping" style="animation-duration: 1.8s;"></div>
+      <div class="absolute w-24 h-24 rounded-3xl bg-indigo-500/30 animate-pulse"></div>
+      <div class="relative w-20 h-20 rounded-3xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-indigo-700 flex items-center justify-center text-white shadow-2xl shadow-indigo-500/50 border border-indigo-400/30">
+        <svg class="w-10 h-10 splash-car-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+          <circle cx="7" cy="17" r="2"/>
+          <path d="M9 17h6"/>
+          <circle cx="17" cy="17" r="2"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title & Status Subtitle -->
+    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white text-center">
+      Electrizen Carpool
+    </h1>
+    <p class="mt-2 text-xs sm:text-sm font-medium text-indigo-200/80 flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span>Syncing real-time seats...</span>
+    </p>
+
+    <!-- Animated Road Track & Progress Bar -->
+    <div class="mt-7 w-60 sm:w-72 space-y-2.5">
+      <!-- Moving Road Dashes -->
+      <div class="relative h-3 w-full overflow-hidden rounded-full bg-slate-900/80 border border-slate-800/90 flex items-center">
+        <div class="flex items-center gap-3 road-dash-track px-2">
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+          <span class="w-4 h-0.5 rounded-full bg-amber-400/70 shrink-0"></span>
+        </div>
+      </div>
+
+      <!-- Smooth Fill Progress Bar -->
+      <div class="h-1.5 w-full rounded-full bg-slate-800/90 overflow-hidden p-0.5">
+        <div class="h-full rounded-full bg-gradient-to-r from-indigo-400 via-emerald-400 to-indigo-400 splash-progress-bar"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ==========================================
-       TOP NAVIGATION HEADER
+       FLOATING TOAST NOTIFICATION
   =========================================== -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-        <!-- Brand Logo & Title -->
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200 shrink-0">
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-                <circle cx="7" cy="17" r="2" />
-                <path d="M9 17h6" />
-                <circle cx="17" cy="17" r="2" />
+  <div id="toastContainer" class="hidden"></div>
+
+  <!-- ==========================================
+       TOP HEADER & REAL-TIME STATUS BAR
+  =========================================== -->
+  <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 z-30 shadow-xs transition-colors duration-200">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-3 sm:py-3.5">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
+        
+        <!-- Row 1: Brand Identity + Primary Action Button on Mobile -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
+                <circle cx="7" cy="17" r="2"/>
+                <path d="M9 17h6"/>
+                <circle cx="17" cy="17" r="2"/>
               </svg>
             </div>
-            <div>
-              <div class="flex flex-wrap items-center gap-2">
-                <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">
-                  Electrizen Carpool
-                </h1>
-                <span id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span id="syncStatusText">Live Sync</span>
-                </span>
-              </div>
-              <p class="text-xs text-slate-500">
-                Supports 5-Seat (2-3), 7-Seat (2-3-2 or 2-2-3), 8-Seat, or custom seat layouts
-              </p>
+            <div class="min-w-0 flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2.5">
+              <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight truncate">
+                Electrizen Carpool
+              </h1>
+              <span id="weeklyCycleText" class="inline-flex items-center self-start sm:self-auto gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/80 whitespace-nowrap">
+                Resets Mon
+              </span>
             </div>
           </div>
 
-          <!-- Mobile Add Car Button -->
+          <!-- Mobile Primary CTA: Add Car Button -->
           <button
             type="button"
             onclick="window.appActions.openAddCarModal()"
-            class="md:hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold shadow-sm"
+            class="lg:hidden inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-sm shadow-indigo-500/20 shrink-0 transition-all"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             <span>Add Car</span>
           </button>
         </div>
 
-        <!-- Right Controls: Quick Name & Add Vehicle -->
-        <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+        <!-- Row 2 on Mobile / Right Bar on Desktop: Quick Name Input + Unified Audio/Theme Dock -->
+        <div class="flex items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
           <!-- Quick Name Input -->
-          <div class="flex items-center bg-slate-100 rounded-xl px-3 py-1.5 border border-slate-200 flex-1 sm:flex-initial">
+          <div class="flex items-center bg-slate-100/90 dark:bg-slate-800/90 rounded-xl px-3 py-2 sm:py-1.5 border border-slate-200/80 dark:border-slate-700/80 flex-1 lg:flex-initial min-w-0 focus-within:ring-2 focus-within:ring-indigo-500/40 focus-within:bg-white dark:focus-within:bg-slate-800 transition-all">
             <svg class="w-4 h-4 text-slate-400 mr-2 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
             </svg>
             <input
               id="quickNameInput"
               type="text"
-              placeholder="Your name (for quick seat claim)..."
+              placeholder="Your name for quick claim..."
               oninput="window.appActions.setQuickName(this.value)"
-              class="bg-transparent text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none w-full sm:w-48"
+              class="bg-transparent text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none w-full lg:w-48 truncate"
             />
             <button
               id="clearQuickNameBtn"
               type="button"
               onclick="window.appActions.setQuickName('')"
-              class="hidden text-slate-400 hover:text-slate-600 ml-1"
+              class="hidden text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 ml-1 shrink-0"
               title="Clear name"
             >
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <!-- Unified Pill Dock for Music, SFX & Dark Mode (Works cleanly on Mobile & Desktop) -->
+          <div class="inline-flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shrink-0 gap-0.5">
+            <button
+              type="button"
+              onclick="window.appActions.toggleBgm()"
+              class="bgm-toggle-btn inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              title="Play / Pause Chill Roadtrip Background Music"
+            >
+              <span class="bgm-icon flex items-center justify-center w-4 h-4"></span>
+              <span class="bgm-label hidden sm:inline">Music Off</span>
+            </button>
+
+            <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
+
+            <button
+              type="button"
+              onclick="window.appActions.toggleSfx()"
+              class="sfx-toggle-btn inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              title="Toggle Interactive Button Click Sounds"
+            >
+              <span class="sfx-icon flex items-center justify-center w-4 h-4"></span>
+              <span class="sfx-label hidden sm:inline">SFX On</span>
+            </button>
+
+            <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
+
+            <button
+              type="button"
+              onclick="window.appActions.toggleDarkMode()"
+              class="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold transition-all"
+              title="Switch between Light and Dark theme"
+            >
+              <span class="dark-mode-icon flex items-center justify-center w-4 h-4"></span>
+              <span class="dark-mode-label hidden sm:inline">Light</span>
             </button>
           </div>
 
@@ -115,12 +259,13 @@
           <button
             type="button"
             onclick="window.appActions.openAddCarModal()"
-            class="hidden md:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition-colors"
+            class="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-semibold shadow-sm transition-all shrink-0"
           >
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
             <span>Add Vehicle</span>
           </button>
         </div>
+
       </div>
     </div>
   </header>
@@ -128,11 +273,11 @@
   <!-- ==========================================
        MAIN CONTENT CONTAINER
   =========================================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
     <!-- Alert / Error Banner -->
-    <div id="errorBanner" class="hidden bg-amber-50 border border-amber-300 rounded-2xl p-4 flex items-start justify-between gap-3 text-amber-900 text-sm">
+    <div id="errorBanner" class="hidden bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 rounded-2xl p-4 flex items-start justify-between gap-3 text-amber-900 dark:text-amber-200 text-sm">
       <div class="flex items-start gap-3">
-        <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>
         </svg>
         <div id="errorBannerText"></div>
@@ -140,76 +285,79 @@
     </div>
 
     <!-- Top Summary Cards -->
-    <section id="statsContainer" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"></section>
+    <section id="statsContainer" class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4"></section>
 
     <!-- View Mode Switcher, Legend & Search -->
-    <section class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-      <!-- Tabs -->
-      <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-xl w-full lg:w-auto">
-        <button
-          id="tabCarsBtn"
-          type="button"
-          onclick="window.appActions.setTab('cars')"
-          class="flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-600 shadow-sm"
-        >
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
+    <section class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 transition-colors duration-200">
+      <!-- Top Row on Mobile: Tabs + Search -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 lg:contents">
+        <!-- Tabs -->
+        <div class="grid grid-cols-2 sm:flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl w-full lg:w-auto">
+          <button
+            id="tabCarsBtn"
+            type="button"
+            onclick="window.appActions.setTab('cars')"
+            class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate"
+          >
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
+            </svg>
+            <span id="tabCarsLabel" class="truncate">Vehicles (0)</span>
+          </button>
+          <button
+            id="tabManifestBtn"
+            type="button"
+            onclick="window.appActions.setTab('manifest')"
+            class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate"
+          >
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
+            </svg>
+            <span id="tabManifestLabel" class="truncate">Passengers (0)</span>
+          </button>
+        </div>
+
+        <!-- Search Filter -->
+        <div class="relative w-full sm:w-64 lg:order-3">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
           </svg>
-          <span id="tabCarsLabel">Interactive Vehicles (0)</span>
-        </button>
-        <button
-          id="tabManifestBtn"
-          type="button"
-          onclick="window.appActions.setTab('manifest')"
-          class="flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900"
-        >
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
-          </svg>
-          <span id="tabManifestLabel">All Passengers List (0)</span>
-        </button>
+          <input
+            id="searchInput"
+            type="text"
+            oninput="window.appActions.setSearch(this.value)"
+            placeholder="Search car, layout, person..."
+            class="w-full pl-9 pr-8 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800"
+          />
+          <button
+            id="clearSearchBtn"
+            type="button"
+            onclick="window.appActions.setSearch('')"
+            class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Legend -->
-      <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600 px-1">
+      <!-- Legend (Clean 4-pill bar on mobile & desktop) -->
+      <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/80 px-1 lg:order-2">
         <div class="flex items-center gap-1.5">
-          <span class="w-3.5 h-3.5 rounded bg-slate-900 inline-block border border-slate-800"></span>
+          <span class="w-3 h-3 rounded bg-slate-900 dark:bg-slate-700 inline-block border border-slate-800 dark:border-slate-600 shrink-0"></span>
           <span>Driver</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="w-3.5 h-3.5 rounded bg-emerald-100 border border-dashed border-emerald-500 inline-block"></span>
+          <span class="w-3 h-3 rounded bg-emerald-100 dark:bg-emerald-950 border border-dashed border-emerald-500 inline-block shrink-0"></span>
           <span>Open Seat</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="w-3.5 h-3.5 rounded bg-white border-2 border-indigo-500 inline-block"></span>
+          <span class="w-3 h-3 rounded bg-white dark:bg-slate-800 border-2 border-indigo-500 inline-block shrink-0"></span>
           <span>Confirmed Rider</span>
         </div>
         <div class="flex items-center gap-1.5">
-          <span class="w-3.5 h-3.5 rounded bg-amber-100 border-2 border-amber-400 inline-block"></span>
+          <span class="w-3 h-3 rounded bg-amber-100 dark:bg-amber-950 border-2 border-amber-400 inline-block shrink-0"></span>
           <span>Interested / Maybe</span>
         </div>
-      </div>
-
-      <!-- Search Filter -->
-      <div class="relative w-full lg:w-64">
-        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-        </svg>
-        <input
-          id="searchInput"
-          type="text"
-          oninput="window.appActions.setSearch(this.value)"
-          placeholder="Search car, layout, person..."
-          class="w-full pl-9 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
-        />
-        <button
-          id="clearSearchBtn"
-          type="button"
-          onclick="window.appActions.setSearch('')"
-          class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
       </div>
     </section>
 
@@ -221,20 +369,6 @@
        MODAL CONTAINER
   =========================================== -->
   <div id="modalRoot"></div>
-
-  <!-- ==========================================
-       FOOTER
-  =========================================== -->
-  <footer class="bg-white border-t border-slate-200 py-4 px-4 sm:px-6 lg:px-8 mt-auto">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-      <span>
-        Real-Time Carpool Coordinator • Supports 5-Seat (2-3), 7-Seat (2-3-2 &amp; 2-2-3), 8-Seat &amp; Custom Layouts
-      </span>
-      <span id="sessionFooterId" class="font-mono text-[11px] text-slate-400">
-        Session ID: Connecting...
-      </span>
-    </div>
-  </footer>
 
   <!-- ==========================================
        APPLICATION LOGIC & FIREBASE REAL-TIME SYNC
@@ -288,6 +422,27 @@
     // ==========================================
     const OWNER_VERIFICATION_CODE = 'ELZ-7492';
 
+    // Compute current Monday-based week identifier & date range for automatic weekly seat resets
+    const getCurrentWeekInfo = () => {
+      const now = new Date();
+      const day = now.getDay(); // 0 (Sun) to 6 (Sat)
+      const diffToMonday = day === 0 ? -6 : 1 - day;
+      const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMonday, 0, 0, 0, 0);
+      const sunday = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + 6, 23, 59, 59, 999);
+
+      const year = monday.getFullYear();
+      const month = String(monday.getMonth() + 1).padStart(2, '0');
+      const date = String(monday.getDate()).padStart(2, '0');
+      const weekKey = `${year}-M${month}-D${date}`;
+
+      const fmt = (d) => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      return {
+        weekKey,
+        weekStartMs: monday.getTime(),
+        rangeLabel: `${fmt(monday)} – ${fmt(sunday)}`
+      };
+    };
+
     const LAYOUT_PRESETS = [
       {
         id: '2-3',
@@ -337,61 +492,61 @@
       indigo: {
         name: 'Midnight Indigo',
         bg: 'bg-indigo-600',
-        lightBg: 'bg-indigo-50',
-        border: 'border-indigo-200',
-        bodyBorder: 'border-indigo-300',
-        bodyGrad: 'from-indigo-50/80 via-white to-indigo-50/40',
-        accent: 'text-indigo-600',
+        lightBg: 'bg-indigo-50 dark:bg-indigo-950/50',
+        border: 'border-indigo-200 dark:border-indigo-800/70',
+        bodyBorder: 'border-indigo-300 dark:border-indigo-700',
+        bodyGrad: 'from-indigo-50/80 via-white to-indigo-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-indigo-950/40',
+        accent: 'text-indigo-600 dark:text-indigo-400',
         dot: 'bg-indigo-500'
       },
       emerald: {
         name: 'Forest Emerald',
         bg: 'bg-emerald-600',
-        lightBg: 'bg-emerald-50',
-        border: 'border-emerald-200',
-        bodyBorder: 'border-emerald-300',
-        bodyGrad: 'from-emerald-50/80 via-white to-emerald-50/40',
-        accent: 'text-emerald-600',
+        lightBg: 'bg-emerald-50 dark:bg-emerald-950/50',
+        border: 'border-emerald-200 dark:border-emerald-800/70',
+        bodyBorder: 'border-emerald-300 dark:border-emerald-700',
+        bodyGrad: 'from-emerald-50/80 via-white to-emerald-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-emerald-950/40',
+        accent: 'text-emerald-600 dark:text-emerald-400',
         dot: 'bg-emerald-500'
       },
       rose: {
         name: 'Crimson Rose',
         bg: 'bg-rose-600',
-        lightBg: 'bg-rose-50',
-        border: 'border-rose-200',
-        bodyBorder: 'border-rose-300',
-        bodyGrad: 'from-rose-50/80 via-white to-rose-50/40',
-        accent: 'text-rose-600',
+        lightBg: 'bg-rose-50 dark:bg-rose-950/50',
+        border: 'border-rose-200 dark:border-rose-800/70',
+        bodyBorder: 'border-rose-300 dark:border-rose-700',
+        bodyGrad: 'from-rose-50/80 via-white to-rose-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-rose-950/40',
+        accent: 'text-rose-600 dark:text-rose-400',
         dot: 'bg-rose-500'
       },
       amber: {
         name: 'Sunset Amber',
         bg: 'bg-amber-600',
-        lightBg: 'bg-amber-50',
-        border: 'border-amber-200',
-        bodyBorder: 'border-amber-300',
-        bodyGrad: 'from-amber-50/80 via-white to-amber-50/40',
-        accent: 'text-amber-600',
+        lightBg: 'bg-amber-50 dark:bg-amber-950/50',
+        border: 'border-amber-200 dark:border-amber-800/70',
+        bodyBorder: 'border-amber-300 dark:border-amber-700',
+        bodyGrad: 'from-amber-50/80 via-white to-amber-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-amber-950/40',
+        accent: 'text-amber-600 dark:text-amber-400',
         dot: 'bg-amber-500'
       },
       cyan: {
         name: 'Ocean Cyan',
         bg: 'bg-cyan-600',
-        lightBg: 'bg-cyan-50',
-        border: 'border-cyan-200',
-        bodyBorder: 'border-cyan-300',
-        bodyGrad: 'from-cyan-50/80 via-white to-cyan-50/40',
-        accent: 'text-cyan-600',
+        lightBg: 'bg-cyan-50 dark:bg-cyan-950/50',
+        border: 'border-cyan-200 dark:border-cyan-800/70',
+        bodyBorder: 'border-cyan-300 dark:border-cyan-700',
+        bodyGrad: 'from-cyan-50/80 via-white to-cyan-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-cyan-950/40',
+        accent: 'text-cyan-600 dark:text-cyan-400',
         dot: 'bg-cyan-500'
       },
       slate: {
         name: 'Titanium Slate',
         bg: 'bg-slate-700',
-        lightBg: 'bg-slate-100',
-        border: 'border-slate-200',
-        bodyBorder: 'border-slate-300',
-        bodyGrad: 'from-slate-100/80 via-white to-slate-50/40',
-        accent: 'text-slate-700',
+        lightBg: 'bg-slate-100 dark:bg-slate-800/70',
+        border: 'border-slate-200 dark:border-slate-700',
+        bodyBorder: 'border-slate-300 dark:border-slate-600',
+        bodyGrad: 'from-slate-100/80 via-white to-slate-50/40 dark:from-slate-900 dark:via-slate-900/95 dark:to-slate-800/40',
+        accent: 'text-slate-700 dark:text-slate-300',
         dot: 'bg-slate-600'
       }
     };
@@ -656,12 +811,17 @@
       db: null,
       isCloudConnected: false,
       loading: true,
+      darkMode: localStorage.getItem('electrizen_theme') !== 'light',
+      bgmPlaying: false,
+      sfxEnabled: localStorage.getItem('electrizen_sfx_enabled') !== 'false',
       cars: [],
       myQuickName: '',
       activeTab: 'cars',
       searchQuery: '',
       quickLayoutCarId: null,
-      activeModal: null, // 'car' | 'seat' | 'confirm'
+      activeModal: null, // 'car' | 'seat' | 'confirm' | 'photo'
+      photoModalUrl: '',
+      photoModalTitle: '',
       carModal: {
         mode: 'add',
         carId: null,
@@ -670,8 +830,9 @@
         departureTime: '',
         pickupLocation: '',
         note: '',
+        imageUrl: '',
         colorTheme: 'indigo',
-        driveSide: 'LHD',
+        driveSide: 'RHD',
         layoutRows: [2, 3, 2],
         isCustomLayout: false,
         verificationCode: ''
@@ -693,8 +854,275 @@
       }
     };
 
+    // ==========================================
+    // INTERACTIVE SOUND EFFECTS & BGM ENGINE
+    // ==========================================
+    const soundEngine = {
+      audioCtx: null,
+      bgmInitialized: false,
+      padSynth: null,
+      arpSynth: null,
+      bassSynth: null,
+      chordLoop: null,
+      arpLoop: null,
+
+      getAudioContext() {
+        if (!this.audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            this.audioCtx = new AudioContextClass();
+          }
+        }
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+          this.audioCtx.resume().catch(() => {});
+        }
+        return this.audioCtx;
+      },
+
+      // Crisp synthesized interactive UI sound effects
+      playSfx(type = 'click') {
+        if (!state.sfxEnabled) return;
+        try {
+          const ctx = this.getAudioContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+
+          if (type === 'click') {
+            // Crisp tactile button pop
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(520, now);
+            osc.frequency.exponentialRampToValueAtTime(180, now + 0.045);
+
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.05);
+          } else if (type === 'seat') {
+            // Soft upward two-tone pop when opening a seat
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(380, now);
+            osc.frequency.exponentialRampToValueAtTime(640, now + 0.08);
+
+            gain.gain.setValueAtTime(0.14, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.085);
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.09);
+          } else if (type === 'success') {
+            // Pleasant ascending major triad chime when claiming a seat or saving a car
+            const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+            notes.forEach((freq, idx) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'triangle';
+              const startTime = now + idx * 0.055;
+              osc.frequency.setValueAtTime(freq, startTime);
+
+              gain.gain.setValueAtTime(0.11, startTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
+
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.23);
+            });
+          } else if (type === 'clear') {
+            // Soft descending two-note tone when vacating or deleting
+            const notes = [440, 329.63]; // A4 -> E4
+            notes.forEach((freq, idx) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'sine';
+              const startTime = now + idx * 0.065;
+              osc.frequency.setValueAtTime(freq, startTime);
+
+              gain.gain.setValueAtTime(0.11, startTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.16);
+
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.17);
+            });
+          } else if (type === 'error') {
+            // Gentle low double-buzz for invalid code or error
+            [0, 0.09].forEach((offset) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'sawtooth';
+              const startTime = now + offset;
+              osc.frequency.setValueAtTime(155, startTime);
+
+              gain.gain.setValueAtTime(0.08, startTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.07);
+
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.075);
+            });
+          }
+        } catch (e) {
+          console.warn('SFX playback skipped:', e);
+        }
+      },
+
+      // Chill Lo-Fi Roadtrip Background Music using Tone.js
+      async toggleBgm() {
+        if (typeof Tone === 'undefined') {
+          showToast('Audio library still loading, please try again.', 'error');
+          return;
+        }
+
+        try {
+          await Tone.start();
+
+          if (!this.bgmInitialized) {
+            Tone.Transport.bpm.value = 84;
+
+            const reverb = new Tone.Reverb({ decay: 3.5, wet: 0.45 }).toDestination();
+            const filter = new Tone.Filter(1400, 'lowpass').connect(reverb);
+
+            // Warm electric piano / synth pad for roadtrip chords
+            this.padSynth = new Tone.PolySynth(Tone.Synth, {
+              oscillator: { type: 'sine' },
+              envelope: { attack: 0.4, decay: 1.2, sustain: 0.6, release: 2.0 }
+            }).connect(filter);
+            this.padSynth.volume.value = -16;
+
+            // Gentle plucked melody arpeggiator
+            this.arpSynth = new Tone.Synth({
+              oscillator: { type: 'triangle' },
+              envelope: { attack: 0.02, decay: 0.3, sustain: 0.1, release: 0.6 }
+            }).connect(reverb);
+            this.arpSynth.volume.value = -18;
+
+            // Soft warm sub-bass
+            this.bassSynth = new Tone.Synth({
+              oscillator: { type: 'sine' },
+              envelope: { attack: 0.08, decay: 0.5, sustain: 0.5, release: 1.2 }
+            }).toDestination();
+            this.bassSynth.volume.value = -17;
+
+            // Chill progression: Fmaj7 -> Em7 -> Dm7 -> Cmaj7
+            const progression = [
+              { chord: ['F3', 'A3', 'C4', 'E4'], bass: 'F2', arp: ['A4', 'C5', 'E5', 'C5'] },
+              { chord: ['E3', 'G3', 'B3', 'D4'], bass: 'E2', arp: ['G4', 'B4', 'D5', 'B4'] },
+              { chord: ['D3', 'F3', 'A3', 'C4'], bass: 'D2', arp: ['F4', 'A4', 'C5', 'A4'] },
+              { chord: ['C3', 'E3', 'G3', 'B3'], bass: 'C2', arp: ['E4', 'G4', 'B4', 'G4'] }
+            ];
+
+            let stepIndex = 0;
+            this.chordLoop = new Tone.Loop((time) => {
+              const current = progression[stepIndex % progression.length];
+              this.padSynth.triggerAttackRelease(current.chord, '1m', time);
+              this.bassSynth.triggerAttackRelease(current.bass, '1m', time);
+
+              // Schedule soft arpeggio notes across the bar
+              current.arp.forEach((note, idx) => {
+                this.arpSynth.triggerAttackRelease(
+                  note,
+                  '8n',
+                  time + idx * Tone.Time('4n').toSeconds()
+                );
+              });
+
+              stepIndex++;
+            }, '1m').start(0);
+
+            this.bgmInitialized = true;
+          }
+
+          if (state.bgmPlaying) {
+            Tone.Transport.pause();
+            state.bgmPlaying = false;
+            this.playSfx('click');
+          } else {
+            Tone.Transport.start();
+            state.bgmPlaying = true;
+            this.playSfx('seat');
+          }
+
+          updateAudioUI();
+        } catch (err) {
+          console.error('Error toggling background music:', err);
+        }
+      }
+    };
+
+    const updateAudioUI = () => {
+      const musicPlayingIcon = `
+        <span class="inline-flex items-end gap-0.5 h-3.5 px-0.5">
+          <span class="w-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full eq-bar-1"></span>
+          <span class="w-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full eq-bar-2"></span>
+          <span class="w-0.5 bg-indigo-600 dark:bg-indigo-400 rounded-full eq-bar-3"></span>
+        </span>
+      `;
+      const musicOffIcon = `<svg class="w-4 h-4 text-slate-500 dark:text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`;
+
+      document.querySelectorAll('.bgm-icon').forEach((el) => {
+        el.innerHTML = state.bgmPlaying ? musicPlayingIcon : musicOffIcon;
+      });
+      document.querySelectorAll('.bgm-label').forEach((el) => {
+        el.textContent = state.bgmPlaying ? 'Music On' : 'Music Off';
+      });
+      document.querySelectorAll('.bgm-toggle-btn').forEach((btn) => {
+        if (state.bgmPlaying) {
+          btn.classList.add('ring-2', 'ring-indigo-500/50', 'text-indigo-600', 'dark:text-indigo-400');
+        } else {
+          btn.classList.remove('ring-2', 'ring-indigo-500/50', 'text-indigo-600', 'dark:text-indigo-400');
+        }
+      });
+
+      const sfxOnIcon = `<svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
+      const sfxOffIcon = `<svg class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>`;
+
+      document.querySelectorAll('.sfx-icon').forEach((el) => {
+        el.innerHTML = state.sfxEnabled ? sfxOnIcon : sfxOffIcon;
+      });
+      document.querySelectorAll('.sfx-label').forEach((el) => {
+        el.textContent = state.sfxEnabled ? 'SFX On' : 'SFX Muted';
+      });
+    };
+
+    const applyDarkModeUI = () => {
+      const rootEl = document.documentElement;
+      if (state.darkMode) {
+        rootEl.classList.add('dark');
+      } else {
+        rootEl.classList.remove('dark');
+      }
+
+      const sunSvg = `<svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+      const moonSvg = `<svg class="w-4 h-4 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`;
+
+      document.querySelectorAll('.dark-mode-icon').forEach((el) => {
+        el.innerHTML = state.darkMode ? sunSvg : moonSvg;
+      });
+      document.querySelectorAll('.dark-mode-label').forEach((el) => {
+        el.textContent = state.darkMode ? 'Light' : 'Dark';
+      });
+
+      const weekInfo = getCurrentWeekInfo();
+      const weekEl = document.getElementById('weeklyCycleText');
+      if (weekEl) {
+        weekEl.textContent = `Week: ${weekInfo.rangeLabel} (Resets Mon)`;
+      }
+      updateAudioUI();
+    };
+
     let toastTimer = null;
     const showToast = (message, type = 'success') => {
+      soundEngine.playSfx(type === 'error' ? 'error' : 'success');
       const container = document.getElementById('toastContainer');
       if (!container) return;
       if (toastTimer) clearTimeout(toastTimer);
@@ -805,40 +1233,40 @@
 
       const btnClasses = isOccupied
         ? isDriver
-          ? 'bg-slate-900 border-slate-800 text-white'
+          ? 'bg-slate-900 dark:bg-slate-950 border-slate-800 dark:border-amber-500/60 text-white'
           : isInterested
-          ? 'bg-amber-50/95 border-amber-400 text-slate-900'
-          : 'bg-white border-indigo-500 text-slate-900'
-        : 'bg-emerald-50/60 hover:bg-emerald-50 border-dashed border-emerald-400/80 text-emerald-900';
+          ? 'bg-amber-50/95 dark:bg-amber-950/60 border-amber-400 dark:border-amber-500 text-slate-900 dark:text-amber-100'
+          : 'bg-white dark:bg-slate-800 border-indigo-500 text-slate-900 dark:text-white'
+        : 'bg-emerald-50/60 dark:bg-emerald-950/30 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 border-dashed border-emerald-400/80 dark:border-emerald-500/60 text-emerald-900 dark:text-emerald-200';
 
       const headrestClass = isOccupied
         ? isDriver || isInterested
           ? 'bg-amber-400'
           : theme.bg
-        : 'bg-emerald-300/80 group-hover:bg-emerald-400';
+        : 'bg-emerald-300/80 dark:bg-emerald-600/70 group-hover:bg-emerald-400';
 
       const badgeClass = isOccupied
         ? isDriver
           ? 'bg-slate-800 text-amber-300'
           : isInterested
-          ? 'bg-amber-200/80 text-amber-900'
-          : 'bg-slate-100 text-slate-600'
-        : 'bg-emerald-100 text-emerald-800';
+          ? 'bg-amber-200/80 dark:bg-amber-900 text-amber-900 dark:text-amber-200'
+          : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+        : 'bg-emerald-100 dark:bg-emerald-900/70 text-emerald-800 dark:text-emerald-200';
 
       return `
         <button
           type="button"
           onclick="window.appActions.openSeatModal('${escapeHtml(car.id)}', '${escapeHtml(seatDef.id)}')"
-          class="group relative flex flex-col items-center justify-between p-2.5 sm:p-3 rounded-2xl border-2 transition-all duration-200 text-left w-full min-h-[96px] sm:min-h-[104px] shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 ${btnClasses}"
+          class="group relative flex flex-col items-center justify-between p-2 sm:p-3 rounded-2xl border-2 transition-all duration-200 text-left w-full min-h-[88px] sm:min-h-[104px] shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 ${btnClasses}"
         >
-          <div class="w-10 sm:w-12 h-2 rounded-full mb-1.5 transition-colors ${headrestClass}"></div>
+          <div class="w-8 sm:w-12 h-1.5 sm:h-2 rounded-full mb-1 transition-colors ${headrestClass}"></div>
 
-          <div class="w-full flex items-center justify-between gap-1 text-[10px] font-semibold uppercase tracking-wider">
+          <div class="w-full flex items-center justify-between gap-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider">
             <span class="px-1.5 py-0.5 rounded-md ${badgeClass}">${escapeHtml(seatDef.shortLabel)}</span>
             ${
               isDriver
                 ? `<span class="flex items-center gap-0.5 text-amber-400 font-bold">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                       <circle cx="12" cy="12" r="9" />
                       <circle cx="12" cy="12" r="2.5" />
                       <path d="M12 14.5V21M9.5 12H3M14.5 12H21" />
@@ -846,9 +1274,9 @@
                    </span>`
                 : isOccupied
                 ? isInterested
-                  ? `<span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 font-bold">Maybe</span>`
+                  ? `<span class="text-[8px] sm:text-[9px] px-1 py-0.5 rounded bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 font-bold">Maybe</span>`
                   : `<span class="w-2 h-2 rounded-full bg-indigo-500" title="Confirmed Seat"></span>`
-                : `<span class="text-[10px] text-emerald-700 font-bold">Open</span>`
+                : `<span class="text-[9px] sm:text-[10px] text-emerald-700 dark:text-emerald-300 font-bold">Open</span>`
             }
           </div>
 
@@ -857,31 +1285,31 @@
               isOccupied
                 ? `
                   <div class="flex items-center justify-center gap-1 max-w-full">
-                    <span class="text-xs sm:text-sm font-bold leading-tight line-clamp-1 break-all ${
-                      isDriver ? 'text-white' : 'text-slate-900'
+                    <span class="text-[11px] sm:text-sm font-bold leading-tight line-clamp-1 break-all ${
+                      isDriver ? 'text-white' : 'text-slate-900 dark:text-white'
                     }" title="${escapeHtml(seatData.name)}">
                       ${escapeHtml(seatData.name)}
                     </span>
                   </div>
                   ${
                     seatData.note
-                      ? `<span class="mt-0.5 text-[10px] leading-tight line-clamp-1 max-w-full px-1 rounded ${
+                      ? `<span class="mt-0.5 text-[9px] sm:text-[10px] leading-tight line-clamp-1 max-w-full px-1 rounded ${
                           isDriver
                             ? 'text-slate-300'
                             : isInterested
-                            ? 'text-amber-800'
-                            : 'text-slate-500'
+                            ? 'text-amber-800 dark:text-amber-300'
+                            : 'text-slate-500 dark:text-slate-400'
                         }" title="${escapeHtml(seatData.note)}">"${escapeHtml(seatData.note)}"</span>`
-                      : `<span class="mt-0.5 text-[10px] text-slate-400">${escapeHtml(seatDef.label)}</span>`
+                      : `<span class="mt-0.5 text-[9px] sm:text-[10px] text-slate-400 line-clamp-1">${escapeHtml(seatDef.label)}</span>`
                   }
                 `
                 : `
                   <div class="flex flex-col items-center py-0.5">
-                    <div class="w-6 h-6 rounded-full bg-emerald-100 group-hover:bg-emerald-200 text-emerald-700 flex items-center justify-center mb-0.5 transition-colors">
-                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/70 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-800 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mb-0.5 transition-colors">
+                      <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                     </div>
-                    <span class="text-[11px] font-semibold text-emerald-800">${
-                      isDriver ? 'Assign Driver' : 'Claim Seat'
+                    <span class="text-[10px] sm:text-[11px] font-semibold text-emerald-800 dark:text-emerald-300">${
+                      isDriver ? 'Driver' : 'Claim'
                     }</span>
                   </div>
                 `
@@ -890,7 +1318,7 @@
 
           ${
             isMe
-              ? `<span class="absolute -top-2 -right-2 bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">YOU</span>`
+              ? `<span class="absolute -top-2 -right-1.5 bg-indigo-600 text-white text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow">YOU</span>`
               : ''
           }
         </button>
@@ -904,47 +1332,47 @@
       const statsEl = document.getElementById('statsContainer');
       if (statsEl) {
         statsEl.innerHTML = `
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Total Vehicles</p>
-              <p class="text-2xl font-extrabold text-slate-900 mt-0.5">${summary.totalCars}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">Flexible 4 to 16 seat layouts</p>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
+            <div class="min-w-0">
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Vehicles</p>
+              <p class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 leading-none">${summary.totalCars}</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Active carpools</p>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Open Seats Left</p>
-              <p class="text-2xl font-extrabold text-emerald-600 mt-0.5">${summary.totalAvailable}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">of ${summary.totalCapacity} total capacity</p>
-            </div>
-            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Assigned Riders</p>
-              <p class="text-2xl font-extrabold text-indigo-600 mt-0.5">${summary.totalOccupied}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">Drivers &amp; passengers combined</p>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
+            <div class="min-w-0">
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Open Seats</p>
+              <p class="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5 leading-none">${summary.totalAvailable}</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">of ${summary.totalCapacity} total seats</p>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
             </div>
           </div>
 
-          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Interested / Tentative</p>
-              <p class="text-2xl font-extrabold text-amber-600 mt-0.5">${summary.totalInterested}</p>
-              <p class="text-[11px] text-slate-400 mt-0.5">Marked as "Maybe / Interested"</p>
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
+            <div class="min-w-0">
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Assigned</p>
+              <p class="text-xl sm:text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-0.5 leading-none">${summary.totalOccupied}</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Drivers &amp; riders</p>
             </div>
-            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 transition-colors">
+            <div class="min-w-0">
+              <p class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">Interested / Maybe</p>
+              <p class="text-xl sm:text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-0.5 leading-none">${summary.totalInterested}</p>
+              <p class="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 mt-1 truncate">Not 100% sure yet</p>
+            </div>
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
             </div>
           </div>
         `;
@@ -956,21 +1384,21 @@
       const tabCarsLabel = document.getElementById('tabCarsLabel');
       const tabManifestLabel = document.getElementById('tabManifestLabel');
 
-      if (tabCarsLabel) tabCarsLabel.textContent = `Interactive Vehicles (${state.cars.length})`;
+      if (tabCarsLabel) tabCarsLabel.textContent = `Vehicles (${state.cars.length})`;
       if (tabManifestLabel)
-        tabManifestLabel.textContent = `All Passengers List (${summary.allPassengers.length})`;
+        tabManifestLabel.textContent = `Passengers (${summary.allPassengers.length})`;
 
       if (tabCarsBtn && tabManifestBtn) {
         if (state.activeTab === 'cars') {
           tabCarsBtn.className =
-            'flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-600 shadow-sm';
+            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate';
           tabManifestBtn.className =
-            'flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate';
         } else {
           tabManifestBtn.className =
-            'flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white text-indigo-600 shadow-sm';
+            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs truncate';
           tabCarsBtn.className =
-            'flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900';
+            'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white truncate';
         }
       }
 
@@ -980,12 +1408,12 @@
 
       if (state.loading) {
         mainEl.innerHTML = `
-          <div class="bg-white rounded-3xl p-12 border border-slate-200 text-center space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto animate-pulse">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-12 border border-slate-200 dark:border-slate-800 text-center space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto animate-pulse">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
             </div>
-            <p class="text-base font-bold text-slate-800">Syncing live carpool lineup...</p>
-            <p class="text-xs text-slate-500">Connecting to real-time seat assignment board</p>
+            <p class="text-base font-bold text-slate-800 dark:text-slate-100">Syncing live carpool lineup...</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Connecting to real-time seat assignment board</p>
           </div>
         `;
         return;
@@ -993,32 +1421,21 @@
 
       if (state.cars.length === 0) {
         mainEl.innerHTML = `
-          <div class="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 text-center max-w-2xl mx-auto my-4 shadow-sm space-y-5">
-            <div class="w-16 h-16 rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-inner">
+          <div class="bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-12 border border-slate-200 dark:border-slate-800 text-center max-w-2xl mx-auto my-4 shadow-sm space-y-5">
+            <div class="w-16 h-16 rounded-3xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto shadow-inner">
               <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
             </div>
             <div class="space-y-2">
-              <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">No Carpool Vehicles Added Yet</h2>
-              <p class="text-sm text-slate-500 max-w-md mx-auto">
-                Add a vehicle with any seating configuration—5-seat (2-3), 7-seat (2-3-2 or 2-2-3 Captain Chairs), 8-seat (2-3-3), or build your own custom layout.
-              </p>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">No Carpool Vehicles Added Yet</h2>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
               <button
                 type="button"
                 onclick="window.appActions.openAddCarModal()"
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 transition-all"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-100 dark:shadow-none transition-all"
               >
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
                 <span>Add First Vehicle</span>
-              </button>
-              <button
-                type="button"
-                onclick="window.appActions.seedSampleCars()"
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-all"
-              >
-                <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                <span>Load Sample Cars (2-3-2, 2-2-3, 2-3)</span>
               </button>
             </div>
           </div>
@@ -1056,7 +1473,7 @@
               (s) => seats[s.id]?.name && seats[s.id].name.trim() !== ''
             ).length;
             const availableCount = Math.max(0, totalCapacity - occupiedCount);
-            const isRHD = car.driveSide === 'RHD';
+            const isRHD = (car.driveSide || 'RHD') === 'RHD';
             const isQuickPickerOpen = state.quickLayoutCarId === car.id;
 
             const rowsGrouped = layoutRows.map((_, rIdx) => {
@@ -1097,7 +1514,7 @@
                   rowGridHtml = `
                     <div class="grid grid-cols-7 gap-2 items-stretch">
                       <div class="col-span-3">${renderSeatButtonHtml(car, rowSeats[0], theme)}</div>
-                      <div class="col-span-1 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 bg-slate-100/60 py-2 px-0.5 text-center">
+                      <div class="col-span-1 flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300/80 dark:border-slate-700 bg-slate-100/60 dark:bg-slate-800/50 py-2 px-0.5 text-center">
                         <span class="text-[8px] font-extrabold uppercase tracking-tighter text-slate-400 vertical-aisle-text">AISLE</span>
                       </div>
                       <div class="col-span-3">${renderSeatButtonHtml(car, rowSeats[1], theme)}</div>
@@ -1148,10 +1565,10 @@
                 const s = seats[seatDef.id];
                 if (!s?.name?.trim()) return '';
                 const pillStyle = seatDef.isDriver
-                  ? 'bg-slate-900 text-white'
+                  ? 'bg-slate-900 dark:bg-slate-800 text-white border border-transparent dark:border-slate-700'
                   : s.status === 'interested'
-                  ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-800';
+                  ? 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-800'
+                  : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200';
                 return `
                   <button
                     type="button"
@@ -1168,25 +1585,47 @@
               .join('');
 
             return `
-              <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
-                <!-- Header -->
-                <div class="p-5 border-b border-slate-100 flex flex-col gap-3">
-                  <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-start gap-3">
-                      <div class="w-10 h-10 rounded-2xl ${
-                        theme.bg
-                      } text-white flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+              <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col">
+                ${
+                  car.imageUrl
+                    ? `
+                      <div
+                        onclick="window.appActions.openPhotoModal('${escapeHtml(car.id)}')"
+                        class="relative w-full h-44 sm:h-52 bg-slate-900 overflow-hidden cursor-pointer group"
+                      >
+                        <img
+                          src="${escapeHtml(car.imageUrl)}"
+                          alt="${escapeHtml(car.name)}"
+                          onerror="this.onerror=null;this.src='https://placehold.co/800x400/e2e8f0/475569?text=Car+Photo+Unavailable';"
+                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20"></div>
+                        <span class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-black/60 backdrop-blur-xs text-white text-[11px] font-semibold">
+                          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+                          Tap to enlarge
+                        </span>
                       </div>
-                      <div>
-                        <div class="flex flex-wrap items-center gap-2">
-                          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">${escapeHtml(
+                    `
+                    : ''
+                }
+                <!-- Header -->
+                <div class="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col gap-3">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="flex items-start gap-2.5 sm:gap-3 min-w-0">
+                      <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl ${
+                        theme.bg
+                      } text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                      </div>
+                      <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                          <h3 class="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug break-words">${escapeHtml(
                             car.name
                           )}</h3>
-                          <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
+                          <span class="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full ${
                             availableCount === 0
-                              ? 'bg-rose-100 text-rose-700'
-                              : 'bg-emerald-100 text-emerald-800'
+                              ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
+                              : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
                           }">
                             ${
                               availableCount === 0
@@ -1196,25 +1635,17 @@
                           </span>
                         </div>
 
-                        <div class="flex flex-wrap items-center gap-2.5 mt-1.5 text-xs text-slate-600">
-                          <button
-                            type="button"
-                            onclick="window.appActions.toggleQuickLayout('${escapeHtml(car.id)}')"
-                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-[11px] border transition-all ${
-                              isQuickPickerOpen
-                                ? 'bg-indigo-600 text-white border-indigo-600'
-                                : 'bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border-slate-200'
-                            }"
-                            title="Switch seating layout (2-3, 2-3-2, 2-2-3, etc.)"
+                        <div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                          <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg font-bold text-[10px] sm:text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                           >
                             <span>${totalCapacity} Seats (${escapeHtml(layoutPattern)})</span>
-                            <svg class="w-3 h-3 ml-0.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
-                          </button>
+                          </span>
 
                           ${
                             car.departureTime
                               ? `<span class="inline-flex items-center gap-1 font-medium">
-                                  <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                  <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                                   ${escapeHtml(car.departureTime)}
                                  </span>`
                               : ''
@@ -1222,7 +1653,7 @@
                           ${
                             car.pickupLocation
                               ? `<span class="inline-flex items-center gap-1 font-medium">
-                                  <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                  <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                                   ${escapeHtml(car.pickupLocation)}
                                  </span>`
                               : ''
@@ -1232,11 +1663,11 @@
                     </div>
 
                     <!-- Card Actions -->
-                    <div class="flex items-center gap-1 shrink-0">
+                    <div class="flex items-center gap-0.5 sm:gap-1 shrink-0 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
                       <button
                         type="button"
                         onclick="window.appActions.openEditCarModal('${escapeHtml(car.id)}', false)"
-                        class="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                        class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition-colors"
                         title="Edit car details &amp; layout"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -1244,7 +1675,7 @@
                       <button
                         type="button"
                         onclick="window.appActions.clearCarSeats('${escapeHtml(car.id)}')"
-                        class="p-2 rounded-xl text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+                        class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/50 transition-colors"
                         title="Reset passenger seats"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -1252,7 +1683,7 @@
                       <button
                         type="button"
                         onclick="window.appActions.deleteCar('${escapeHtml(car.id)}')"
-                        class="p-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                        class="p-1.5 sm:p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 transition-colors"
                         title="Delete vehicle"
                       >
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
@@ -1261,63 +1692,11 @@
                   </div>
 
                   ${
-                    isQuickPickerOpen
-                      ? `
-                        <div class="p-3.5 rounded-2xl bg-slate-900 text-white space-y-2.5 shadow-lg">
-                          <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-300">
-                              Switch Car Seating Layout (Preserves Riders)
-                            </span>
-                            <button type="button" onclick="window.appActions.toggleQuickLayout(null)" class="text-slate-400 hover:text-white p-0.5">
-                              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
-                            </button>
-                          </div>
-                          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                            ${LAYOUT_PRESETS.map((preset) => {
-                              const isCurrent = preset.id === layoutPattern;
-                              return `
-                                <button
-                                  type="button"
-                                  onclick="window.appActions.quickSwitchLayout('${escapeHtml(
-                                    car.id
-                                  )}', '${preset.id}')"
-                                  class="px-2.5 py-2 rounded-xl text-left transition-all border ${
-                                    isCurrent
-                                      ? 'bg-indigo-600 border-indigo-400 text-white font-bold'
-                                      : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-200'
-                                  }"
-                                >
-                                  <div class="text-xs font-bold">${escapeHtml(preset.badge)}</div>
-                                  <div class="text-[10px] text-slate-300 truncate">${escapeHtml(
-                                    preset.name
-                                  )}</div>
-                                </button>
-                              `;
-                            }).join('')}
-                          </div>
-                          <div class="flex items-center justify-between pt-1 border-t border-slate-800">
-                            <span class="text-[11px] text-slate-400">Need a custom row arrangement?</span>
-                            <button
-                              type="button"
-                              onclick="window.appActions.openEditCarModal('${escapeHtml(
-                                car.id
-                              )}', true)"
-                              class="text-xs font-bold text-amber-300 hover:text-amber-200 underline"
-                            >
-                              Custom Layout Builder &rarr;
-                            </button>
-                          </div>
-                        </div>
-                      `
-                      : ''
-                  }
-
-                  ${
                     car.note
                       ? `
                         <div class="px-3.5 py-2.5 rounded-2xl ${theme.lightBg} border ${
                           theme.border
-                        } text-xs text-slate-700 flex items-start gap-2">
+                        } text-xs text-slate-700 dark:text-slate-200 flex items-start gap-2">
                           <svg class="w-4 h-4 ${
                             theme.accent
                           } shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1329,19 +1708,19 @@
                 </div>
 
                 <!-- Car Chassis Interior -->
-                <div class="p-4 sm:p-6 bg-slate-50/70 flex-1 flex flex-col items-center justify-center">
+                <div class="p-4 sm:p-6 bg-slate-50/70 dark:bg-slate-950/50 flex-1 flex flex-col items-center justify-center">
                   <div class="relative w-full max-w-[400px] mx-auto">
                     <div class="absolute top-16 -left-3 w-3 h-7 rounded-l-xl border-2 border-r-0 ${
                       theme.bodyBorder
-                    } bg-white shadow-sm"></div>
+                    } bg-white dark:bg-slate-800 shadow-sm"></div>
                     <div class="absolute top-16 -right-3 w-3 h-7 rounded-r-xl border-2 border-l-0 ${
                       theme.bodyBorder
-                    } bg-white shadow-sm"></div>
+                    } bg-white dark:bg-slate-800 shadow-sm"></div>
 
-                    <div class="absolute top-12 -left-1.5 w-1.5 h-12 bg-slate-800 rounded-l-md"></div>
-                    <div class="absolute top-12 -right-1.5 w-1.5 h-12 bg-slate-800 rounded-r-md"></div>
-                    <div class="absolute bottom-14 -left-1.5 w-1.5 h-12 bg-slate-800 rounded-l-md"></div>
-                    <div class="absolute bottom-14 -right-1.5 w-1.5 h-12 bg-slate-800 rounded-r-md"></div>
+                    <div class="absolute top-12 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
+                    <div class="absolute top-12 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
+                    <div class="absolute bottom-14 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
+                    <div class="absolute bottom-14 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
 
                     <div class="relative rounded-t-[64px] rounded-b-[36px] border-2 ${
                       theme.bodyBorder
@@ -1362,11 +1741,11 @@
 
                       ${rowsHtml}
 
-                      <div class="mt-3 pt-2.5 border-t border-dashed border-slate-300 flex items-center justify-between px-3 text-[11px] text-slate-500">
+                      <div class="mt-3 pt-2.5 border-t border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-between px-3 text-[11px] text-slate-500 dark:text-slate-400">
                         <span class="inline-flex items-center gap-1 font-medium">
                           Rear Trunk / Cargo
                         </span>
-                        <span class="font-semibold text-slate-700">
+                        <span class="font-semibold text-slate-700 dark:text-slate-300">
                           ${occupiedCount}/${totalCapacity} Seated (${escapeHtml(layoutPattern)})
                         </span>
                       </div>
@@ -1431,7 +1810,7 @@
                 </div>
 
                 <!-- Footer Pills -->
-                <div class="px-5 py-3.5 bg-white border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="px-5 py-3.5 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div class="flex flex-wrap items-center gap-1.5">
                     ${
                       occupiedCount > 0
@@ -1461,24 +1840,24 @@
 
         mainEl.innerHTML = `
           <section class="space-y-6">
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-              <div class="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+              <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <h3 class="text-base font-extrabold text-slate-900">Complete Carpool Passenger Manifest</h3>
-                  <p class="text-xs text-slate-500">Click any row to edit that passenger's seat or note</p>
+                  <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Complete Carpool Passenger Manifest</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Click any row to edit that passenger's seat or note</p>
                 </div>
-                <span class="text-xs font-semibold text-slate-500">
+                <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
                   Showing ${filteredPassengers.length} assigned seats across ${state.cars.length} cars
                 </span>
               </div>
               ${
                 filteredPassengers.length === 0
-                  ? `<div class="p-10 text-center text-slate-500 text-sm">No matching passengers found.</div>`
+                  ? `<div class="p-10 text-center text-slate-500 dark:text-slate-400 text-sm">No matching passengers found.</div>`
                   : `
                     <div class="overflow-x-auto">
                       <table class="w-full text-left border-collapse">
                         <thead>
-                          <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                          <tr class="bg-slate-50 dark:bg-slate-800/70 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
                             <th class="py-3 px-4">Passenger / Driver</th>
                             <th class="py-3 px-4">Vehicle &amp; Layout</th>
                             <th class="py-3 px-4">Seat Position</th>
@@ -1487,7 +1866,7 @@
                             <th class="py-3 px-4 text-right">Action</th>
                           </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-100 text-sm">
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
                           ${filteredPassengers
                             .map(
                               (item) => `
@@ -1495,24 +1874,24 @@
                                 onclick="window.appActions.openSeatModal('${escapeHtml(
                                   item.carId
                                 )}', '${escapeHtml(item.seatId)}')"
-                                class="hover:bg-slate-50/90 cursor-pointer transition-colors"
+                                class="hover:bg-slate-50/90 dark:hover:bg-slate-800/50 cursor-pointer transition-colors"
                               >
-                                <td class="py-3.5 px-4 font-bold text-slate-900 flex items-center gap-2.5">
+                                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
                                   <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                                     item.isDriver
                                       ? 'bg-slate-900 text-amber-300'
-                                      : 'bg-indigo-100 text-indigo-700'
+                                      : 'bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300'
                                   }">${escapeHtml(getInitials(item.passengerName))}</span>
                                   <span>${escapeHtml(item.passengerName)}</span>
                                 </td>
-                                <td class="py-3.5 px-4 font-medium text-slate-700">
+                                <td class="py-3.5 px-4 font-medium text-slate-700 dark:text-slate-200">
                                   <div>${escapeHtml(item.carName)}</div>
                                   <div class="text-[11px] text-slate-400">Layout: ${escapeHtml(
                                     item.carLayout
                                   )}</div>
                                 </td>
                                 <td class="py-3.5 px-4">
-                                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-slate-100 text-slate-700">
+                                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                                     [${escapeHtml(item.seatShort)}] ${escapeHtml(item.seatLabel)}
                                   </span>
                                 </td>
@@ -1521,19 +1900,19 @@
                                     item.isDriver
                                       ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-900 text-amber-300">Driver</span>`
                                       : item.status === 'interested'
-                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">Interested / Maybe</span>`
-                                      : `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Confirmed</span>`
+                                      ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">Interested / Maybe</span>`
+                                      : `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Confirmed</span>`
                                   }
                                 </td>
-                                <td class="py-3.5 px-4 text-slate-500 text-xs">
+                                <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
                                   ${
                                     item.passengerNote
                                       ? escapeHtml(item.passengerNote)
-                                      : `<span class="text-slate-300">—</span>`
+                                      : `<span class="text-slate-300 dark:text-slate-600">—</span>`
                                   }
                                 </td>
                                 <td class="py-3.5 px-4 text-right">
-                                  <span class="text-xs font-semibold text-indigo-600 hover:underline">Edit Seat</span>
+                                  <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Edit Seat</span>
                                 </td>
                               </tr>
                             `
@@ -1566,27 +1945,27 @@
         const sm = state.seatModal;
         root.innerHTML = `
           <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
-              <div class="flex items-start justify-between gap-3 pb-4 border-b border-slate-100">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+              <div class="flex items-start justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div>
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 mb-1">
+                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 mb-1">
                     ${escapeHtml(sm.carName)}
                   </span>
-                  <h3 class="text-lg font-extrabold text-slate-900">
+                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">
                     ${escapeHtml(sm.seatDef.label)} (${escapeHtml(sm.seatDef.shortLabel)})
                   </h3>
-                  <p class="text-xs text-slate-500 mt-0.5">
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     ${escapeHtml(sm.seatDef.position)} • ${escapeHtml(sm.seatDef.description)}
                   </p>
                 </div>
-                <button type="button" onclick="window.appActions.closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+                <button type="button" onclick="window.appActions.closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
                 </button>
               </div>
 
               <form onsubmit="window.appActions.saveSeatForm(event)" class="space-y-4 mt-4">
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
                     ${sm.seatDef.isDriver ? "Driver's Name" : 'Passenger Name'}
                   </label>
                   <input
@@ -1599,7 +1978,7 @@
                         ? 'Enter driver name...'
                         : 'Enter your name to claim this seat...'
                     }"
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -1607,7 +1986,7 @@
                   !sm.seatDef.isDriver
                     ? `
                       <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Carpool Status</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Carpool Status</label>
                         <div class="grid grid-cols-2 gap-2.5">
                           <button
                             type="button"
@@ -1615,7 +1994,7 @@
                             class="py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                               sm.status === 'confirmed'
                                 ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                                : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                             }"
                           >
                             <span>Confirmed Going</span>
@@ -1626,7 +2005,7 @@
                             class="py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                               sm.status === 'interested'
                                 ? 'bg-amber-500 text-white border-amber-500 shadow-sm'
-                                : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                                : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                             }"
                           >
                             <span>Interested / Maybe</span>
@@ -1638,21 +2017,21 @@
                 }
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Brief Note (Optional)</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Brief Note (Optional)</label>
                   <input
                     type="text"
                     value="${escapeHtml(sm.note)}"
                     oninput="window.appActions.updateSeatField('note', this.value)"
                     placeholder="e.g., Pickup at North Ave, bringing 1 backpack..."
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
-                <div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100">
+                <div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onclick="window.appActions.vacateSeat()"
-                    class="px-3.5 py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors"
+                    class="px-3.5 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/70 text-rose-700 dark:text-rose-300 text-xs font-bold transition-colors"
                   >
                     Clear / Leave Seat
                   </button>
@@ -1660,7 +2039,7 @@
                     <button
                       type="button"
                       onclick="window.appActions.closeModal()"
-                      class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
+                      class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-colors"
                     >
                       Cancel
                     </button>
@@ -1683,24 +2062,24 @@
 
         root.innerHTML = `
           <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-            <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 my-8 max-h-[92vh] overflow-y-auto">
-              <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 my-8 max-h-[92vh] overflow-y-auto">
+              <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div>
-                  <h3 class="text-lg font-extrabold text-slate-900">
+                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">
                     ${cm.mode === 'add' ? 'Add Carpool Vehicle' : 'Edit Vehicle &amp; Seating Layout'}
                   </h3>
-                  <p class="text-xs text-slate-500">
+                  <p class="text-xs text-slate-500 dark:text-slate-400">
                     Current Layout: ${escapeHtml(getLayoutTitle(cm.layoutRows))}
                   </p>
                 </div>
-                <button type="button" onclick="window.appActions.closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+                <button type="button" onclick="window.appActions.closeModal()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
                   <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
                 </button>
               </div>
 
               <form onsubmit="window.appActions.saveCarForm(event)" class="space-y-4 mt-4">
-                <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5">
-                  <label class="block text-xs font-extrabold uppercase tracking-wider text-amber-900">
+                <div class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 space-y-1.5">
+                  <label class="block text-xs font-extrabold uppercase tracking-wider text-amber-900 dark:text-amber-300">
                     Car Owner Verification Code *
                   </label>
                   <input
@@ -1709,33 +2088,33 @@
                     value="${escapeHtml(cm.verificationCode || '')}"
                     oninput="window.appActions.updateCarField('verificationCode', this.value)"
                     placeholder="Enter owner verification code to add/edit vehicle..."
-                    class="w-full px-3.5 py-2 rounded-xl border border-amber-300 bg-white text-sm font-mono tracking-wider text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    class="w-full px-3.5 py-2 rounded-xl border border-amber-300 dark:border-amber-700 bg-white dark:bg-slate-800 text-sm font-mono tracking-wider text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
                   />
-                  <p class="text-[11px] text-amber-700">
+                  <p class="text-[11px] text-amber-700 dark:text-amber-400">
                     Only verified car owners with the secret code can register or modify vehicles.
                   </p>
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Car Name / Title *</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Car Name / Title *</label>
                   <input
                     type="text"
                     required
                     value="${escapeHtml(cm.name)}"
                     oninput="window.appActions.updateCarField('name', this.value)"
                     placeholder="e.g., John's SUV, Morning Carpool #1..."
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
                 <!-- Layout Presets & Custom Row Builder -->
-                <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200 space-y-3">
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3.5 border border-slate-200 dark:border-slate-700 space-y-3">
                   <div class="flex items-center justify-between">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Seating Layout Configuration</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">Seating Layout Configuration</label>
                     <button
                       type="button"
                       onclick="window.appActions.toggleCustomBuilder()"
-                      class="text-xs font-bold text-indigo-600 hover:text-indigo-800"
+                      class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800"
                     >
                       ${cm.isCustomLayout ? 'Use Popular Presets' : 'Custom Row Builder ⚙️'}
                     </button>
@@ -1751,12 +2130,12 @@
                           class="p-2.5 rounded-xl border text-left transition-all ${
                             isSel
                               ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                              : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-200'
+                              : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700'
                           }"
                         >
                           <div class="text-xs font-extrabold">${escapeHtml(preset.badge)}</div>
                           <p class="text-[10px] mt-0.5 line-clamp-1 ${
-                            isSel ? 'text-indigo-100' : 'text-slate-500'
+                            isSel ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
                           }">${escapeHtml(preset.name)}</p>
                         </button>
                       `;
@@ -1766,18 +2145,18 @@
                   ${
                     cm.isCustomLayout
                       ? `
-                        <div class="pt-2 border-t border-slate-200 space-y-2.5">
+                        <div class="pt-2 border-t border-slate-200 dark:border-slate-700 space-y-2.5">
                           <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-700">Customize Rows (1–4 rows)</span>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Customize Rows (1–4 rows)</span>
                             <div class="flex items-center gap-1.5">
                               ${
                                 cm.layoutRows.length > 1
-                                  ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-[11px] font-bold">- Remove Row</button>`
+                                  ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-[11px] font-bold">- Remove Row</button>`
                                   : ''
                               }
                               ${
                                 cm.layoutRows.length < 4
-                                  ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-[11px] font-bold">+ Add Row</button>`
+                                  ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold">+ Add Row</button>`
                                   : ''
                               }
                             </div>
@@ -1786,8 +2165,8 @@
                             ${cm.layoutRows
                               .map(
                                 (cnt, rIdx) => `
-                                <div class="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-slate-200">
-                                  <span class="text-xs font-bold text-slate-700">Row ${rIdx + 1} ${
+                                <div class="flex items-center justify-between bg-white dark:bg-slate-800 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                                  <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Row ${rIdx + 1} ${
                                   rIdx === 0 ? '(Front / Driver)' : ''
                                 }</span>
                                   <div class="flex items-center gap-1">
@@ -1800,7 +2179,7 @@
                                           class="w-7 h-7 rounded-lg text-xs font-bold ${
                                             cnt === num
                                               ? 'bg-indigo-600 text-white'
-                                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                              : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200'
                                           }"
                                         >${num}</button>
                                       `
@@ -1820,25 +2199,25 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Driver Name (Optional)</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Driver Name (Optional)</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.driverName)}"
                       oninput="window.appActions.updateCarField('driverName', this.value)"
                       placeholder="e.g., John Doe"
-                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Driver Seat Side</label>
-                    <div class="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Driver Seat Side</label>
+                    <div class="grid grid-cols-2 gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
                       <button
                         type="button"
                         onclick="window.appActions.updateCarField('driveSide', 'LHD', true)"
                         class="py-2 rounded-lg text-xs font-bold ${
                           cm.driveSide === 'LHD'
-                            ? 'bg-white text-indigo-600 shadow-xs'
-                            : 'text-slate-600'
+                            ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                            : 'text-slate-600 dark:text-slate-400'
                         }"
                       >Left (LHD)</button>
                       <button
@@ -1846,8 +2225,8 @@
                         onclick="window.appActions.updateCarField('driveSide', 'RHD', true)"
                         class="py-2 rounded-lg text-xs font-bold ${
                           cm.driveSide === 'RHD'
-                            ? 'bg-white text-indigo-600 shadow-xs'
-                            : 'text-slate-600'
+                            ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                            : 'text-slate-600 dark:text-slate-400'
                         }"
                       >Right (RHD)</button>
                     </div>
@@ -1856,39 +2235,92 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Departure Time</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Departure Time</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.departureTime)}"
                       oninput="window.appActions.updateCarField('departureTime', this.value)"
                       placeholder="e.g., 8:00 AM sharp"
-                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                   <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Meeting / Pickup Spot</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Meeting / Pickup Spot</label>
                     <input
                       type="text"
                       value="${escapeHtml(cm.pickupLocation)}"
                       oninput="window.appActions.updateCarField('pickupLocation', this.value)"
                       placeholder="e.g., Central Station"
-                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Car Note &amp; Carpool Info</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">Car Note &amp; Carpool Info</label>
                   <textarea
                     rows="2"
                     oninput="window.appActions.updateCarField('note', this.value)"
                     placeholder="Add notes about luggage space, gas split, or pickup stops..."
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >${escapeHtml(cm.note)}</textarea>
                 </div>
 
+                <!-- Car Photo Upload / URL -->
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3.5 border border-slate-200 dark:border-slate-700 space-y-2.5">
+                  <div class="flex items-center justify-between">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                      Car Picture (Optional)
+                    </label>
+                    ${
+                      cm.imageUrl
+                        ? `<button type="button" onclick="window.appActions.clearCarPhoto()" class="text-xs font-bold text-rose-600 hover:text-rose-700">Remove Photo</button>`
+                        : ''
+                    }
+                  </div>
+
+                  ${
+                    cm.imageUrl
+                      ? `
+                        <div class="relative w-full h-36 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900">
+                          <img
+                            src="${escapeHtml(cm.imageUrl)}"
+                            alt="Car Preview"
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x300/e2e8f0/475569?text=Invalid+Image';"
+                            class="w-full h-full object-cover"
+                          />
+                        </div>
+                      `
+                      : ''
+                  }
+
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-slate-600 text-xs font-bold cursor-pointer transition-colors shadow-2xs">
+                      <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                      <span>Upload from Phone / PC</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onchange="window.appActions.handleCarPhotoUpload(event)"
+                        class="hidden"
+                      />
+                    </label>
+
+                    <input
+                      type="url"
+                      value="${escapeHtml(cm.imageUrl && !cm.imageUrl.startsWith('data:') ? cm.imageUrl : '')}"
+                      oninput="window.appActions.updateCarField('imageUrl', this.value, true)"
+                      placeholder="Or paste image link (https://...)"
+                      class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  <p class="text-[11px] text-slate-400">
+                    Help passengers spot your car easily (model, color, or license plate).
+                  </p>
+                </div>
+
                 <div>
-                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Vehicle Accent Color</label>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Vehicle Accent Color</label>
                   <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
                     ${Object.entries(CAR_THEMES)
                       .map(
@@ -1898,8 +2330,8 @@
                           onclick="window.appActions.updateCarField('colorTheme', '${key}', true)"
                           class="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl border text-xs font-semibold capitalize ${
                             cm.colorTheme === key
-                              ? 'border-slate-900 bg-slate-900 text-white'
-                              : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
+                              ? 'border-indigo-500 bg-slate-900 dark:bg-indigo-600 text-white'
+                              : 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                           }"
                         >
                           <span class="w-3 h-3 rounded-full ${t.dot}"></span>
@@ -1911,11 +2343,11 @@
                   </div>
                 </div>
 
-                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onclick="window.appActions.closeModal()"
-                    class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold"
+                    class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold"
                   >Cancel</button>
                   <button
                     type="submit"
@@ -1932,16 +2364,16 @@
         const cf = state.confirmModal;
         root.innerHTML = `
           <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-            <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-              <h3 class="text-base font-extrabold text-slate-900">${escapeHtml(cf.title)}</h3>
-              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${escapeHtml(
+            <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+              <h3 class="text-base font-extrabold text-slate-900 dark:text-white">${escapeHtml(cf.title)}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${escapeHtml(
                 cf.message
               )}</p>
               <div class="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onclick="window.appActions.closeModal()"
-                  class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold"
+                  class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold"
                 >Cancel</button>
                 <button
                   type="button"
@@ -1956,6 +2388,38 @@
             </div>
           </div>
         `;
+      } else if (state.activeModal === 'photo') {
+        root.innerHTML = `
+          <div
+            onclick="window.appActions.closeModal()"
+            class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-xs flex items-center justify-center p-4"
+          >
+            <div
+              onclick="event.stopPropagation()"
+              class="relative max-w-3xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700"
+            >
+              <div class="flex items-center justify-between px-5 py-3.5 bg-slate-900/90 border-b border-slate-800 text-white">
+                <h3 class="text-sm sm:text-base font-extrabold truncate">${escapeHtml(
+                  state.photoModalTitle || 'Vehicle Photo'
+                )}</h3>
+                <button
+                  type="button"
+                  onclick="window.appActions.closeModal()"
+                  class="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800"
+                >
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+              </div>
+              <div class="bg-black flex items-center justify-center max-h-[75vh] overflow-hidden">
+                <img
+                  src="${escapeHtml(state.photoModalUrl)}"
+                  alt="${escapeHtml(state.photoModalTitle)}"
+                  class="max-w-full max-h-[75vh] w-auto h-auto object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        `;
       }
     };
 
@@ -1963,6 +2427,25 @@
     // GLOBAL UI ACTIONS (Attached to window.appActions)
     // ==========================================
     window.appActions = {
+      toggleBgm: () => {
+        soundEngine.toggleBgm();
+      },
+
+      toggleSfx: () => {
+        state.sfxEnabled = !state.sfxEnabled;
+        localStorage.setItem('electrizen_sfx_enabled', state.sfxEnabled ? 'true' : 'false');
+        if (state.sfxEnabled) {
+          soundEngine.playSfx('seat');
+        }
+        updateAudioUI();
+      },
+
+      toggleDarkMode: () => {
+        state.darkMode = !state.darkMode;
+        localStorage.setItem('electrizen_theme', state.darkMode ? 'dark' : 'light');
+        applyDarkModeUI();
+      },
+
       setQuickName: (val) => {
         state.myQuickName = val;
         const input = document.getElementById('quickNameInput');
@@ -2008,8 +2491,9 @@
           departureTime: '',
           pickupLocation: '',
           note: '',
+          imageUrl: '',
           colorTheme: 'indigo',
-          driveSide: 'LHD',
+          driveSide: 'RHD',
           layoutRows: [2, 3, 2],
           isCustomLayout: false,
           verificationCode: ''
@@ -2034,8 +2518,9 @@
           departureTime: car.departureTime || '',
           pickupLocation: car.pickupLocation || '',
           note: car.note || '',
+          imageUrl: car.imageUrl || '',
           colorTheme: car.colorTheme || 'indigo',
-          driveSide: car.driveSide || 'LHD',
+          driveSide: car.driveSide || 'RHD',
           layoutRows: currentRows,
           isCustomLayout: openCustom || !matchesPreset,
           verificationCode: ''
@@ -2048,6 +2533,63 @@
       updateCarField: (field, value, rerender = false) => {
         state.carModal[field] = value;
         if (rerender) renderModals();
+      },
+
+      handleCarPhotoUpload: (event) => {
+        const file = event.target?.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          showToast('Please select a valid image file.', 'error');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (loadEvent) => {
+          const img = new Image();
+          img.onload = () => {
+            // Compress & resize image automatically so it stores smoothly in Firestore
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 520;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+              const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.72);
+            state.carModal.imageUrl = compressedDataUrl;
+            renderModals();
+            showToast('Car photo attached!');
+          };
+          img.onerror = () => {
+            showToast('Could not process that image file.', 'error');
+          };
+          img.src = loadEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      },
+
+      clearCarPhoto: () => {
+        state.carModal.imageUrl = '';
+        renderModals();
+      },
+
+      openPhotoModal: (carId) => {
+        const car = state.cars.find((c) => c.id === carId);
+        if (!car || !car.imageUrl) return;
+        state.photoModalUrl = car.imageUrl;
+        state.photoModalTitle = car.name;
+        state.activeModal = 'photo';
+        renderModals();
       },
 
       toggleCustomBuilder: () => {
@@ -2103,6 +2645,7 @@
           Math.min(4, Math.max(1, Number(n) || 1))
         );
         const layoutType = formatLayoutPattern(sanitizedRows);
+        const currentWeekKey = getCurrentWeekInfo().weekKey;
 
         try {
           if (cm.mode === 'add') {
@@ -2119,10 +2662,12 @@
               departureTime: cm.departureTime.trim(),
               pickupLocation: cm.pickupLocation.trim(),
               note: cm.note.trim(),
+              imageUrl: (cm.imageUrl || '').trim(),
               colorTheme: cm.colorTheme || 'indigo',
-              driveSide: cm.driveSide || 'LHD',
+              driveSide: cm.driveSide || 'RHD',
               layoutRows: sanitizedRows,
               layoutType,
+              weekKey: currentWeekKey,
               createdAt: Date.now(),
               createdBy: state.user.uid,
               seats: createEmptySeats(cm.driverName, sanitizedRows)
@@ -2149,8 +2694,9 @@
               departureTime: cm.departureTime.trim(),
               pickupLocation: cm.pickupLocation.trim(),
               note: cm.note.trim(),
+              imageUrl: (cm.imageUrl || '').trim(),
               colorTheme: cm.colorTheme || 'indigo',
-              driveSide: cm.driveSide || 'LHD',
+              driveSide: cm.driveSide || 'RHD',
               layoutRows: sanitizedRows,
               layoutType,
               seats: updatedSeats
@@ -2207,6 +2753,7 @@
       openSeatModal: (carId, seatId) => {
         const car = state.cars.find((c) => c.id === carId);
         if (!car) return;
+        soundEngine.playSfx('seat');
         const seatDefs = getSeatsForLayout(getCarLayoutRows(car));
         const seatDef = seatDefs.find((s) => s.id === seatId) || {
           id: seatId,
@@ -2310,6 +2857,7 @@
           });
           state.activeModal = null;
           renderModals();
+          soundEngine.playSfx('clear');
           showToast(`Vacated ${sm.seatDef.label}.`);
         } catch (err) {
           console.error('Error vacating seat:', err);
@@ -2432,6 +2980,7 @@
             'carpool_cars'
           );
           const now = Date.now();
+          const currentWeekKey = getCurrentWeekInfo().weekKey;
 
           await addDoc(carsCol, {
             name: "Sarah's Toyota Highlander (2-3-2)",
@@ -2439,9 +2988,10 @@
             pickupLocation: 'Central Station North Exit',
             note: 'Leaving sharp at 7:45 AM! 7-seat 2-3-2 layout, room for 4 backpacks.',
             colorTheme: 'indigo',
-            driveSide: 'LHD',
+            driveSide: 'RHD',
             layoutRows: [2, 3, 2],
             layoutType: '2-3-2',
+            weekKey: currentWeekKey,
             createdAt: now,
             createdBy: state.user.uid,
             seats: {
@@ -2461,9 +3011,10 @@
             pickupLocation: 'Westside Mall Lot B',
             note: '2nd row has two Captain Chairs with center aisle access to the 3-seat back bench!',
             colorTheme: 'emerald',
-            driveSide: 'LHD',
+            driveSide: 'RHD',
             layoutRows: [2, 2, 3],
             layoutType: '2-2-3',
+            weekKey: currentWeekKey,
             createdAt: now + 100,
             createdBy: state.user.uid,
             seats: {
@@ -2483,9 +3034,10 @@
             pickupLocation: 'Downtown Coffee Roasters',
             note: 'Standard 5-seat (2-3) SUV. Fast highway route.',
             colorTheme: 'amber',
-            driveSide: 'LHD',
+            driveSide: 'RHD',
             layoutRows: [2, 3],
             layoutType: '2-3',
+            weekKey: currentWeekKey,
             createdAt: now + 200,
             createdBy: state.user.uid,
             seats: {
@@ -2535,7 +3087,7 @@
             const s = seats[seatDef.id];
             const occupant = s?.name?.trim() ? s.name.trim() : '--- [OPEN SEAT] ---';
             const statusTag =
-              s?.name?.trim() && s?.status === 'interested' ? ' (Interested/Tentative)' : '';
+              s?.name?.trim() && s?.status === 'interested' ? ' (Interested / Maybe)' : '';
             const noteTag = s?.name?.trim() && s?.note ? ` - "${s.note}"` : '';
             lines.push(
               `   • [${seatDef.shortLabel}] ${seatDef.label}: ${occupant}${statusTag}${noteTag}`
@@ -2561,8 +3113,36 @@
     // ==========================================
     // INITIALIZE FIREBASE & REAL-TIME LISTENER
     // ==========================================
+    // Global tactile button click listener for interactive sound effects
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('button, label, tr[onclick]');
+      if (!btn) return;
+      // Skip generic click sound if it's the BGM/SFX toggle or a seat button (which plays its own tone)
+      if (btn.classList.contains('bgm-toggle-btn') || btn.classList.contains('sfx-toggle-btn')) return;
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      if (onclickAttr.includes('openSeatModal')) return;
+      soundEngine.playSfx('click');
+    });
+
+    const runSplashScreenTransition = () => {
+      const splash = document.getElementById('splashScreen');
+      if (!splash) return;
+
+      // Show splash screen for ~1.5 seconds, then smoothly fade & scale out
+      setTimeout(() => {
+        splash.classList.add('opacity-0', 'scale-105', 'pointer-events-none');
+        setTimeout(() => {
+          if (splash && splash.parentNode) {
+            splash.parentNode.removeChild(splash);
+          }
+        }, 720);
+      }, 1500);
+    };
+
     const initApplication = async () => {
+      applyDarkModeUI();
       renderApp();
+      runSplashScreenTransition();
 
       if (!firebaseConfig || !firebaseConfig.apiKey) {
         state.loading = false;
@@ -2617,6 +3197,40 @@
                 ...docSnap.data()
               }));
               loaded.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+
+              // Automatic Weekly Seat Reset (Every Monday at 00:00)
+              const { weekKey: currentWeekKey, weekStartMs } = getCurrentWeekInfo();
+              loaded.forEach((car) => {
+                const isFromPreviousWeek =
+                  (car.weekKey && car.weekKey !== currentWeekKey) ||
+                  (!car.weekKey && car.createdAt && car.createdAt < weekStartMs);
+
+                const carRef = doc(
+                  db,
+                  'artifacts',
+                  appId,
+                  'public',
+                  'data',
+                  'carpool_cars',
+                  car.id
+                );
+
+                if (isFromPreviousWeek) {
+                  const driverKeep = car.seats?.driver?.name || '';
+                  const resetSeats = createEmptySeats(driverKeep, getCarLayoutRows(car));
+                  car.seats = resetSeats;
+                  car.weekKey = currentWeekKey;
+                  updateDoc(carRef, {
+                    seats: resetSeats,
+                    weekKey: currentWeekKey,
+                    lastWeeklyResetAt: Date.now()
+                  }).catch((e) => console.error('Weekly seat reset error:', e));
+                } else if (!car.weekKey) {
+                  car.weekKey = currentWeekKey;
+                  updateDoc(carRef, { weekKey: currentWeekKey }).catch(() => {});
+                }
+              });
+
               state.cars = loaded;
               state.loading = false;
               state.isCloudConnected = true;
