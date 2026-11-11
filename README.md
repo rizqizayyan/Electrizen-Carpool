@@ -6,4 +6,4 @@ Mahasiswa yang naik motor/mobil ke unsri bukit-indralaya dan punya kursi kosong 
 
 Pemilik kendaraan dapat menambah uang bensin/profit, dan mahasiswa lain dapat opsi alternatif trnasportasi yang affordable, lebih nyaman, dan lebih accessible
 
-Win-Win scenario, Simbiosis Mutualisme.
+Win-Win Scenario, Simbiosis Mutualisme.
