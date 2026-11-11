@@ -182,14 +182,14 @@
             </div>
           </div>
 
-          <!-- Mobile Primary CTA: Add Car Button -->
+          <!-- Mobile Primary CTA: Add Vehicle Button -->
           <button
             type="button"
             onclick="window.appActions.openAddCarModal()"
-            class="lg:hidden inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-sm shadow-indigo-500/20 shrink-0 whitespace-nowrap transition-all"
+            class="lg:hidden inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-sm shadow-indigo-500/20 shrink-0 whitespace-nowrap transition-all"
           >
             <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            <span id="mobileAddCarBtnLabel">+ Mobil</span>
+            <span id="mobileAddCarBtnLabel">Vehicle</span>
           </button>
         </div>
 
@@ -278,7 +278,7 @@
             class="hidden lg:inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs xl:text-sm font-bold shadow-sm transition-all shrink-0 whitespace-nowrap"
           >
             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-            <span id="desktopAddCarBtnLabel">+ Add Vehicle</span>
+            <span id="desktopAddCarBtnLabel">Add Vehicle</span>
           </button>
         </div>
 
@@ -445,8 +445,8 @@
       en: {
         splashSubtitle: 'Syncing real-time seats...',
         weekBadge: (range) => `Week: ${range} (Resets Mon)`,
-        addCarMobile: '+ Car',
-        addVehicleDesktop: '+ Add Vehicle',
+        addCarMobile: 'Vehicle',
+        addVehicleDesktop: 'Add Vehicle',
         quickNamePrefix: 'Name:',
         quickNamePlaceholder: 'Type name for quick claim...',
         clearNameTitle: 'Clear name',
@@ -461,36 +461,38 @@
         light: 'Light',
         dark: 'Dark',
         statVehicles: 'Vehicles',
-        statActiveCarpools: 'Active carpools',
+        statActiveCarpools: 'Cars & motorcycles',
         statOpenSeats: 'Open Seats',
         statOfTotalSeats: (cap) => `of ${cap} total seats`,
         statAssigned: 'Assigned',
         statDriversRiders: 'Drivers & riders',
         statInterested: 'Interested / Maybe',
         statNotSure: 'Not 100% sure yet',
-        tabVehicles: (n) => `Car Layout (${n})`,
-        tabVehiclesMobile: (n) => `Cars (${n})`,
+        tabVehicles: (n) => `Vehicles (${n})`,
+        tabVehiclesMobile: (n) => `Vehicles (${n})`,
         tabPassengers: (n) => `Passenger List (${n})`,
         tabPassengersMobile: (n) => `Riders (${n})`,
-        searchPlaceholder: 'Search car, layout, person...',
-        legendDriver: 'Driver',
+        searchPlaceholder: 'Search vehicle, layout, person...',
+        legendDriver: 'Driver / Rider',
         legendOpen: 'Open Seat',
         legendConfirmed: 'Confirmed Rider',
         legendMaybe: 'Interested / Maybe',
         loadingTitle: 'Syncing live carpool lineup...',
         loadingSubtitle: 'Connecting to real-time seat assignment board',
         emptyTitle: 'No Carpool Vehicles Added Yet',
-        emptyAddBtn: '+ Add First Vehicle',
-        viewCarPhoto: 'Car Photo',
+        emptyAddBtn: 'Add First Vehicle',
+        viewCarPhoto: 'Vehicle Photo',
         payViewQr: 'Pay / QR',
         payViewQrCode: 'Pay / QR',
         payViewQrTitle: 'View Payment QR Code',
         fullBadge: (cap) => `FULL (${cap}/${cap})`,
         openBadge: (avail, cap) => `${avail}/${cap} Open`,
         seatsBadge: (cap, pat) => `${cap} Seats (${pat})`,
+        vehicleTypeCarBadge: 'Car',
+        vehicleTypeMotoBadge: 'Motorcycle',
         clickToExpandTitle: (expanded) =>
           expanded ? 'Click to hide seat layout' : 'Click to expand seat layout',
-        editCarTitle: 'Edit car details & layout',
+        editCarTitle: 'Edit vehicle details & layout',
         resetSeatsTitle: 'Reset passenger seats',
         deleteCarTitle: 'Delete vehicle',
         hideSeatLayout: (avail, cap) => `Hide Seats (${avail}/${cap} Open)`,
@@ -498,17 +500,23 @@
         collapse: 'Close',
         expand: 'Open',
         frontHeader: (pat) => `Front • ${pat}`,
+        motoFrontHeader: 'Front • 1-1 Tandem',
         windshield: 'WINDSHIELD',
+        handlebars: 'HANDLEBARS',
         driverSide: 'Driver Side',
         passengerSide: 'Passenger',
         rhdLabel: 'Right-Hand Drive',
         lhdLabel: 'Left-Hand Drive',
+        tandemLabel: 'Tandem 2-Seat',
         rowFrontTitle: (n) => `Row 1 • Front (${n})`,
+        rowMotoFrontTitle: 'Front • Rider Seat (1A)',
+        rowMotoBackTitle: 'Rear • Pillion Seat (2A)',
         rowCaptainTitle: 'Row 2 • Captain (2 + Aisle)',
         rowRearTitle: (r, n) => `Row ${r} • Rear (${n})`,
         rowMiddleTitle: (r, n) => `Row ${r} • Middle (${n})`,
         aisle: 'AISLE',
         rearCargo: 'Rear Trunk / Cargo',
+        motoRearTail: 'Tail Light / Rear',
         seatedCount: (occ, cap, pat) => `${occ}/${cap} Seated (${pat})`,
         overflowRiders: (n) => `Overflow Riders (${n})`,
         savedFromPrev: 'Saved from previous layout',
@@ -525,7 +533,7 @@
         manifestTitle: 'Complete Carpool Passenger Manifest',
         manifestSubtitle: "Click any row to edit that passenger's seat or note",
         manifestCount: (pCount, cCount) =>
-          `Showing ${pCount} assigned seats across ${cCount} cars`,
+          `Showing ${pCount} assigned seats across ${cCount} vehicles`,
         manifestEmpty: 'No matching passengers found.',
         thPassenger: 'Passenger / Driver',
         thVehicle: 'Vehicle & Layout',
@@ -538,15 +546,15 @@
         statusInterested: 'Interested / Maybe',
         statusConfirmed: 'Confirmed',
         editSeatAction: 'Edit',
-        seatModalDriverName: "Driver's Name",
+        seatModalDriverName: "Driver / Rider's Name",
         seatModalPassengerName: 'Passenger Name',
-        seatModalDriverPlaceholder: 'Enter driver name...',
+        seatModalDriverPlaceholder: 'Enter driver/rider name...',
         seatModalPassengerPlaceholder: 'Enter your name to claim this seat...',
         carpoolStatusLabel: 'Carpool Status',
         confirmedGoingBtn: 'Confirmed Going',
         interestedMaybeBtn: 'Interested / Maybe',
         briefNoteLabel: 'Brief Note (Optional)',
-        briefNotePlaceholder: 'e.g., Pickup at North Ave, bringing 1 backpack...',
+        briefNotePlaceholder: 'e.g., Pickup at North Ave, bringing extra helmet...',
         qrAvailableTitle: 'Payment QR Available',
         qrAvailableSub: "Scan driver's QR code to split gas/toll",
         clearLeaveSeatBtn: 'Leave Seat',
@@ -555,12 +563,17 @@
         addVehicleModalTitle: 'Add Carpool Vehicle',
         editVehicleModalTitle: 'Edit Vehicle & Layout',
         currentLayoutLabel: (title) => `Layout: ${title}`,
-        ownerCodeLabel: 'Car Owner Verification Code *',
+        ownerCodeLabel: 'Vehicle Owner Verification Code *',
         ownerCodePlaceholder: 'Enter owner verification code...',
         ownerCodeHelp:
-          'Only verified car owners with the secret code can register or modify vehicles.',
-        carNameLabel: 'Car Name / Title *',
-        carNamePlaceholder: "e.g., John's SUV, Morning Carpool #1...",
+          'Only verified vehicle owners with the secret code can register or modify vehicles.',
+        vehicleTypeLabel: 'Vehicle Type *',
+        vehicleTypeCar: 'Car (4–16 Seats)',
+        vehicleTypeMotorcycle: 'Motorcycle (2 Seats • 1-1)',
+        motoLayoutInfoTitle: 'Motorcycle Tandem Layout (1-1 • 2 Seats)',
+        motoLayoutInfoDesc: 'Front seat for the Rider/Driver (DRV) + 1 rear Pillion seat (2A) for your passenger.',
+        carNameLabel: 'Vehicle Name / Title *',
+        carNamePlaceholder: "e.g., John's SUV, Budi's Vario 160...",
         seatingConfigLabel: 'Seating Layout',
         usePopularPresets: 'Popular Presets',
         customRowBuilder: 'Custom Rows ⚙️',
@@ -568,7 +581,7 @@
         removeRowBtn: '- Row',
         addRowBtn: '+ Row',
         rowLabel: (r, isFront) => `Row ${r} ${isFront ? '(Front)' : ''}`,
-        driverNameOptLabel: 'Driver Name (Optional)',
+        driverNameOptLabel: 'Driver / Rider Name (Optional)',
         driverNameOptPlaceholder: 'e.g., John Doe',
         driverSeatSideLabel: 'Driver Seat Side',
         leftLhd: 'Left (LHD)',
@@ -577,19 +590,20 @@
         departureTimePlaceholder: 'e.g., 8:00 AM sharp',
         pickupSpotLabel: 'Meeting / Pickup Spot',
         pickupSpotPlaceholder: 'e.g., Central Station',
-        carNoteLabel: 'Car Note & Carpool Info',
-        carNotePlaceholder: 'Add notes about luggage space, gas split, or pickup stops...',
-        photo1Label: '1. Car Photo (Optional)',
+        carNoteLabel: 'Vehicle Note & Carpool Info',
+        carNotePlaceholder: 'Add notes about helmet, luggage space, gas split, or pickup stops...',
+        photo1Label: '1. Vehicle Photo (Optional)',
         removePhotoBtn: 'Remove',
-        uploadCarPhotoBtn: 'Upload Car Photo',
-        pasteCarUrlPlaceholder: 'Or paste car image URL...',
-        photo1Help: 'Helps riders recognize your vehicle or license plate at pickup.',
+        uploadCarPhotoBtn: 'Upload Vehicle Photo',
+        pasteCarUrlPlaceholder: 'Or paste vehicle image URL...',
+        photo1Help: 'Helps riders recognize your car/motorcycle or license plate at pickup.',
         photo2Label: '2. Payment QR (Optional)',
         uploadQrBtn: 'Upload Payment QR',
         pasteQrUrlPlaceholder: 'Or paste QR image URL...',
         photo2Help: 'Attach your QRIS / bank / e-wallet QR so passengers can easily pay you.',
         accentColorLabel: 'Vehicle Accent Color',
-        createCarBtn: (n) => `Create ${n}-Seat Car`,
+        createCarBtn: (n, isMoto) =>
+          isMoto ? `Add Motorcycle (${n} Seats)` : `Add Car (${n} Seats)`,
         saveChangesBtn: 'Save Changes',
         paymentQrBadge: 'Payment QR',
         vehiclePhotoDefault: 'Vehicle Photo',
@@ -598,12 +612,12 @@
         toastAudioLoading: 'Audio library still loading, please try again.',
         toastInvalidImage: 'Please select a valid image file.',
         toastQrAttached: 'Payment QR code attached!',
-        toastCarPhotoAttached: 'Car photo attached!',
+        toastCarPhotoAttached: 'Vehicle photo attached!',
         toastImageProcessErr: 'Could not process that image file.',
-        toastConnectFirebase: 'Please connect Firebase first to save cars.',
+        toastConnectFirebase: 'Please connect Firebase first to save vehicles.',
         toastInvalidOwnerCode:
-          'Invalid Car Owner Verification Code! Only verified owners can add/edit cars.',
-        toastEnterCarName: 'Please enter a car name.',
+          'Invalid Owner Verification Code! Only verified owners can add/edit vehicles.',
+        toastEnterCarName: 'Please enter a vehicle name.',
         toastAddedCar: (name, pat) => `Added "${name}" (${pat} layout)!`,
         toastUpdatedCar: (name, pat) => `Updated "${name}" (${pat})!`,
         toastSaveCarFailed: 'Failed to save vehicle.',
@@ -615,18 +629,18 @@
         toastUpdateSeatFailed: 'Failed to update seat.',
         toastVacatedSeat: (label) => `Vacated ${label}.`,
         toastVacateSeatFailed: 'Failed to vacate seat.',
-        toastNoOpenSeats: 'No open seats available in this car!',
+        toastNoOpenSeats: 'No open seats available in this vehicle!',
         toastMovedOverflow: (name, label) => `Moved ${name} into ${label}!`,
         toastMoveOverflowFailed: 'Failed to move passenger.',
         confirmResetTitle: (name) => `Reset passenger seats in "${name}"?`,
         confirmResetMsg:
-          'This will clear all passenger seats in this car while keeping the car details, layout, and driver intact.',
+          'This will clear all passenger seats in this vehicle while keeping the vehicle details, layout, and driver intact.',
         confirmResetBtn: 'Reset Seats',
         toastClearedAllSeats: (name) => `Cleared passenger seats in "${name}".`,
         confirmDeleteTitle: (name) => `Delete "${name}"?`,
         confirmDeleteMsg:
           'This will permanently remove this vehicle and all passenger seat assignments inside it for everyone.',
-        confirmDeleteBtn: 'Delete Car',
+        confirmDeleteBtn: 'Delete Vehicle',
         toastDeletedCar: (name) => `Deleted "${name}".`,
         overflowRiderLabel: 'Overflow Rider',
         overflowSeatPos: 'Overflow Seat',
@@ -636,8 +650,8 @@
       id: {
         splashSubtitle: 'Menyinkronkan kursi secara real-time...',
         weekBadge: (range) => `${range} (Reset Sen)`,
-        addCarMobile: '+ Mobil',
-        addVehicleDesktop: '+ Tambah Mobil',
+        addCarMobile: 'Kendaraan',
+        addVehicleDesktop: 'Tambah Kendaraan',
         quickNamePrefix: 'Nama:',
         quickNamePlaceholder: 'Ketik nama untuk klaim cepat...',
         clearNameTitle: 'Hapus nama',
@@ -651,55 +665,63 @@
         sfxMuted: 'SFX Off',
         light: 'Terang',
         dark: 'Gelap',
-        statVehicles: 'Mobil',
-        statActiveCarpools: 'Carpool aktif',
+        statVehicles: 'Kendaraan',
+        statActiveCarpools: 'Mobil & motor aktif',
         statOpenSeats: 'Kursi Kosong',
         statOfTotalSeats: (cap) => `dari ${cap} kursi`,
         statAssigned: 'Terisi',
-        statDriversRiders: 'Sopir & penumpang',
+        statDriversRiders: 'Pengemudi & penumpang',
         statInterested: 'Minat / Mungkin',
         statNotSure: 'Belum 100% pasti',
-        tabVehicles: (n) => `Layout Mobil (${n})`,
-        tabVehiclesMobile: (n) => `Mobil (${n})`,
+        tabVehicles: (n) => `Kendaraan (${n})`,
+        tabVehiclesMobile: (n) => `Kendaraan (${n})`,
         tabPassengers: (n) => `Daftar Penumpang (${n})`,
         tabPassengersMobile: (n) => `Penumpang (${n})`,
-        searchPlaceholder: 'Cari mobil, denah, nama...',
-        legendDriver: 'Sopir',
+        searchPlaceholder: 'Cari kendaraan, denah, nama...',
+        legendDriver: 'Pengemudi',
         legendOpen: 'Kosong',
         legendConfirmed: 'Pasti Ikut',
         legendMaybe: 'Minat / Mungkin',
         loadingTitle: 'Menyinkronkan daftar carpool...',
         loadingSubtitle: 'Menghubungkan ke papan kursi real-time',
-        emptyTitle: 'Belum Ada Mobil Carpool',
-        emptyAddBtn: '+ Tambah Mobil Pertama',
-        viewCarPhoto: 'Foto Mobil',
+        emptyTitle: 'Belum Ada Kendaraan Carpool',
+        emptyAddBtn: 'Tambah Kendaraan Pertama',
+        viewCarPhoto: 'Foto Kendaraan',
         payViewQr: 'Bayar / QR',
         payViewQrCode: 'Bayar / QR',
         payViewQrTitle: 'Lihat Kode QR Pembayaran',
         fullBadge: (cap) => `PENUH (${cap}/${cap})`,
         openBadge: (avail, cap) => `Sisa ${avail}/${cap}`,
         seatsBadge: (cap, pat) => `${cap} Kursi (${pat})`,
+        vehicleTypeCarBadge: 'Mobil',
+        vehicleTypeMotoBadge: 'Motor',
         clickToExpandTitle: (expanded) =>
           expanded ? 'Klik untuk tutup denah kursi' : 'Klik untuk lihat denah kursi',
-        editCarTitle: 'Ubah detail & denah mobil',
+        editCarTitle: 'Ubah detail & denah kendaraan',
         resetSeatsTitle: 'Reset kursi penumpang',
-        deleteCarTitle: 'Hapus mobil',
+        deleteCarTitle: 'Hapus kendaraan',
         hideSeatLayout: (avail, cap) => `Tutup Kursi (Sisa ${avail}/${cap})`,
         showSeatLayout: (avail, cap) => `Lihat Kursi (Sisa ${avail}/${cap})`,
         collapse: 'Tutup',
         expand: 'Buka',
         frontHeader: (pat) => `Depan • ${pat}`,
+        motoFrontHeader: 'Depan • Motor 1-1',
         windshield: 'KACA DEPAN',
+        handlebars: 'STANG MOTOR',
         driverSide: 'Sisi Sopir',
         passengerSide: 'Penumpang',
         rhdLabel: 'Setir Kanan',
         lhdLabel: 'Setir Kiri',
+        tandemLabel: 'Boncengan (1-1)',
         rowFrontTitle: (n) => `Baris 1 • Depan (${n})`,
+        rowMotoFrontTitle: 'Depan • Pengendara (DRV)',
+        rowMotoBackTitle: 'Belakang • Boncengan (2A)',
         rowCaptainTitle: 'Baris 2 • Captain (2 + Lorong)',
         rowRearTitle: (r, n) => `Baris ${r} • Belakang (${n})`,
         rowMiddleTitle: (r, n) => `Baris ${r} • Tengah (${n})`,
         aisle: 'LORONG',
         rearCargo: 'Bagasi Belakang',
+        motoRearTail: 'Lampu Belakang',
         seatedCount: (occ, cap, pat) => `${occ}/${cap} Terisi (${pat})`,
         overflowRiders: (n) => `Cadangan (${n})`,
         savedFromPrev: 'Dari denah lama',
@@ -710,48 +732,53 @@
         seatMaybeBadge: 'Mungkin',
         seatConfirmedTitle: 'Pasti Ikut',
         seatOpenBadge: 'Kosong',
-        seatDriverBtn: 'Sopir',
+        seatDriverBtn: 'Pengemudi',
         seatClaimBtn: 'Klaim',
         youBadge: 'ANDA',
         manifestTitle: 'Daftar Penumpang Carpool',
         manifestSubtitle: 'Ketuk baris mana saja untuk mengubah kursi atau catatan penumpang',
         manifestCount: (pCount, cCount) =>
-          `${pCount} kursi terisi di ${cCount} mobil`,
+          `${pCount} kursi terisi di ${cCount} kendaraan`,
         manifestEmpty: 'Tidak ada penumpang yang cocok.',
         thPassenger: 'Nama',
-        thVehicle: 'Mobil & Denah',
+        thVehicle: 'Kendaraan & Denah',
         thSeatPos: 'Kursi',
         thStatus: 'Status',
         thNote: 'Catatan',
         thAction: 'Aksi',
         layoutPrefix: 'Denah:',
-        statusDriver: 'Sopir',
+        statusDriver: 'Pengemudi',
         statusInterested: 'Mungkin',
         statusConfirmed: 'Ikut',
         editSeatAction: 'Ubah',
-        seatModalDriverName: 'Nama Sopir',
+        seatModalDriverName: 'Nama Pengemudi',
         seatModalPassengerName: 'Nama Penumpang',
-        seatModalDriverPlaceholder: 'Ketik nama sopir...',
+        seatModalDriverPlaceholder: 'Ketik nama pengemudi...',
         seatModalPassengerPlaceholder: 'Ketik nama Anda untuk klaim kursi...',
         carpoolStatusLabel: 'Status Ikut',
         confirmedGoingBtn: 'Pasti Ikut',
         interestedMaybeBtn: 'Minat / Mungkin',
         briefNoteLabel: 'Catatan Singkat (Opsional)',
-        briefNotePlaceholder: 'mis. Jemput di Gerbang Utara, bawa 1 tas...',
+        briefNotePlaceholder: 'mis. Jemput di Gerbang Utara, bawa helm sendiri...',
         qrAvailableTitle: 'QR Pembayaran Tersedia',
-        qrAvailableSub: 'Scan QR sopir untuk patungan bensin/tol',
+        qrAvailableSub: 'Scan QR pengemudi untuk patungan bensin/tol',
         clearLeaveSeatBtn: 'Kosongkan',
         cancelBtn: 'Batal',
         saveSeatBtn: 'Simpan',
-        addVehicleModalTitle: 'Tambah Mobil Carpool',
-        editVehicleModalTitle: 'Ubah Mobil & Denah',
+        addVehicleModalTitle: 'Tambah Kendaraan Carpool',
+        editVehicleModalTitle: 'Ubah Kendaraan & Denah',
         currentLayoutLabel: (title) => `Denah: ${title}`,
-        ownerCodeLabel: 'Kode Verifikasi Pemilik Mobil *',
-        ownerCodePlaceholder: 'Masukkan kode pemilik mobil...',
+        ownerCodeLabel: 'Kode Verifikasi Pemilik Kendaraan *',
+        ownerCodePlaceholder: 'Masukkan kode pemilik kendaraan...',
         ownerCodeHelp:
-          'Hanya pemilik mobil dengan kode rahasia yang bisa menambah atau mengubah mobil.',
-        carNameLabel: 'Nama / Judul Mobil *',
-        carNamePlaceholder: 'mis. Avanza Budi, Carpool Pagi #1...',
+          'Hanya pemilik kendaraan dengan kode rahasia yang bisa menambah atau mengubah kendaraan.',
+        vehicleTypeLabel: 'Jenis Kendaraan *',
+        vehicleTypeCar: 'Mobil (4–16 Kursi)',
+        vehicleTypeMotorcycle: 'Motor (2 Kursi • 1-1)',
+        motoLayoutInfoTitle: 'Denah Motor Boncengan (1-1 • 2 Kursi)',
+        motoLayoutInfoDesc: 'Kursi depan untuk Pengendara (DRV) + 1 kursi belakang (2A) untuk penumpang boncengan.',
+        carNameLabel: 'Nama / Judul Kendaraan *',
+        carNamePlaceholder: 'mis. Avanza Budi, Vario Raka...',
         seatingConfigLabel: 'Denah Kursi',
         usePopularPresets: 'Preset Populer',
         customRowBuilder: 'Kustom Baris ⚙️',
@@ -759,7 +786,7 @@
         removeRowBtn: '- Baris',
         addRowBtn: '+ Baris',
         rowLabel: (r, isFront) => `Baris ${r} ${isFront ? '(Depan)' : ''}`,
-        driverNameOptLabel: 'Nama Sopir (Opsional)',
+        driverNameOptLabel: 'Nama Pengemudi (Opsional)',
         driverNameOptPlaceholder: 'mis. Budi Santoso',
         driverSeatSideLabel: 'Posisi Setir',
         leftLhd: 'Kiri (LHD)',
@@ -768,36 +795,37 @@
         departureTimePlaceholder: 'mis. 08:00 WIB tepat',
         pickupSpotLabel: 'Titik Kumpul / Jemput',
         pickupSpotPlaceholder: 'mis. Stasiun Pusat / Gerbang Utama',
-        carNoteLabel: 'Catatan Mobil & Info Carpool',
-        carNotePlaceholder: 'Info bagasi, patungan bensin, atau titik jemput...',
-        photo1Label: '1. Foto Mobil (Opsional)',
+        carNoteLabel: 'Catatan Kendaraan & Info Carpool',
+        carNotePlaceholder: 'Info helm, bagasi, patungan bensin, atau titik jemput...',
+        photo1Label: '1. Foto Kendaraan (Opsional)',
         removePhotoBtn: 'Hapus',
-        uploadCarPhotoBtn: 'Unggah Foto Mobil',
-        pasteCarUrlPlaceholder: 'Atau tempel link foto mobil...',
-        photo1Help: 'Bantu penumpang mengenali mobil atau plat nomor saat jemput.',
+        uploadCarPhotoBtn: 'Unggah Foto Kendaraan',
+        pasteCarUrlPlaceholder: 'Atau tempel link foto kendaraan...',
+        photo1Help: 'Bantu penumpang mengenali mobil/motor atau plat nomor saat jemput.',
         photo2Label: '2. QR Pembayaran (Opsional)',
         uploadQrBtn: 'Unggah QR Bayar',
         pasteQrUrlPlaceholder: 'Atau tempel link gambar QR...',
         photo2Help: 'Lampirkan QRIS / QR bank / e-wallet untuk patungan.',
-        accentColorLabel: 'Warna Aksen Mobil',
-        createCarBtn: (n) => `Buat Mobil (${n} Kursi)`,
+        accentColorLabel: 'Warna Aksen Kendaraan',
+        createCarBtn: (n, isMoto) =>
+          isMoto ? `Tambah Motor (${n} Kursi)` : `Tambah Mobil (${n} Kursi)`,
         saveChangesBtn: 'Simpan',
         paymentQrBadge: 'QR Bayar',
-        vehiclePhotoDefault: 'Foto Mobil',
+        vehiclePhotoDefault: 'Foto Kendaraan',
         qrScanInstruction:
-          'Scan kode QR ini dari aplikasi m-banking atau e-wallet Anda untuk membayar sopir.',
+          'Scan kode QR ini dari aplikasi m-banking atau e-wallet Anda untuk membayar pengemudi.',
         toastAudioLoading: 'Audio masih dimuat, coba lagi.',
         toastInvalidImage: 'Pilih file gambar yang valid.',
         toastQrAttached: 'Kode QR pembayaran terlampir!',
-        toastCarPhotoAttached: 'Foto mobil terlampir!',
+        toastCarPhotoAttached: 'Foto kendaraan terlampir!',
         toastImageProcessErr: 'Gagal memproses gambar.',
         toastConnectFirebase: 'Hubungkan Firebase terlebih dahulu.',
         toastInvalidOwnerCode:
-          'Kode Verifikasi salah! Hanya pemilik mobil terverifikasi yang bisa menambah/mengubah mobil.',
-        toastEnterCarName: 'Masukkan nama mobil.',
+          'Kode Verifikasi salah! Hanya pemilik terverifikasi yang bisa menambah/mengubah kendaraan.',
+        toastEnterCarName: 'Masukkan nama kendaraan.',
         toastAddedCar: (name, pat) => `"${name}" (${pat}) ditambahkan!`,
         toastUpdatedCar: (name, pat) => `"${name}" (${pat}) diperbarui!`,
-        toastSaveCarFailed: 'Gagal menyimpan mobil.',
+        toastSaveCarFailed: 'Gagal menyimpan kendaraan.',
         toastSwitchedLayout: (name, badge, moved) =>
           `Denah "${name}" diubah ke ${badge}${moved > 0 ? ` (${moved} dipindah)` : ''}!`,
         toastSwitchLayoutFailed: 'Gagal mengubah denah.',
@@ -806,18 +834,18 @@
         toastUpdateSeatFailed: 'Gagal memperbarui kursi.',
         toastVacatedSeat: (label) => `Kursi ${label} dikosongkan.`,
         toastVacateSeatFailed: 'Gagal mengosongkan kursi.',
-        toastNoOpenSeats: 'Tidak ada kursi kosong di mobil ini!',
+        toastNoOpenSeats: 'Tidak ada kursi kosong di kendaraan ini!',
         toastMovedOverflow: (name, label) => `${name} pindah ke ${label}!`,
         toastMoveOverflowFailed: 'Gagal memindahkan penumpang.',
         confirmResetTitle: (name) => `Reset kursi penumpang di "${name}"?`,
         confirmResetMsg:
-          'Semua kursi penumpang akan dikosongkan, namun data mobil, denah, dan sopir tetap tersimpan.',
+          'Semua kursi penumpang akan dikosongkan, namun data kendaraan, denah, dan pengemudi tetap tersimpan.',
         confirmResetBtn: 'Reset Kursi',
         toastClearedAllSeats: (name) => `Kursi penumpang "${name}" direset.`,
         confirmDeleteTitle: (name) => `Hapus "${name}"?`,
         confirmDeleteMsg:
           'Kendaraan ini beserta seluruh data kursinya akan dihapus permanen.',
-        confirmDeleteBtn: 'Hapus Mobil',
+        confirmDeleteBtn: 'Hapus Kendaraan',
         toastDeletedCar: (name) => `"${name}" dihapus.`,
         overflowRiderLabel: 'Cadangan',
         overflowSeatPos: 'Kursi Cadangan',
@@ -1008,17 +1036,28 @@
 
     const formatLayoutPattern = (rows) => rows.join('-');
 
+    const isMotorcycleVehicle = (carOrModal) => {
+      if (!carOrModal) return false;
+      if (carOrModal.vehicleType === 'motorcycle') return true;
+      const rows = getCarLayoutRows(carOrModal);
+      return formatLayoutPattern(rows) === '1-1';
+    };
+
     const getLayoutTitle = (rows) => {
       const pattern = formatLayoutPattern(rows);
+      const isId = typeof state !== 'undefined' && state.lang === 'id';
+      if (pattern === '1-1') {
+        return isId ? 'Motor Boncengan 2-Kursi (1-1)' : '2-Seat Motorcycle Tandem (1-1)';
+      }
       const preset = LAYOUT_PRESETS.find((p) => p.id === pattern);
       const totalSeats = rows.reduce((sum, count) => sum + count, 0);
-      const isId = typeof state !== 'undefined' && state.lang === 'id';
       if (preset) return `${isId ? preset.name_id : preset.name} (${pattern})`;
       return isId ? `Kustom ${totalSeats}-Kursi (${pattern})` : `${totalSeats}-Seat Custom (${pattern})`;
     };
 
     const getSeatsForLayout = (rowsInput = [2, 3, 2]) => {
       const rows = Array.isArray(rowsInput) && rowsInput.length > 0 ? rowsInput : [2, 3, 2];
+      const isMotoPattern = rows.length === 2 && Number(rows[0]) === 1 && Number(rows[1]) === 1;
       const letters = ['A', 'B', 'C', 'D'];
       const seats = [];
       const isId = typeof state !== 'undefined' && state.lang === 'id';
@@ -1039,10 +1078,16 @@
           if (rowNum === 1) {
             if (sIdx === 0) {
               id = 'driver';
-              label = isId ? 'Sopir' : 'Driver';
+              label = isMotoPattern
+                ? (isId ? 'Pengendara' : 'Rider / Driver')
+                : (isId ? 'Sopir' : 'Driver');
               shortLabel = 'DRV';
-              position = isId ? 'Baris 1 • Sopir' : 'Row 1 • Driver';
-              description = isId ? 'Pengemudi utama kendaraan' : 'Primary vehicle operator';
+              position = isMotoPattern
+                ? (isId ? 'Depan • Pengendara Motor' : 'Front • Motorcycle Rider')
+                : (isId ? 'Baris 1 • Sopir' : 'Row 1 • Driver');
+              description = isMotoPattern
+                ? (isId ? 'Pengendara utama motor' : 'Primary motorcycle rider')
+                : (isId ? 'Pengemudi utama kendaraan' : 'Primary vehicle operator');
               isDriver = true;
             } else if (sIdx === 1) {
               id = 'front_pax';
@@ -1063,9 +1108,16 @@
             const hasThirdRow = rows.length >= 3;
             if (count === 1) {
               id = 'mid_left';
-              label = isId ? 'Tengah' : 'Middle Solo Seat';
+              label = isMotoPattern
+                ? (isId ? 'Penumpang (Bonceng)' : 'Pillion Passenger')
+                : (isId ? 'Tengah' : 'Middle Solo Seat');
               shortLabel = '2A';
-              position = isId ? 'Baris 2 • Tunggal' : 'Row 2 • Solo';
+              position = isMotoPattern
+                ? (isId ? 'Belakang • Kursi Boncengan' : 'Rear • Pillion Seat')
+                : (isId ? 'Baris 2 • Tunggal' : 'Row 2 • Solo');
+              description = isMotoPattern
+                ? (isId ? 'Kursi penumpang boncengan belakang' : 'Rear motorcycle pillion passenger seat')
+                : description;
             } else if (count === 2) {
               id = sIdx === 0 ? 'mid_left' : 'mid_right';
               isCaptain = hasThirdRow;
@@ -1279,6 +1331,7 @@
       carModal: {
         mode: 'add',
         carId: null,
+        vehicleType: 'car',
         name: '',
         driverName: '',
         departureTime: '',
@@ -1981,6 +2034,7 @@
             const theme = CAR_THEMES[car.colorTheme] || CAR_THEMES.indigo;
             const layoutRows = getCarLayoutRows(car);
             const layoutPattern = formatLayoutPattern(layoutRows);
+            const isMoto = isMotorcycleVehicle(car);
             const seatDefs = getSeatsForLayout(layoutRows);
             const totalCapacity = seatDefs.length;
             const activeSeatIds = new Set(seatDefs.map((d) => d.id));
@@ -1995,7 +2049,7 @@
             const rowsGrouped = layoutRows.map((_, rIdx) => {
               const rowNum = rIdx + 1;
               const rowSeats = seatDefs.filter((s) => s.row === rowNum);
-              if (rowNum === 1 && isRHD) return [...rowSeats].reverse();
+              if (rowNum === 1 && isRHD && !isMoto) return [...rowSeats].reverse();
               return rowSeats;
             });
 
@@ -2012,14 +2066,17 @@
                 const isCaptainRowWithAisle =
                   rowNum === 2 && seatsInRow === 2 && totalRows >= 3;
 
-                const rowTitle =
-                  rowNum === 1
-                    ? t('rowFrontTitle', seatsInRow)
-                    : isCaptainRowWithAisle
-                    ? t('rowCaptainTitle')
-                    : rowNum === totalRows
-                    ? t('rowRearTitle', rowNum, seatsInRow)
-                    : t('rowMiddleTitle', rowNum, seatsInRow);
+                const rowTitle = isMoto
+                  ? rowNum === 1
+                    ? t('rowMotoFrontTitle')
+                    : t('rowMotoBackTitle')
+                  : rowNum === 1
+                  ? t('rowFrontTitle', seatsInRow)
+                  : isCaptainRowWithAisle
+                  ? t('rowCaptainTitle')
+                  : rowNum === totalRows
+                  ? t('rowRearTitle', rowNum, seatsInRow)
+                  : t('rowMiddleTitle', rowNum, seatsInRow);
 
                 let rowGridHtml = '';
                 if (isCaptainRowWithAisle) {
@@ -2033,7 +2090,7 @@
                     </div>
                   `;
                 } else if (seatsInRow === 1) {
-                  rowGridHtml = `<div class="max-w-[170px] mx-auto">${renderSeatButtonHtml(
+                  rowGridHtml = `<div class="max-w-[190px] mx-auto">${renderSeatButtonHtml(
                     car,
                     rowSeats[0],
                     theme
@@ -2059,7 +2116,9 @@
                         rowTitle
                       )}</span>
                       <span class="text-[10px] text-slate-400">${
-                        rowNum === 1
+                        isMoto
+                          ? escapeHtml(t('tandemLabel'))
+                          : rowNum === 1
                           ? isRHD
                             ? escapeHtml(t('rhdLabel'))
                             : escapeHtml(t('lhdLabel'))
@@ -2096,6 +2155,10 @@
               })
               .join('');
 
+            const vehicleIconSvg = isMoto
+              ? `<svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l2 5"/><path d="M5.5 17.5 9 10h5l2 4.5"/><path d="M9 10 7 6H5"/></svg>`
+              : `<svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>`;
+
             return `
               <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col self-start">
                 ${
@@ -2108,7 +2171,7 @@
                         <img
                           src="${escapeHtml(car.imageUrl)}"
                           alt="${escapeHtml(car.name)}"
-                          onerror="this.onerror=null;this.src='https://placehold.co/800x400/e2e8f0/475569?text=Car+Photo+Unavailable';"
+                          onerror="this.onerror=null;this.src='https://placehold.co/800x400/e2e8f0/475569?text=Vehicle+Photo+Unavailable';"
                           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/20"></div>
@@ -2145,7 +2208,7 @@
                       <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl ${
                         theme.bg
                       } text-white flex items-center justify-center shrink-0 shadow-xs mt-0.5 group-hover/title:scale-105 transition-transform">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                        ${vehicleIconSvg}
                       </div>
                       <div class="min-w-0 flex-1">
                         <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -2166,6 +2229,11 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                          <span
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg font-bold text-[10px] sm:text-[11px] bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200/80 dark:border-indigo-800/70"
+                          >
+                            <span>${escapeHtml(isMoto ? t('vehicleTypeMotoBadge') : t('vehicleTypeCarBadge'))}</span>
+                          </span>
                           <span
                             class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg font-bold text-[10px] sm:text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                           >
@@ -2286,55 +2354,103 @@
                 ${
                   isExpanded
                     ? `
-                      <!-- Car Chassis Interior (Shown when Expanded) -->
+                      <!-- Vehicle Chassis Interior (Motorcycle vs Car) -->
                       <div class="p-4 sm:p-6 bg-slate-50/70 dark:bg-slate-950/50 flex-1 flex flex-col items-center justify-center border-b border-slate-100 dark:border-slate-800">
-                        <div class="relative w-full max-w-[400px] mx-auto">
-                          <div class="absolute top-16 -left-3 w-3 h-7 rounded-l-xl border-2 border-r-0 ${
-                            theme.bodyBorder
-                          } bg-white dark:bg-slate-800 shadow-sm"></div>
-                          <div class="absolute top-16 -right-3 w-3 h-7 rounded-r-xl border-2 border-l-0 ${
-                            theme.bodyBorder
-                          } bg-white dark:bg-slate-800 shadow-sm"></div>
+                        ${
+                          isMoto
+                            ? `
+                              <!-- Top-Down Motorcycle Chassis -->
+                              <div class="relative w-full max-w-[260px] mx-auto pt-4 pb-3">
+                                <!-- Front Tire -->
+                                <div class="w-7 h-10 mx-auto -mb-2 rounded-t-full bg-slate-800 dark:bg-slate-600 border-2 border-slate-700 dark:border-slate-500 shadow-sm"></div>
+                                <!-- Handlebars & Side Mirrors -->
+                                <div class="relative flex items-center justify-center mb-1">
+                                  <div class="w-44 h-2.5 rounded-full bg-slate-700 dark:bg-slate-500 shadow-xs"></div>
+                                  <div class="absolute -left-1 -top-2 w-4 h-2.5 rounded-full border-2 ${theme.bodyBorder} bg-white dark:bg-slate-800"></div>
+                                  <div class="absolute -right-1 -top-2 w-4 h-2.5 rounded-full border-2 ${theme.bodyBorder} bg-white dark:bg-slate-800"></div>
+                                </div>
 
-                          <div class="absolute top-12 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
-                          <div class="absolute top-12 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
-                          <div class="absolute bottom-14 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
-                          <div class="absolute bottom-14 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
+                                <div class="relative rounded-t-[56px] rounded-b-[44px] border-2 ${theme.bodyBorder} bg-gradient-to-b ${theme.bodyGrad} p-4 shadow-inner">
+                                  <div class="flex flex-col items-center -mt-2 mb-2">
+                                    <div class="w-10 h-2.5 rounded-full bg-amber-300 border border-amber-400 shadow-sm mb-1"></div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                      ${escapeHtml(t('motoFrontHeader'))}
+                                    </div>
+                                  </div>
 
-                          <div class="relative rounded-t-[64px] rounded-b-[36px] border-2 ${
-                            theme.bodyBorder
-                          } bg-gradient-to-b ${theme.bodyGrad} p-4 sm:p-5 shadow-inner">
-                            <div class="flex justify-between px-6 -mt-3 mb-2">
-                              <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
-                              <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                ${escapeHtml(t('frontHeader', layoutPattern))}
+                                  <div class="w-full h-7 rounded-full bg-slate-800/90 border-b-2 border-slate-700 mb-4 flex items-center justify-center px-4 text-[10px] text-slate-300 font-semibold tracking-wider">
+                                    <span>${escapeHtml(t('handlebars'))}</span>
+                                  </div>
+
+                                  ${rowsHtml}
+
+                                  <div class="mt-3 pt-2 border-t border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-between px-2 text-[10px] text-slate-500 dark:text-slate-400">
+                                    <span class="font-medium">${escapeHtml(t('motoRearTail'))}</span>
+                                    <span class="font-semibold text-slate-700 dark:text-slate-300">
+                                      ${escapeHtml(t('seatedCount', occupiedCount, totalCapacity, layoutPattern))}
+                                    </span>
+                                  </div>
+
+                                  <div class="flex justify-center mt-2 -mb-3">
+                                    <div class="w-10 h-2 rounded-full bg-rose-500 shadow-xs"></div>
+                                  </div>
+                                </div>
+
+                                <!-- Rear Tire -->
+                                <div class="w-8 h-9 mx-auto -mt-1 rounded-b-full bg-slate-800 dark:bg-slate-600 border-2 border-slate-700 dark:border-slate-500 shadow-sm"></div>
                               </div>
-                              <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
-                            </div>
+                            `
+                            : `
+                              <!-- Top-Down 4-Wheel Car Chassis -->
+                              <div class="relative w-full max-w-[400px] mx-auto">
+                                <div class="absolute top-16 -left-3 w-3 h-7 rounded-l-xl border-2 border-r-0 ${
+                                  theme.bodyBorder
+                                } bg-white dark:bg-slate-800 shadow-sm"></div>
+                                <div class="absolute top-16 -right-3 w-3 h-7 rounded-r-xl border-2 border-l-0 ${
+                                  theme.bodyBorder
+                                } bg-white dark:bg-slate-800 shadow-sm"></div>
 
-                            <div class="w-full h-8 rounded-t-[40px] rounded-b-lg bg-slate-800/90 border-b-4 border-slate-700 mb-4 flex items-center justify-between px-5 text-[10px] text-slate-300 font-medium">
-                              <span>${isRHD ? escapeHtml(t('passengerSide')) : escapeHtml(t('driverSide'))}</span>
-                              <span class="text-slate-400 font-semibold">${escapeHtml(t('windshield'))}</span>
-                              <span>${isRHD ? escapeHtml(t('driverSide')) : escapeHtml(t('passengerSide'))}</span>
-                            </div>
+                                <div class="absolute top-12 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
+                                <div class="absolute top-12 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
+                                <div class="absolute bottom-14 -left-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-l-md"></div>
+                                <div class="absolute bottom-14 -right-1.5 w-1.5 h-12 bg-slate-800 dark:bg-slate-600 rounded-r-md"></div>
 
-                            ${rowsHtml}
+                                <div class="relative rounded-t-[64px] rounded-b-[36px] border-2 ${
+                                  theme.bodyBorder
+                                } bg-gradient-to-b ${theme.bodyGrad} p-4 sm:p-5 shadow-inner">
+                                  <div class="flex justify-between px-6 -mt-3 mb-2">
+                                    <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
+                                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                      ${escapeHtml(t('frontHeader', layoutPattern))}
+                                    </div>
+                                    <div class="w-8 h-2 rounded-full bg-amber-300 border border-amber-400 shadow-sm"></div>
+                                  </div>
 
-                            <div class="mt-3 pt-2.5 border-t border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-between px-3 text-[11px] text-slate-500 dark:text-slate-400">
-                              <span class="inline-flex items-center gap-1 font-medium">
-                                ${escapeHtml(t('rearCargo'))}
-                              </span>
-                              <span class="font-semibold text-slate-700 dark:text-slate-300">
-                                ${escapeHtml(t('seatedCount', occupiedCount, totalCapacity, layoutPattern))}
-                              </span>
-                            </div>
+                                  <div class="w-full h-8 rounded-t-[40px] rounded-b-lg bg-slate-800/90 border-b-4 border-slate-700 mb-4 flex items-center justify-between px-5 text-[10px] text-slate-300 font-medium">
+                                    <span>${isRHD ? escapeHtml(t('passengerSide')) : escapeHtml(t('driverSide'))}</span>
+                                    <span class="text-slate-400 font-semibold">${escapeHtml(t('windshield'))}</span>
+                                    <span>${isRHD ? escapeHtml(t('driverSide')) : escapeHtml(t('passengerSide'))}</span>
+                                  </div>
 
-                            <div class="flex justify-between px-8 mt-2 -mb-3">
-                              <div class="w-8 h-1.5 rounded-full bg-rose-500"></div>
-                              <div class="w-8 h-1.5 rounded-full bg-rose-500"></div>
-                            </div>
-                          </div>
-                        </div>
+                                  ${rowsHtml}
+
+                                  <div class="mt-3 pt-2.5 border-t border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-between px-3 text-[11px] text-slate-500 dark:text-slate-400">
+                                    <span class="inline-flex items-center gap-1 font-medium">
+                                      ${escapeHtml(t('rearCargo'))}
+                                    </span>
+                                    <span class="font-semibold text-slate-700 dark:text-slate-300">
+                                      ${escapeHtml(t('seatedCount', occupiedCount, totalCapacity, layoutPattern))}
+                                    </span>
+                                  </div>
+
+                                  <div class="flex justify-between px-8 mt-2 -mb-3">
+                                    <div class="w-8 h-1.5 rounded-full bg-rose-500"></div>
+                                    <div class="w-8 h-1.5 rounded-full bg-rose-500"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            `
+                        }
 
                         ${
                           overflowEntries.length > 0
@@ -2666,8 +2782,9 @@
         `;
       } else if (state.activeModal === 'car') {
         const cm = state.carModal;
-        const currentPattern = formatLayoutPattern(cm.layoutRows || [2, 3, 2]);
-        const seatTotal = (cm.layoutRows || [2, 3, 2]).reduce((a, b) => a + b, 0);
+        const isMoto = cm.vehicleType === 'motorcycle';
+        const currentPattern = formatLayoutPattern(cm.layoutRows || (isMoto ? [1, 1] : [2, 3, 2]));
+        const seatTotal = (cm.layoutRows || (isMoto ? [1, 1] : [2, 3, 2])).reduce((a, b) => a + b, 0);
 
         root.innerHTML = `
           <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
@@ -2704,6 +2821,37 @@
                   </p>
                 </div>
 
+                <!-- Vehicle Type Selector: Car vs Motorcycle -->
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">${escapeHtml(t('vehicleTypeLabel'))}</label>
+                  <div class="grid grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onclick="window.appActions.setVehicleType('car')"
+                      class="p-3 rounded-2xl border-2 flex items-center justify-center gap-2 text-xs sm:text-sm font-extrabold transition-all ${
+                        !isMoto
+                          ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                          : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }"
+                    >
+                      <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                      <span class="truncate">${escapeHtml(t('vehicleTypeCar'))}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onclick="window.appActions.setVehicleType('motorcycle')"
+                      class="p-3 rounded-2xl border-2 flex items-center justify-center gap-2 text-xs sm:text-sm font-extrabold transition-all ${
+                        isMoto
+                          ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                          : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }"
+                    >
+                      <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l2 5"/><path d="M5.5 17.5 9 10h5l2 4.5"/><path d="M9 10 7 6H5"/></svg>
+                      <span class="truncate">${escapeHtml(t('vehicleTypeMotorcycle'))}</span>
+                    </button>
+                  </div>
+                </div>
+
                 <div>
                   <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('carNameLabel'))}</label>
                   <input
@@ -2716,89 +2864,148 @@
                   />
                 </div>
 
-                <!-- Layout Presets & Custom Row Builder -->
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3.5 border border-slate-200 dark:border-slate-700 space-y-3">
-                  <div class="flex items-center justify-between">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">${escapeHtml(t('seatingConfigLabel'))}</label>
-                    <button
-                      type="button"
-                      onclick="window.appActions.toggleCustomBuilder()"
-                      class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800"
-                    >
-                      ${cm.isCustomLayout ? escapeHtml(t('usePopularPresets')) : escapeHtml(t('customRowBuilder'))}
-                    </button>
-                  </div>
+                ${
+                  isMoto
+                    ? `
+                      <!-- Motorcycle 1-1 Layout Info Box -->
+                      <div class="bg-indigo-50/70 dark:bg-indigo-950/40 rounded-2xl p-3.5 border border-indigo-200/80 dark:border-indigo-800/70 flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h3l2 5"/><path d="M5.5 17.5 9 10h5l2 4.5"/><path d="M9 10 7 6H5"/></svg>
+                        </div>
+                        <div class="min-w-0">
+                          <p class="text-xs font-extrabold text-indigo-950 dark:text-indigo-200">${escapeHtml(t('motoLayoutInfoTitle'))}</p>
+                          <p class="text-[11px] text-indigo-800/80 dark:text-indigo-300/80 mt-0.5 leading-relaxed">${escapeHtml(t('motoLayoutInfoDesc'))}</p>
+                        </div>
+                      </div>
+                    `
+                    : `
+                      <!-- Car Layout Presets & Custom Row Builder -->
+                      <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3.5 border border-slate-200 dark:border-slate-700 space-y-3">
+                        <div class="flex items-center justify-between">
+                          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">${escapeHtml(t('seatingConfigLabel'))}</label>
+                          <button
+                            type="button"
+                            onclick="window.appActions.toggleCustomBuilder()"
+                            class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800"
+                          >
+                            ${cm.isCustomLayout ? escapeHtml(t('usePopularPresets')) : escapeHtml(t('customRowBuilder'))}
+                          </button>
+                        </div>
 
-                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    ${LAYOUT_PRESETS.map((preset) => {
-                      const isSel = !cm.isCustomLayout && currentPattern === preset.id;
-                      const badgeText = state.lang === 'id' ? preset.badge_id : preset.badge;
-                      const nameText = state.lang === 'id' ? preset.name_id : preset.name;
-                      return `
-                        <button
-                          type="button"
-                          onclick="window.appActions.selectLayoutPreset('${preset.id}')"
-                          class="p-2.5 rounded-xl border text-left transition-all ${
-                            isSel
-                              ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                              : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700'
-                          }"
-                        >
-                          <div class="text-xs font-extrabold">${escapeHtml(badgeText)}</div>
-                          <p class="text-[10px] mt-0.5 line-clamp-1 ${
-                            isSel ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
-                          }">${escapeHtml(nameText)}</p>
-                        </button>
-                      `;
-                    }).join('')}
-                  </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          ${LAYOUT_PRESETS.map((preset) => {
+                            const isSel = !cm.isCustomLayout && currentPattern === preset.id;
+                            const badgeText = state.lang === 'id' ? preset.badge_id : preset.badge;
+                            const nameText = state.lang === 'id' ? preset.name_id : preset.name;
+                            return `
+                              <button
+                                type="button"
+                                onclick="window.appActions.selectLayoutPreset('${preset.id}')"
+                                class="p-2.5 rounded-xl border text-left transition-all ${
+                                  isSel
+                                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700'
+                                }"
+                              >
+                                <div class="text-xs font-extrabold">${escapeHtml(badgeText)}</div>
+                                <p class="text-[10px] mt-0.5 line-clamp-1 ${
+                                  isSel ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'
+                                }">${escapeHtml(nameText)}</p>
+                              </button>
+                            `;
+                          }).join('')}
+                        </div>
 
-                  ${
-                    cm.isCustomLayout
-                      ? `
-                        <div class="pt-2 border-t border-slate-200 dark:border-slate-700 space-y-2.5">
-                          <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-700 dark:text-slate-300">${escapeHtml(t('customizeRowsLabel'))}</span>
-                            <div class="flex items-center gap-1.5">
-                              ${
-                                cm.layoutRows.length > 1
-                                  ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-[11px] font-bold">${escapeHtml(t('removeRowBtn'))}</button>`
-                                  : ''
-                              }
-                              ${
-                                cm.layoutRows.length < 4
-                                  ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold">${escapeHtml(t('addRowBtn'))}</button>`
-                                  : ''
-                              }
-                            </div>
-                          </div>
-                          <div class="space-y-2">
-                            ${cm.layoutRows
-                              .map(
-                                (cnt, rIdx) => `
-                                <div class="flex items-center justify-between bg-white dark:bg-slate-800 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
-                                  <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${escapeHtml(t('rowLabel', rIdx + 1, rIdx === 0))}</span>
-                                  <div class="flex items-center gap-1">
-                                    ${[1, 2, 3, 4]
-                                      .map(
-                                        (num) => `
-                                        <button
-                                          type="button"
-                                          onclick="window.appActions.setCustomRowSeats(${rIdx}, ${num})"
-                                          class="w-7 h-7 rounded-lg text-xs font-bold ${
-                                            cnt === num
-                                              ? 'bg-indigo-600 text-white'
-                                              : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200'
-                                          }"
-                                        >${num}</button>
-                                      `
-                                      )
-                                      .join('')}
+                        ${
+                          cm.isCustomLayout
+                            ? `
+                              <div class="pt-2 border-t border-slate-200 dark:border-slate-700 space-y-2.5">
+                                <div class="flex items-center justify-between">
+                                  <span class="text-xs font-bold text-slate-700 dark:text-slate-300">${escapeHtml(t('customizeRowsLabel'))}</span>
+                                  <div class="flex items-center gap-1.5">
+                                    ${
+                                      cm.layoutRows.length > 1
+                                        ? `<button type="button" onclick="window.appActions.removeCustomRow()" class="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-[11px] font-bold">${escapeHtml(t('removeRowBtn'))}</button>`
+                                        : ''
+                                    }
+                                    ${
+                                      cm.layoutRows.length < 4
+                                        ? `<button type="button" onclick="window.appActions.addCustomRow()" class="px-2 py-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold">${escapeHtml(t('addRowBtn'))}</button>`
+                                        : ''
+                                    }
                                   </div>
                                 </div>
-                              `
-                              )
-                              .join('')}
+                                <div class="space-y-2">
+                                  ${cm.layoutRows
+                                    .map(
+                                      (cnt, rIdx) => `
+                                      <div class="flex items-center justify-between bg-white dark:bg-slate-800 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${escapeHtml(t('rowLabel', rIdx + 1, rIdx === 0))}</span>
+                                        <div class="flex items-center gap-1">
+                                          ${[1, 2, 3, 4]
+                                            .map(
+                                              (num) => `
+                                              <button
+                                                type="button"
+                                                onclick="window.appActions.setCustomRowSeats(${rIdx}, ${num})"
+                                                class="w-7 h-7 rounded-lg text-xs font-bold ${
+                                                  cnt === num
+                                                    ? 'bg-indigo-600 text-white'
+                                                    : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200'
+                                                }"
+                                              >${num}</button>
+                                            `
+                                            )
+                                            .join('')}
+                                        </div>
+                                      </div>
+                                    `
+                                    )
+                                    .join('')}
+                                </div>
+                              </div>
+                            `
+                            : ''
+                        }
+                      </div>
+                    `
+                }
+
+                <div class="grid grid-cols-1 ${isMoto ? '' : 'sm:grid-cols-2'} gap-3">
+                  <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('driverNameOptLabel'))}</label>
+                    <input
+                      type="text"
+                      value="${escapeHtml(cm.driverName)}"
+                      oninput="window.appActions.updateCarField('driverName', this.value)"
+                      placeholder="${escapeHtml(t('driverNameOptPlaceholder'))}"
+                      class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                  ${
+                    !isMoto
+                      ? `
+                        <div>
+                          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">${escapeHtml(t('driverSeatSideLabel'))}</label>
+                          <div class="grid grid-cols-2 gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                            <button
+                              type="button"
+                              onclick="window.appActions.updateCarField('driveSide', 'LHD', true)"
+                              class="py-2 rounded-lg text-xs font-bold ${
+                                cm.driveSide === 'LHD'
+                                  ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                                  : 'text-slate-600 dark:text-slate-400'
+                              }"
+                            >${escapeHtml(t('leftLhd'))}</button>
+                            <button
+                              type="button"
+                              onclick="window.appActions.updateCarField('driveSide', 'RHD', true)"
+                              class="py-2 rounded-lg text-xs font-bold ${
+                                cm.driveSide === 'RHD'
+                                  ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                                  : 'text-slate-600 dark:text-slate-400'
+                              }"
+                            >${escapeHtml(t('rightRhd'))}</button>
                           </div>
                         </div>
                       `
@@ -3018,7 +3225,7 @@
                     type="submit"
                     class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm"
                   >
-                    ${cm.mode === 'add' ? escapeHtml(t('createCarBtn', seatTotal)) : escapeHtml(t('saveChangesBtn'))}
+                    ${cm.mode === 'add' ? escapeHtml(t('createCarBtn', seatTotal, isMoto)) : escapeHtml(t('saveChangesBtn'))}
                   </button>
                 </div>
               </form>
@@ -3192,6 +3399,7 @@
         state.carModal = {
           mode: 'add',
           carId: null,
+          vehicleType: 'car',
           name: '',
           driverName: state.myQuickName || '',
           departureTime: '',
@@ -3214,12 +3422,14 @@
         if (!car) return;
         const currentRows = getCarLayoutRows(car);
         const pattern = formatLayoutPattern(currentRows);
+        const isMoto = isMotorcycleVehicle(car);
         const matchesPreset = LAYOUT_PRESETS.some((p) => p.id === pattern);
 
         state.quickLayoutCarId = null;
         state.carModal = {
           mode: 'edit',
           carId: car.id,
+          vehicleType: isMoto ? 'motorcycle' : 'car',
           name: car.name || '',
           driverName: car.seats?.driver?.name || '',
           departureTime: car.departureTime || '',
@@ -3229,12 +3439,28 @@
           qrCodeUrl: car.qrCodeUrl || '',
           colorTheme: car.colorTheme || 'indigo',
           driveSide: car.driveSide || 'RHD',
-          layoutRows: currentRows,
-          isCustomLayout: openCustom || !matchesPreset,
+          layoutRows: isMoto ? [1, 1] : currentRows,
+          isCustomLayout: !isMoto && (openCustom || !matchesPreset),
           verificationCode: ''
         };
         state.activeModal = 'car';
         renderApp();
+        renderModals();
+      },
+
+      setVehicleType: (type) => {
+        const isMoto = type === 'motorcycle';
+        state.carModal.vehicleType = isMoto ? 'motorcycle' : 'car';
+        if (isMoto) {
+          state.carModal.layoutRows = [1, 1];
+          state.carModal.isCustomLayout = false;
+        } else {
+          const curPattern = formatLayoutPattern(state.carModal.layoutRows || []);
+          if (curPattern === '1-1' || !state.carModal.layoutRows?.length) {
+            state.carModal.layoutRows = [2, 3, 2];
+          }
+          state.carModal.isCustomLayout = false;
+        }
         renderModals();
       },
 
@@ -3362,14 +3588,12 @@
           return;
         }
         const trimmedName = cm.name.trim();
-        if (!trimmedName) {
-          showToast(t('toastEnterCarName'), 'error');
-          return;
-        }
-
-        const sanitizedRows = (cm.layoutRows || [2, 3, 2]).map((n) =>
-          Math.min(4, Math.max(1, Number(n) || 1))
-        );
+        const isMoto = cm.vehicleType === 'motorcycle';
+        const sanitizedRows = isMoto
+          ? [1, 1]
+          : (cm.layoutRows || [2, 3, 2]).map((n) =>
+              Math.min(4, Math.max(1, Number(n) || 1))
+            );
         const layoutType = formatLayoutPattern(sanitizedRows);
         const currentWeekKey = getCurrentWeekInfo().weekKey;
 
@@ -3385,6 +3609,7 @@
             );
             await addDoc(carsCol, {
               name: trimmedName,
+              vehicleType: isMoto ? 'motorcycle' : 'car',
               departureTime: cm.departureTime.trim(),
               pickupLocation: cm.pickupLocation.trim(),
               note: cm.note.trim(),
@@ -3418,6 +3643,7 @@
             );
             await updateDoc(carRef, {
               name: trimmedName,
+              vehicleType: isMoto ? 'motorcycle' : 'car',
               departureTime: cm.departureTime.trim(),
               pickupLocation: cm.pickupLocation.trim(),
               note: cm.note.trim(),
